@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Blackout.Projectiles;
 
 namespace Blackout.Enemies.Mobs
 {
@@ -9,7 +10,7 @@ namespace Blackout.Enemies.Mobs
     {
         private int health;
         private int baseRotation = 0;
-        Bullet bullet = new Bullet();
+        // Bullet bullet = new Bullet();
         private int delay;
         private int soundTime = 0;
 
