@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -42,18 +42,18 @@ namespace Blackout
             double changeY = -gamePad.ThumbSticks.Left.Y * 6;
 
             if (changeX + mapX < 0 || mortimerX < 475 ||
-                changeX + mapX + 400 > Tile.TILE_SIZE * WIDTH || mortimerX > 525)
+                changeX + mapX + 1000 > Tile.TILE_SIZE * WIDTH || mortimerX > 525)
             {
-                if (mortimerX + player.tex.Width + changeX <= 400 && 
+                if (mortimerX + playerTexWidth + changeX <= 1000 && 
                     mortimerX + changeX >= 0)
                     mortimerX += changeX;
                 changeX = 0;
             }
 
             if (changeY + mapY < 0 || mortimerY < 225 ||
-                changeY + mapY + 400 > Tile.TILE_SIZE * HEIGHT || mortimerY > 275)
+                changeY + mapY + 700 > Tile.TILE_SIZE * HEIGHT || mortimerY > 275)
             {
-                if (mortimerY + player.tex.Height + changeY <= 400 &&
+                if (mortimerY + playerTexHeight + changeY <= 700 &&
                     mortimerY + changeY >= 0)
                     mortimerY += changeY;
 
@@ -70,6 +70,8 @@ namespace Blackout
 
             mapX += changeX;
             mapY += changeY;
+            player.rect.X = (int)mortimerX;
+            player.rect.Y = (int)mortimerY;
         }
 
         public void loadContent(Game game, Game1 game1)
@@ -108,6 +110,7 @@ namespace Blackout
                     tiles[i, j].Draw(spriteBatch);
                 }
             }
+            player.Draw(spriteBatch);
         }
 
     }

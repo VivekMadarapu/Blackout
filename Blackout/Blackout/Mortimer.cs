@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -37,7 +37,6 @@ namespace Blackout
         {
             tex = game.Content.Load<Texture2D>("Mortimer");
             
-        }
         }
 
         public void Draw(SpriteBatch spriteBatch)
