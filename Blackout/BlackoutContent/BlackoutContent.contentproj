@@ -277,9 +277,10 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="TileMap.txt">
+    <None Include="TileMap.txt">
       <Name>TileMap</Name>
-    </Compile>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Compile Include="tn1.bmp">
       <Name>tn1</Name>
       <Importer>TextureImporter</Importer>
