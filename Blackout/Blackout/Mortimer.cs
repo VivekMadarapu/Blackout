@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -16,31 +16,34 @@ namespace Blackout
         public Texture2D tex;
         public Vector2 loc;
         public Color color;
-        public Rectangle rect;    
+        public Rectangle rect;
+        public Rectangle sourceRect;    
         
-        public Mortimer(Texture2D tex, Vector2 loc): base(50,50,20)
+        public Mortimer(Vector2 loc): base(50,50,20)
         {
-            this.tex = tex;
+           
             this.loc = loc;
             color = Color.White;
             rect = new Rectangle((int)loc.X, (int)loc.Y, 50, 50);
+            sourceRect = new Rectangle(0, 0, 31, 31);   
         }
-
-        public Mortimer(Vector2 loc) : base(50,50,20)
-        {
-            this.loc = loc;
-            this.color = color;
-            this.rect = rect;
-        }
+        //public void Update(Level level)
+        //{
+        //    GamePadState newPad = GamePad.GetState(PlayerIndex.One);
+        //    level.Update(newPad);
+        //}
 
         public void loadContent(Game game)
         {
             tex = game.Content.Load<Texture2D>("Mortimer");
+            
+        }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-          //  spriteBatch.Draw()
+            spriteBatch.Draw(tex, rect, sourceRect, color);
+
         }
     }
 }
