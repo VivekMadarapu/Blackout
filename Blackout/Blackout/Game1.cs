@@ -21,6 +21,10 @@ namespace Blackout
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        GameState gameState;
+
+        Level levelOne;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -36,6 +40,9 @@ namespace Blackout
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            gameState = GameState.LEVEL_ONE;
+
+            levelOne = new Level();
 
             base.Initialize();
         }
@@ -50,6 +57,7 @@ namespace Blackout
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            
         }
 
         /// <summary>
@@ -73,6 +81,10 @@ namespace Blackout
                 this.Exit();
 
             // TODO: Add your update logic here
+            if (gameState == GameState.LEVEL_ONE)
+            {
+                levelOne.Update();
+            }
 
             base.Update(gameTime);
         }
@@ -86,8 +98,18 @@ namespace Blackout
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            spriteBatch.Begin();
+            if (gameState == GameState.LEVEL_ONE)
+            {
+                levelOne.Draw(spriteBatch);
+            }
+            spriteBatch.End();
             base.Draw(gameTime);
         }
+    }
+
+    public enum GameState
+    {
+        START, LEVEL_ONE, LEVEL_TWO, LEVEL_THREE, BOSS_LEVEL_ONE, LEVEL_FOUR, LEVEL_FIVE, BOSS_LEVEL_TWO, END,
     }
 }
