@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Blackout
 {
-    class Mortimer: AnimatedSprite
+    class Mortimer : AnimatedSprite
     {
         public Texture2D tex;
         public Vector2 loc;
@@ -32,10 +32,14 @@ namespace Blackout
         //    GamePadState newPad = GamePad.GetState(PlayerIndex.One);
         //    level.Update(newPad);
         //}
-        public void loadContent(Microsoft.Xna.Framework.Game game)
+
+        public void loadContent(Game game)
         {
             tex = game.Content.Load<Texture2D>("Mortimer");
+            
         }
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(tex, rect, sourceRect, color);

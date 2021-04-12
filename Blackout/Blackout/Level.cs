@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,6 +17,8 @@ namespace Blackout
 
         public Mortimer player;
 
+        private int playerTexHeight = 31, playerTexWidth = 31;
+
         double mapX;
         double mapY;
 
@@ -28,6 +30,8 @@ namespace Blackout
             mapY = 0;
             mortimerX = 200;
             mortimerY = 200;
+
+            player = new Mortimer(new Vector2(200, 200));
 
             tiles = new Tile[100, 100];
         }
@@ -52,6 +56,7 @@ namespace Blackout
                 if (mortimerY + player.tex.Height + changeY <= 400 &&
                     mortimerY + changeY >= 0)
                     mortimerY += changeY;
+
                 changeY = 0;
             }
 
@@ -90,6 +95,8 @@ namespace Blackout
                 Console.WriteLine(e.Message);
                 Console.WriteLine(tiles.GetLength(0) + " " + tiles.GetLength(1));
             }
+
+            player.loadContent(game1);
         }
 
         public void Draw(SpriteBatch spriteBatch)

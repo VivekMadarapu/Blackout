@@ -30,6 +30,9 @@ namespace Blackout
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.PreferredBackBufferWidth = 1000;
+            graphics.PreferredBackBufferHeight = 700;
+            graphics.ApplyChanges();
         }
 
         /// <summary>
@@ -58,6 +61,7 @@ namespace Blackout
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            levelOne.loadContent(this, this);
             
         }
 
