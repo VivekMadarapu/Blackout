@@ -76,6 +76,7 @@ namespace Blackout
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
@@ -83,7 +84,7 @@ namespace Blackout
             // TODO: Add your update logic here
             if (gameState == GameState.LEVEL_ONE)
             {
-                levelOne.Update();
+                levelOne.Update(gamePadState);
             }
 
             base.Update(gameTime);
@@ -110,6 +111,6 @@ namespace Blackout
 
     public enum GameState
     {
-        START, LEVEL_ONE, LEVEL_TWO, LEVEL_THREE, BOSS_LEVEL_ONE, LEVEL_FOUR, LEVEL_FIVE, BOSS_LEVEL_TWO, END,
+        START, LEVEL_ONE, LEVEL_TWO, BOSS_LEVEL_ONE, LEVEL_FOUR, LEVEL_FIVE, BOSS_LEVEL_TWO, END,
     }
 }
