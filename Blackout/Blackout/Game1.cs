@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Blackout.Enemies;
+using Blackout.Projectiles;
 
 namespace Blackout
 {
@@ -18,6 +20,10 @@ namespace Blackout
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        GameState gameState;
+
+        Level levelOne;
 
         public Game1()
         {
@@ -34,6 +40,9 @@ namespace Blackout
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            gameState = GameState.LEVEL_ONE;
+
+            levelOne = new Level();
 
             base.Initialize();
         }
@@ -48,6 +57,7 @@ namespace Blackout
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            
         }
 
         /// <summary>
@@ -66,11 +76,16 @@ namespace Blackout
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
             // TODO: Add your update logic here
+            if (gameState == GameState.LEVEL_ONE)
+            {
+                levelOne.Update(gamePadState);
+            }
 
             base.Update(gameTime);
         }
@@ -84,8 +99,18 @@ namespace Blackout
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            spriteBatch.Begin();
+            if (gameState == GameState.LEVEL_ONE)
+            {
+                levelOne.Draw(spriteBatch);
+            }
+            spriteBatch.End();
             base.Draw(gameTime);
         }
+    }
+
+    public enum GameState
+    {
+        START, LEVEL_ONE, LEVEL_TWO, BOSS_LEVEL_ONE, LEVEL_FOUR, LEVEL_FIVE, BOSS_LEVEL_TWO, END,
     }
 }
