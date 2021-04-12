@@ -20,14 +20,14 @@ namespace Blackout
         double mapX;
         double mapY;
 
-        double gingerManX, gingerManY;
+        double mortimerX, mortimerY;
 
         public Level()
         {
             mapX = 0;
             mapY = 0;
-            gingerManX = 200;
-            gingerManY = 200;
+            mortimerX = 200;
+            mortimerY = 200;
 
             tiles = new Tile[100, 100];
         }
@@ -37,21 +37,21 @@ namespace Blackout
             double changeX = gamePad.ThumbSticks.Left.X * 6;
             double changeY = -gamePad.ThumbSticks.Left.Y * 6;
 
-            if (changeX + mapX < 0 || gingerManX < 475 ||
-                changeX + mapX + 400 > Tile.TILE_SIZE * WIDTH || gingerManX > 525)
+            if (changeX + mapX < 0 || mortimerX < 475 ||
+                changeX + mapX + 400 > Tile.TILE_SIZE * WIDTH || mortimerX > 525)
             {
-                if (gingerManX + player.tex.Width + changeX <= 400 && 
-                    gingerManX + changeX >= 0)
-                    gingerManX += changeX;
+                if (mortimerX + player.tex.Width + changeX <= 400 && 
+                    mortimerX + changeX >= 0)
+                    mortimerX += changeX;
                 changeX = 0;
             }
 
-            if (changeY + mapY < 0 || gingerManY < 225 ||
-                changeY + mapY + 400 > Tile.TILE_SIZE * HEIGHT || gingerManY > 275)
+            if (changeY + mapY < 0 || mortimerY < 225 ||
+                changeY + mapY + 400 > Tile.TILE_SIZE * HEIGHT || mortimerY > 275)
             {
-                if (gingerManY + player.tex.Height + changeY <= 400 &&
-                    gingerManY + changeY >= 0)
-                    gingerManY += changeY;
+                if (mortimerY + player.tex.Height + changeY <= 400 &&
+                    mortimerY + changeY >= 0)
+                    mortimerY += changeY;
                 changeY = 0;
             }
 

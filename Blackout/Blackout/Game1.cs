@@ -24,6 +24,7 @@ namespace Blackout
         GameState gameState;
 
         Level levelOne;
+       
 
         public Game1()
         {
