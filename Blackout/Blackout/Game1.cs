@@ -57,6 +57,7 @@ namespace Blackout
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            levelOne.loadContent(this, this);
             
         }
 
