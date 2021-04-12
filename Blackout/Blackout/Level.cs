@@ -13,7 +13,7 @@ namespace Blackout
     {
         Tile[,] tiles;
 
-        public static int WIDTH = 100, HEIGHT = 50;
+        public static int WIDTH = 100, HEIGHT = 100;
 
         public Mortimer player;
 
@@ -24,7 +24,12 @@ namespace Blackout
 
         public Level()
         {
-            tiles = new Tile[50, 100];
+            mapX = 0;
+            mapY = 0;
+            gingerManX = 200;
+            gingerManY = 200;
+
+            tiles = new Tile[100, 100];
         }
 
         public void Update(GamePadState gamePad)
@@ -62,7 +67,7 @@ namespace Blackout
             mapY += changeY;
         }
 
-        public void loadContent(Microsoft.Xna.Framework.Game game, Game1 game1)
+        public void loadContent(Game game, Game1 game1)
         {
             try
             {
@@ -96,7 +101,6 @@ namespace Blackout
                     tiles[i, j].Draw(spriteBatch);
                 }
             }
-            
         }
 
     }
