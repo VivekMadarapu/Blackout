@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Blackout
 {
-    class Mortimer: AnimatedSprite
+    class Mortimer : AnimatedSprite
     {
         public Texture2D tex;
         public Vector2 loc;
@@ -24,14 +24,20 @@ namespace Blackout
             this.loc = loc;
             color = Color.White;
             rect = new Rectangle((int)loc.X, (int)loc.Y, 50, 50);
-            
-           
-           
         }
-        //public void loadContent(Microsoft.Xna.Framework.Game game)
-        //{
-        //    game.Content.Load<Texture2D>("Mortimer");
-        //}
+
+        public Mortimer(Vector2 loc) : base(50,50,20)
+        {
+            this.loc = loc;
+            this.color = color;
+            this.rect = rect;
+        }
+
+        public void loadContent(Game game)
+        {
+            tex = game.Content.Load<Texture2D>("Mortimer");
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
           //  spriteBatch.Draw()

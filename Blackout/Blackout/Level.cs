@@ -17,6 +17,8 @@ namespace Blackout
 
         public Mortimer player;
 
+        private int playerTexHeight = 31, playerTexWidth = 31;
+
         double mapX;
         double mapY;
 
@@ -29,6 +31,8 @@ namespace Blackout
             gingerManX = 200;
             gingerManY = 200;
 
+            player = new Mortimer(new Vector2(200, 200));
+
             tiles = new Tile[100, 100];
         }
 
@@ -38,18 +42,18 @@ namespace Blackout
             double changeY = -gamePad.ThumbSticks.Left.Y * 6;
 
             if (changeX + mapX < 0 || gingerManX < 475 ||
-                changeX + mapX + 400 > Tile.TILE_SIZE * WIDTH || gingerManX > 525)
+                changeX + mapX + 1000 > Tile.TILE_SIZE * WIDTH || gingerManX > 525)
             {
-                if (gingerManX + player.tex.Width + changeX <= 400 && 
+                if (gingerManX + playerTexWidth + changeX <= 1000 && 
                     gingerManX + changeX >= 0)
                     gingerManX += changeX;
                 changeX = 0;
             }
 
             if (changeY + mapY < 0 || gingerManY < 225 ||
-                changeY + mapY + 400 > Tile.TILE_SIZE * HEIGHT || gingerManY > 275)
+                changeY + mapY + 700 > Tile.TILE_SIZE * HEIGHT || gingerManY > 275)
             {
-                if (gingerManY + player.tex.Height + changeY <= 400 &&
+                if (gingerManY + playerTexHeight + changeY <= 700 &&
                     gingerManY + changeY >= 0)
                     gingerManY += changeY;
                 changeY = 0;
@@ -90,6 +94,8 @@ namespace Blackout
                 Console.WriteLine(e.Message);
                 Console.WriteLine(tiles.GetLength(0) + " " + tiles.GetLength(1));
             }
+
+            player.loadContent(game1);
         }
 
         public void Draw(SpriteBatch spriteBatch)
