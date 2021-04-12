@@ -16,12 +16,16 @@ namespace Blackout
         public Texture2D tex;
         public Vector2 loc;
         public Color color;
+        public Rectangle rect;    
         
         public Mortimer(Texture2D tex, Vector2 loc): base(50,50,20)
         {
             this.tex = tex;
             this.loc = loc;
             color = Color.White;
+            rect = new Rectangle((int)loc.X, (int)loc.Y, 50, 50);
+            
+           
            
         }
         //public void loadContent(Microsoft.Xna.Framework.Game game)
