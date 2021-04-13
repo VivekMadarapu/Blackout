@@ -18,8 +18,10 @@ namespace Blackout
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
+        Lights lights;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Texture2D blackoutTexture;
 
         public Game1()
         {
@@ -48,7 +50,8 @@ namespace Blackout
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            blackoutTexture = Content.Load<Texture2D>("hollowcircle");
+            lights = new Lights(this);
             // TODO: use this.Content to load your game content here
         }
 
@@ -71,9 +74,7 @@ namespace Blackout
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-
             // TODO: Add your update logic here
-
             base.Update(gameTime);
         }
 
@@ -84,9 +85,9 @@ namespace Blackout
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
             // TODO: Add your drawing code here
-
+            //Example of Lights.Draw() method
+            lights.Draw(spriteBatch,100,100);
             base.Draw(gameTime);
         }
     }
