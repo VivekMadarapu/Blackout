@@ -18,15 +18,21 @@ namespace Blackout
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
-        Lights lights;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Texture2D blackoutTexture;
+
+        GameState gameState;
+
+        Level levelOne;
+       
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.PreferredBackBufferWidth = 1000;
+            graphics.PreferredBackBufferHeight = 700;
+            graphics.ApplyChanges();
         }
 
         /// <summary>
@@ -38,6 +44,9 @@ namespace Blackout
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            gameState = GameState.LEVEL_ONE;
+
+            levelOne = new Level();
 
             base.Initialize();
         }
@@ -50,9 +59,10 @@ namespace Blackout
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            blackoutTexture = Content.Load<Texture2D>("hollowcircle");
-            lights = new Lights(this);
+
             // TODO: use this.Content to load your game content here
+            levelOne.loadContent(this, this);
+            
         }
 
         /// <summary>
@@ -71,10 +81,17 @@ namespace Blackout
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            GamePadState gamePadState = GamePad.GetState(PlayerIndex.One);
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
+
             // TODO: Add your update logic here
+            if (gameState == GameState.LEVEL_ONE)
+            {
+                levelOne.Update(gamePadState);
+            }
+
             base.Update(gameTime);
         }
 
@@ -85,10 +102,20 @@ namespace Blackout
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+
             // TODO: Add your drawing code here
-            //Example of Lights.Draw() method
-            lights.Draw(spriteBatch,100,100);
+            spriteBatch.Begin();
+            if (gameState == GameState.LEVEL_ONE)
+            {
+                levelOne.Draw(spriteBatch);
+            }
+            spriteBatch.End();
             base.Draw(gameTime);
         }
+    }
+
+    public enum GameState
+    {
+        START, LEVEL_ONE, LEVEL_TWO, BOSS_LEVEL_ONE, LEVEL_FOUR, LEVEL_FIVE, BOSS_LEVEL_TWO, END,
     }
 }
