@@ -110,7 +110,7 @@ namespace Blackout
                 levelOne.Draw(spriteBatch);
             }
             spriteBatch.End();
-            lights.Draw(spriteBatch,100,100);
+            lights.checkIfLightsOff(spriteBatch,100,100);
             base.Draw(gameTime);
         }
     }
