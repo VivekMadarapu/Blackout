@@ -14,6 +14,9 @@ namespace Blackout
 {
     class Lights
     {
+        public Boolean lightsOff = false;
+        public int lightCooldown = 0;
+        public int darkRemaining = 0;
         public Texture2D texture;
         public Game game;
         public Lights(Game tempGame) {
@@ -31,6 +34,24 @@ namespace Blackout
             spriteBatch.Begin();
             spriteBatch.Draw(texture, new Rectangle(xPos-1350,yPos-1350,2700,2700),Color.White);
             spriteBatch.End();
+        }
+        public void checkIfLightsOff(SpriteBatch spriteBatch,int xPos,int yPos) {
+            if (lightCooldown > 0) { lightCooldown--; }
+            if (lightCooldown == 0) {
+                if (darkRemaining == 0) {
+                    Random random = new Random();
+                    int lightsOff = random.Next(1, 1700);
+                    if (lightsOff == 1)
+                    {
+                        darkRemaining = 660;
+                    }
+                } else{
+                    spriteBatch.Begin();
+                    spriteBatch.Draw(texture, new Rectangle(xPos - 1350, yPos - 1350, 2700, 2700), Color.White);
+                    spriteBatch.End();
+                    darkRemaining--;
+                }
+            }
         }
         //Code used to generate a texture(may be used in the future)
         /*Texture2D createCircleText(int radius)
