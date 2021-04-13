@@ -18,13 +18,14 @@ namespace Blackout
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
+        
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
+        
         GameState gameState;
-
-        Level levelOne;
        
+        Level levelOne;
+        Lights lights;
 
         public Game1()
         {
@@ -47,7 +48,6 @@ namespace Blackout
             gameState = GameState.LEVEL_ONE;
 
             levelOne = new Level();
-
             base.Initialize();
         }
 
@@ -62,7 +62,7 @@ namespace Blackout
 
             // TODO: use this.Content to load your game content here
             levelOne.loadContent(this, this);
-            
+            lights = new Lights(this);
         }
 
         /// <summary>
@@ -110,6 +110,7 @@ namespace Blackout
                 levelOne.Draw(spriteBatch);
             }
             spriteBatch.End();
+            lights.Draw(spriteBatch,100,100);
             base.Draw(gameTime);
         }
     }

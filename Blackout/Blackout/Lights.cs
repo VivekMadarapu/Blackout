@@ -20,7 +20,7 @@ namespace Blackout
             game = tempGame;
             loadContent(game);
         }
-        //Loads the texture
+        //Loads the textureu
         public void loadContent(Game game)
         {
             texture = game.Content.Load<Texture2D>("hollowcircle");

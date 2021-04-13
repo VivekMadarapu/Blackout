@@ -17,8 +17,7 @@ namespace Blackout
         public Vector2 loc;
         public Color color;
         public Rectangle rect;
-        public Rectangle sourceRect;    
-        
+        public Rectangle sourceRect;
         public Mortimer(Vector2 loc): base(50,50,20)
         {
            
@@ -36,7 +35,6 @@ namespace Blackout
         public void loadContent(Game game)
         {
             tex = game.Content.Load<Texture2D>("Mortimer");
-            
         }
 
         public void Draw(SpriteBatch spriteBatch)

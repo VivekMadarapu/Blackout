@@ -60,6 +60,7 @@
     <Compile Include="AnimatedSprite.cs" />
     <Compile Include="Animation.cs" />
     <Compile Include="Level.cs" />
+    <Compile Include="Lights.cs" />
     <Compile Include="Mortimer.cs" />
     <Compile Include="Enemies\Boss.cs" />
     <Compile Include="Enemies\Bosses\CatBoss.cs" />
