@@ -37,13 +37,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="bt1.bmp">
-      <Name>bt1</Name>
+    <Compile Include="f1.bmp">
+      <Name>f1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="cm1.bmp">
-      <Name>cm1</Name>
+    <Compile Include="w1.bmp">
+      <Name>w1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -107,8 +107,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="pa1.bmp">
-      <Name>pa1</Name>
+    <Compile Include="n1.bmp">
+      <Name>n1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -373,6 +373,12 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TileMap - Copy.txt">
+      <Name>TileMap - Copy</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
