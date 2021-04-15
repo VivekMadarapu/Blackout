@@ -11,12 +11,20 @@ namespace Blackout.Projectiles
     {
         public Rectangle rectangle;
         public Texture2D texture;
-        private bool hasHit;
+        public bool hasHit;
 
         public Projectile(Rectangle rectangle, Texture2D texture)
         {
             this.rectangle = rectangle;
             this.texture = texture;
+            hasHit = false;
+        }
+        public Boolean collidesWith(Rectangle rect2)
+        {
+            if (rectangle.Intersects(rect2))
+                hasHit = true; 
+
+            return hasHit;
         }
 
 

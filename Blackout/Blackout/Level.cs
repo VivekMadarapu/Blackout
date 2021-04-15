@@ -6,6 +6,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Blackout.Projectiles;
 
 namespace Blackout
 {
@@ -32,6 +33,7 @@ namespace Blackout
             mortimerY = 200;
 
             player = new Mortimer(new Vector2(200, 200));
+         
 
             tiles = new Tile[100, 100];
         }
@@ -40,14 +42,19 @@ namespace Blackout
         {
             double changeX = gamePad.ThumbSticks.Left.X * 6;
             double changeY = -gamePad.ThumbSticks.Left.Y * 6;
-
+           
             if (changeX + mapX < 0 || mortimerX < 475 ||
                 changeX + mapX + 1000 > Tile.TILE_SIZE * WIDTH || mortimerX > 525)
             {
-                if (mortimerX + playerTexWidth + changeX <= 1000 && 
+                if (mortimerX + playerTexWidth + changeX <= 1000 &&
                     mortimerX + changeX >= 0)
+                {
                     mortimerX += changeX;
+                    player.relationalUpdate((float)changeX, (float)changeY);
+                }
                 changeX = 0;
+
+                
             }
 
             if (changeY + mapY < 0 || mortimerY < 225 ||
@@ -55,8 +62,11 @@ namespace Blackout
             {
                 if (mortimerY + playerTexHeight + changeY <= 700 &&
                     mortimerY + changeY >= 0)
+                {
                     mortimerY += changeY;
-
+                    player.relationalUpdate((float)changeX, (float)changeY);
+                }
+             
                 changeY = 0;
             }
 
@@ -72,6 +82,9 @@ namespace Blackout
             mapY += changeY;
             player.rect.X = (int)mortimerX;
             player.rect.Y = (int)mortimerY;
+
+            //update mortimer in relation to bullets and stuff
+            player.Update(gamePad);
         }
 
         public void loadContent(Game game, Game1 game1)
