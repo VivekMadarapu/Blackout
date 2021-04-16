@@ -66,6 +66,7 @@
     <Compile Include="Enemies\Bosses\CatBoss.cs" />
     <Compile Include="Enemies\Enemy.cs" />
     <Compile Include="Enemies\Mobs\Cat.cs" />
+    <Compile Include="PowerupManager.cs" />
     <Compile Include="Projectiles\Bullet.cs" />
     <Compile Include="Projectiles\Projectile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
