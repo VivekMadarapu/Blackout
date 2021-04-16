@@ -6,6 +6,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Blackout.Projectiles;
 
 namespace Blackout
 {
@@ -30,7 +31,7 @@ namespace Blackout
             mapY = 0;
             mortimerX = 500;
             mortimerY = 400;
-
+          
             player = new Mortimer(new Vector2(500, 400));
 
             tiles = new Tile[50, 50];
@@ -46,22 +47,29 @@ namespace Blackout
 
             bool mortimerMovesInX = false;
             bool mortimerMovesInY = false;
+          
             if (changeX + mapX < 0 || mortimerX < 475 ||
                 changeX + mapX + 1000 > Tile.TILE_SIZE * WIDTH || mortimerX > 525)
             {
-                if (mortimerX + playerTexWidth + changeX <= 1000 && 
+                if (mortimerX + playerTexWidth + changeX <= 1000 &&
                     mortimerX + changeX >= 0)
+                {
                     mortimerMovesInX = true;
-                changeX = 0;
+                    player.relationalUpdate((float)changeX, (float)changeY);
+                }
+                changeX = 0;         
             }
 
+          
             if (changeY + mapY < 0 || mortimerY < 225 ||
                 changeY + mapY + 700 > Tile.TILE_SIZE * HEIGHT || mortimerY > 275)
             {
                 if (mortimerY + playerTexHeight + changeY <= 700 &&
                     mortimerY + changeY >= 0)
+                {
                     mortimerMovesInY = true;
-
+                    player.relationalUpdate((float)changeX, (float)changeY);
+                }
                 changeY = 0;
             }
 
@@ -111,6 +119,9 @@ namespace Blackout
             if (!hitATileWallY) mapY += changeY;
             player.rect.X = (int)mortimerX;
             player.rect.Y = (int)mortimerY;
+
+            //update mortimer in relation to bullets and stuff
+            player.Update(gamePad);
         }
 
         public void loadContent(Game game, Game1 game1)
