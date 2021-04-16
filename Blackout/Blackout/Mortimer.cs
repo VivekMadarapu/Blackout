@@ -30,7 +30,7 @@ namespace Blackout.Projectiles
         public int bulletCooldown = 0;
         //necessary gamepadcontrols
         public GamePadState oldPad;
-      
+     
         public Mortimer(Vector2 loc): base(50,50,20)
         {
            
@@ -87,7 +87,7 @@ namespace Blackout.Projectiles
         {
             tex = game.Content.Load<Texture2D>("Mortimer");
             bulletTex = game.Content.Load<Texture2D>("mortimerProjectile");
-            
+
         }
         public Boolean mortyCollision(Rectangle rect2)//collisions for mortimer
         {

@@ -18,13 +18,15 @@ namespace Blackout
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
+        
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
+        
         GameState gameState;
-
-        Level levelOne;
        
+        Level levelOne;
+        Lights lights;
+        PowerupManager powerupManager;
 
         public Game1()
         {
@@ -47,7 +49,6 @@ namespace Blackout
             gameState = GameState.LEVEL_ONE;
 
             levelOne = new Level();
-
             base.Initialize();
         }
 
@@ -62,7 +63,13 @@ namespace Blackout
 
             // TODO: use this.Content to load your game content here
             levelOne.loadContent(this, this);
-            
+            lights = new Lights(this);
+            /*locs is a list of the coords of all the powerups,coords are like (Y,X)
+             * types stores the powerup type for each powerup. 
+             */
+            /*double[,] locs = new double[,] { { 500, 100 }, { 600, 100 }, { -50, 50 }, { -40, 200 } };
+            string[] types = new string[] {"white", "pink","pink","red","pink","red","pink"};
+            powerupManager = new PowerupManager(this,spriteBatch,locs,types);*/
         }
 
         /// <summary>
@@ -89,9 +96,11 @@ namespace Blackout
             // TODO: Add your update logic here
             if (gameState == GameState.LEVEL_ONE)
             {
-                levelOne.Update(gamePadState);
-            }
+                powerupManager.updatePowerups(0, 0, 200, 0);
 
+                levelOne.Update(gamePadState);
+
+            }
             base.Update(gameTime);
         }
 
@@ -110,6 +119,16 @@ namespace Blackout
                 levelOne.Draw(spriteBatch);
             }
             spriteBatch.End();
+            /*This shuts off the light randomly for 11 seconds each time
+            The parameters require spriteBatch,x position of mouse,and y position of mouse(center pos not top left)
+            Uncomment line below to test*/
+            //lights.checkIfLightsOff(spriteBatch,100,100);
+
+            /*This moves the powerups when the player moves and checks for collisions
+             * When there is a collision,the powerup value is returned(yellow,red,etc)
+             * Parameters:yMovement(pixels moved in vertical direction),xMovement,playerX(Mortimer x coord),playerY
+             */
+            //String effect = powerupManager.updatePowerups(0, 0, 200, 0);
             base.Draw(gameTime);
         }
     }

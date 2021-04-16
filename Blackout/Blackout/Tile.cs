@@ -10,9 +10,9 @@ namespace Blackout
 {
     class Tile
     {
-        public static String DEFAULT_TILE = "bt1";
+        public static String DEFAULT_TILE = "n1";
         public static int TICKS_PER_FRAME = 4;
-        public static int TILE_SIZE = 32;
+        public static int TILE_SIZE = 64;
         Texture2D tileTexture;
         int animationFrames;
         double x, y;

@@ -14,7 +14,7 @@ namespace Blackout
     {
         Tile[,] tiles;
 
-        public static int WIDTH = 100, HEIGHT = 100;
+        public static int WIDTH = 50, HEIGHT = 50;
 
         public Mortimer player;
 
@@ -35,14 +35,14 @@ namespace Blackout
             player = new Mortimer(new Vector2(200, 200));
          
 
-            tiles = new Tile[100, 100];
+            tiles = new Tile[50, 50];
         }
 
         public void Update(GamePadState gamePad)
         {
-            double changeX = gamePad.ThumbSticks.Left.X * 6;
-            double changeY = -gamePad.ThumbSticks.Left.Y * 6;
-           
+            double changeX = gamePad.ThumbSticks.Left.X * 4;
+            double changeY = -gamePad.ThumbSticks.Left.Y * 4;
+
             if (changeX + mapX < 0 || mortimerX < 475 ||
                 changeX + mapX + 1000 > Tile.TILE_SIZE * WIDTH || mortimerX > 525)
             {
@@ -96,9 +96,10 @@ namespace Blackout
                     for (int i = 0; i < tiles.GetLength(0); i++)
                     {
                         string line = reader.ReadLine();
+                        string[] data = line.Split(' ');
                         for (int j = 0; j < tiles.GetLength(1); j++)
                         {
-                            string tileName = line.Substring(j * 4, 3);
+                            string tileName = data[j];
                             tiles[i, j] = new Tile(tileName, game1, i, j);
                         }
                     }
