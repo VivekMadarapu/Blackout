@@ -15,16 +15,27 @@ namespace Blackout
         public static int TILE_SIZE = 64;
         Texture2D tileTexture;
         int animationFrames;
-        double x, y;
+        public double x, y;
         Rectangle sourceRectangle;
         int animationCounter;
+        public TileState tileState;
+        
 
         public Tile(string texName, Game1 game, int row, int col)
         {
             if (texName != "   ")
+            {
                 tileTexture = game.Content.Load<Texture2D>(texName);
+                if (texName == "w1")
+                    tileState = TileState.IMPASSABLE;
+                else
+                    tileState = TileState.PASSABLE;
+            }
             else
+            {
                 tileTexture = game.Content.Load<Texture2D>(DEFAULT_TILE);
+                tileState = TileState.IMPASSABLE;
+            }
             animationFrames = tileTexture.Width / TILE_SIZE;
             sourceRectangle = new Rectangle(0, 0, TILE_SIZE, TILE_SIZE);
             x = col * TILE_SIZE;
@@ -49,4 +60,10 @@ namespace Blackout
                 sourceRectangle, Color.White);
         }
     }
+
+    public enum TileState
+    {
+        PASSABLE, IMPASSABLE,
+    }
+
 }
