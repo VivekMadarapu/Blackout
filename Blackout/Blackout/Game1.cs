@@ -96,7 +96,8 @@ namespace Blackout
             // TODO: Add your update logic here
             if (gameState == GameState.LEVEL_ONE)
             {
-                powerupManager.updatePowerups(0, 0, 200, 0);
+                //powerupManager.updatePowerups(0, 0, 200, 0);
+
                 levelOne.Update(gamePadState);
             }
             base.Update(gameTime);
