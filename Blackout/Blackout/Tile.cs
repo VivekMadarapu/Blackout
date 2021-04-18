@@ -21,7 +21,7 @@ namespace Blackout
         public TileState tileState;
         
 
-        public Tile(string texName, Game1 game, int row, int col)
+        public Tile(string texName, Game1 game, int row, int col, int offsetX, int offsetY)
         {
             if (texName != "   ")
             {
@@ -38,8 +38,8 @@ namespace Blackout
             }
             animationFrames = tileTexture.Width / TILE_SIZE;
             sourceRectangle = new Rectangle(0, 0, TILE_SIZE, TILE_SIZE);
-            x = col * TILE_SIZE;
-            y = row * TILE_SIZE;
+            x = col * TILE_SIZE + offsetX;
+            y = row * TILE_SIZE + offsetY;
             animationCounter = 0;
         }
 

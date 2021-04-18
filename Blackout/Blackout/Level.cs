@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,6 +21,8 @@ namespace Blackout
 
         private int playerTexHeight = 31, playerTexWidth = 31;
 
+        public static Vector2[] offsets; 
+
         double mapX;
         double mapY;
 
@@ -35,6 +38,7 @@ namespace Blackout
             player = new Mortimer(new Vector2(500, 400));
 
             tiles = new Tile[50, 50];
+            offsets = new Vector2[6];
         }
 
         public void Update(GamePadState gamePad)
@@ -130,6 +134,10 @@ namespace Blackout
             {
                 using (StreamReader reader = new StreamReader(@"Content/TileMap.txt"))
                 {
+                    string[] offStrings = reader.ReadLine().Split(' ');
+                    offsets[0] = new Vector2(Convert.ToInt32(offStrings[0]), Convert.ToInt32(offStrings[1]));
+                    mapX = offsets[0].X;
+                    mapY = offsets[0].Y;
                     for (int i = 0; i < tiles.GetLength(0); i++)
                     {
                         string line = reader.ReadLine();
@@ -137,7 +145,7 @@ namespace Blackout
                         for (int j = 0; j < tiles.GetLength(1); j++)
                         {
                             string tileName = data[j];
-                            tiles[i, j] = new Tile(tileName, game1, i, j);
+                            tiles[i, j] = new Tile(tileName, game1, i, j, (int)-mapX, (int)-mapY);
                         }
                     }
                 }
