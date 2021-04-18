@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
+using Blackout.Enemies;
+using Blackout.Enemies.Mobs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -18,6 +20,7 @@ namespace Blackout
         public static int WIDTH = 50, HEIGHT = 50;
 
         public Mortimer player;
+        public List<Enemy> enemies = new List<Enemy>();
 
         private int playerTexHeight = 31, playerTexWidth = 31;
 
@@ -132,6 +135,7 @@ namespace Blackout
         {
             try
             {
+                //Load tiles onto map
                 using (StreamReader reader = new StreamReader(@"Content/TileMap.txt"))
                 {
                     string[] offStrings = reader.ReadLine().Split(' ');
@@ -146,6 +150,30 @@ namespace Blackout
                         {
                             string tileName = data[j];
                             tiles[i, j] = new Tile(tileName, game1, i, j, (int)-mapX, (int)-mapY);
+                        }
+                    }
+                }
+
+                //Load entities onto map
+                using (StreamReader reader = new StreamReader(@"Content/EntityMap.txt"))
+                {
+                    for (int i = 0; i < tiles.GetLength(0); i++)
+                    {
+                        string line = reader.ReadLine();
+                        string[] data = line.Split(' ');
+                        for (int j = 0; j < tiles.GetLength(1); j++)
+                        {
+                            int entityid = Convert.ToInt32(data[j]);
+                            switch (entityid)
+                            {
+                                case 1:
+                                    enemies.Add(new Cat(game1, new Rectangle(j*64-(int)offsets[0].X, i*64-(int)offsets[0].X, 0, 0)));
+                                    break;
+
+                                //fill in ids for all enemies and powerups
+                                
+                            }
+
                         }
                     }
                 }
