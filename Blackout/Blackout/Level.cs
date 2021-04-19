@@ -49,36 +49,72 @@ namespace Blackout
         {
             double changeX = gamePad.ThumbSticks.Left.X * 4;
             double changeY = -gamePad.ThumbSticks.Left.Y * 4;
-
+            double mortimerChangeX = changeX;
+            double mortimerChangeY = changeY;
+            bool mortimerMovesInX = false;
+            bool mortimerMovesInY = false;
+          
             if (changeX + mapX < 0 || mortimerX < 475 ||
                 changeX + mapX + 1000 > Tile.TILE_SIZE * WIDTH || mortimerX > 525)
             {
-                if (mortimerX + playerTexWidth + changeX <= 1000 && 
+                if (mortimerX + playerTexWidth + changeX <= 1000 &&
                     mortimerX + changeX >= 0)
-                    mortimerX += changeX;
-                changeX = 0;
+                {
+                    mortimerMovesInX = true;
+                }
+                changeX = 0;         
             }
-
+          
             if (changeY + mapY < 0 || mortimerY < 225 ||
                 changeY + mapY + 700 > Tile.TILE_SIZE * HEIGHT || mortimerY > 275)
             {
                 if (mortimerY + playerTexHeight + changeY <= 700 &&
                     mortimerY + changeY >= 0)
-                    mortimerY += changeY;
-
+                {
+                    mortimerMovesInY = true;
+                }
                 changeY = 0;
             }
-
+            bool hitATileWallX = false;
+            bool hitATileWallY = false;
             for (int i = 0; i < tiles.GetLength(0); i++)
             {
                 for (int j = 0; j < tiles.GetLength(1); j++)
                 {
-                    tiles[i, j].Update(-changeX, -changeY);
+                    Rectangle leftRect = new Rectangle((int)(mortimerX + mortimerChangeX), (int)(mortimerY + mortimerChangeY + 5), 5, player.rect.Height - 10);
+                    Rectangle rightRect = new Rectangle((int)(mortimerX + mortimerChangeX + player.rect.Width - 5), (int)(mortimerY + mortimerChangeY + 5), 5, player.rect.Height - 10);
+                    Rectangle topRect = new Rectangle((int)(mortimerX + mortimerChangeX + 5), (int)(mortimerY + mortimerChangeY), player.rect.Width - 10, 5);
+                    Rectangle bottomRect = new Rectangle((int)(mortimerX + mortimerChangeX + 5), (int)(mortimerY + mortimerChangeY + player.rect.Height - 5), player.rect.Width - 10, 5);
+                    Rectangle tileRect = new Rectangle((int)(tiles[i, j].x - changeX), (int)(tiles[i, j].y - changeY), Tile.TILE_SIZE, Tile.TILE_SIZE);
+                    if (tiles[i, j].tileState == TileState.IMPASSABLE && (tileRect.Intersects(leftRect) || tileRect.Intersects(rightRect))) hitATileWallX = true;
+                    if (tiles[i, j].tileState == TileState.IMPASSABLE && (tileRect.Intersects(topRect) || tileRect.Intersects(bottomRect))) hitATileWallY = true;
+                     
+                //    Rectangle rect1 = new Rectangle((int)(mortimerX + mortimerChangeX), (int)(mortimerY + mortimerChangeY), player.rect.Width, player.rect.Height);
+                //    Rectangle rect2 = new Rectangle((int)(tiles[i, j].x - changeX), (int)(tiles[i, j].y - changeY), Tile.TILE_SIZE, Tile.TILE_SIZE);
+                //    if (tiles[i, j].tileState == TileState.IMPASSABLE && rect1.Intersects(rect2) /* || (rect1.X > rect2.X && rect1.X < rect2.X + rect2.Width)*/)
+                //    {
+                //        hitATileWallX = true;
+                //    }
+                //    if (tiles[i, j].tileState == TileState.IMPASSABLE && ((rect1.Bottom > rect2.Top && rect1.Bottom < rect2.Bottom) || (rect1.Top > rect2.Top && rect1.Top < rect2.Bottom)))
+                //    {
+                //        hitATileWallY = true;
+                //    }
                 }
             }
-
-            mapX += changeX;
-            mapY += changeY;
+            //if (!hitATileWallX || !hitATileWallY)
+            //{
+                for (int i = 0; i < tiles.GetLength(0); i++)
+                {
+                    for (int j = 0; j < tiles.GetLength(1); j++)
+                    {
+                        tiles[i, j].Update((hitATileWallX) ? 0 : -changeX, (hitATileWallY) ? 0 : -changeY);
+                    }
+                }
+            //}
+            if (!hitATileWallX && mortimerMovesInX) mortimerX += mortimerChangeX;
+            if (!hitATileWallY && mortimerMovesInY) mortimerY += mortimerChangeY;
+            if (!hitATileWallX) mapX += changeX;
+            if (!hitATileWallY) mapY += changeY;
             player.rect.X = (int)mortimerX;
             player.rect.Y = (int)mortimerY;
         }
