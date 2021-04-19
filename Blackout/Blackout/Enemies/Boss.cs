@@ -7,5 +7,6 @@ namespace Blackout.Enemies
 {
     class Boss : Enemy
     {
+
     }
 }
