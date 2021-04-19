@@ -16,24 +16,27 @@ namespace Blackout
         public static int WIDTH = 50, HEIGHT = 50;
 
         public Mortimer player;
-
+        public SpriteBatch spriteBatch;
         private int playerTexHeight = 31, playerTexWidth = 31;
 
         double mapX;
         double mapY;
-
+        Game game;
         double mortimerX, mortimerY;
 
-        public Level()
+        public Level(SpriteBatch tempSpriteBatch,Game tempGame)
         {
             mapX = 0;
             mapY = 0;
             mortimerX = 200;
             mortimerY = 200;
 
-            player = new Mortimer(new Vector2(200, 200));
+            game = tempGame;
+            player = new Mortimer(new Vector2(200, 200),tempSpriteBatch,game);
 
             tiles = new Tile[50, 50];
+
+            spriteBatch = tempSpriteBatch;
         }
 
         public void Update(GamePadState gamePad)
