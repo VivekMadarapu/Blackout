@@ -5,7 +5,18 @@ using System.Text;
 
 namespace Blackout.Enemies
 {
-    class Enemy
+    class Enemy : AnimatedSprite
     {
+
+        public Enemy(): base(50,50,20)
+        {
+            
+        }
+
+        public void Draw()
+        {
+
+        }
+
     }
 }

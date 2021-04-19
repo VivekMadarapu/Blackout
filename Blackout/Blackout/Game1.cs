@@ -63,7 +63,7 @@ namespace Blackout
             // TODO: use this.Content to load your game content here
             Game gameWORKIBEG = this;
             levelOne = new Level(spriteBatch, this);
-            levelOne.loadContent(this, this);
+            levelOne.loadContent(this);
             lights = new Lights(this);
             /*locs is a list of the coords of all the powerups,coords are like (Y,X)
              * types stores the powerup type for each powerup. 
