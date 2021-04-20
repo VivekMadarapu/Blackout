@@ -90,16 +90,6 @@ namespace Blackout
                     if (tiles[i, j].tileState == TileState.IMPASSABLE && (tileRect.Intersects(leftRect) || tileRect.Intersects(rightRect))) hitATileWallX = true;
                     if (tiles[i, j].tileState == TileState.IMPASSABLE && (tileRect.Intersects(topRect) || tileRect.Intersects(bottomRect))) hitATileWallY = true;
                      
-                //    Rectangle rect1 = new Rectangle((int)(mortimerX + mortimerChangeX), (int)(mortimerY + mortimerChangeY), player.rect.Width, player.rect.Height);
-                //    Rectangle rect2 = new Rectangle((int)(tiles[i, j].x - changeX), (int)(tiles[i, j].y - changeY), Tile.TILE_SIZE, Tile.TILE_SIZE);
-                //    if (tiles[i, j].tileState == TileState.IMPASSABLE && rect1.Intersects(rect2) /* || (rect1.X > rect2.X && rect1.X < rect2.X + rect2.Width)*/)
-                //    {
-                //        hitATileWallX = true;
-                //    }
-                //    if (tiles[i, j].tileState == TileState.IMPASSABLE && ((rect1.Bottom > rect2.Top && rect1.Bottom < rect2.Bottom) || (rect1.Top > rect2.Top && rect1.Top < rect2.Bottom)))
-                //    {
-                //        hitATileWallY = true;
-                //    }
                 }
             }
             //if (!hitATileWallX || !hitATileWallY)
@@ -138,6 +128,7 @@ namespace Blackout
             } 
             player.rect.X = (int)mortimerX;
             player.rect.Y = (int)mortimerY;
+            player.Update(gamePad);
         }
 
         public void loadContent(Game1 game)

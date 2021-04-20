@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
-namespace Blackout.Projectiles
+namespace Blackout
 {
     class Mortimer : AnimatedSprite
     {
@@ -27,7 +27,7 @@ namespace Blackout.Projectiles
         public int speed = 4;
         //bullet stuff
         public Texture2D bulletTex;
-        public List<Bullet> bullets;
+        public List<Projectiles.Bullet> bullets;
         public int bulletSpeed = 10;
         public float bulletDirection;
         public int bulletSize = 10;
@@ -47,9 +47,9 @@ namespace Blackout.Projectiles
             color = Color.White;
             rect = new Rectangle((int)loc.X, (int)loc.Y, 50, 50);
             sourceRect = new Rectangle(0, 0, 31, 31);
-            
+
             //bullets
-            bullets = new List<Bullet>();
+            bullets = new List<Projectiles.Bullet>();
             bulletDirection = (float)Math.PI / 2;
             oldPad = GamePad.GetState(PlayerIndex.One);
             
@@ -74,7 +74,7 @@ namespace Blackout.Projectiles
             if (newPad.Triggers.Right==1 && oldPad.Triggers.Right!=1)
             {
                
-                bullets.Add(new Bullet(new Rectangle((int)loc.X + rect.Width / 2, (int)loc.Y + rect.Height / 2, bulletSize, bulletSize), bulletTex, bulletSpeed, (float)bulletDirection));
+                bullets.Add(new Projectiles.Bullet(new Rectangle((int)loc.X + rect.Width / 2, (int)loc.Y + rect.Height / 2, bulletSize, bulletSize), bulletTex, bulletSpeed, (float)bulletDirection));
                 bullets[bullets.Count - 1].adjustSpeed(new Vector2(newPad.ThumbSticks.Right.X, newPad.ThumbSticks.Right.Y), bulletSpeed);
                 if (bullets[bullets.Count - 1].speed.X == 0 && bullets[bullets.Count - 1].speed.Y == 0)
                     bullets.RemoveAt(bullets.Count - 1);

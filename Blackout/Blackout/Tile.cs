@@ -57,7 +57,7 @@ namespace Blackout
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(tileTexture, new Rectangle((int)x, (int)y, TILE_SIZE, TILE_SIZE),
-                sourceRectangle, Color.White);
+                sourceRectangle, Color.White * ((tileState == TileState.PASSABLE) ? 0.75f : 1f));
         }
     }
 
