@@ -73,7 +73,7 @@ namespace Blackout
                 }
                 effectLength--;
             }
-            lights.checkIfLightsOff(spriteBatch, 100, 100,nightMode);
+            lights.checkIfLightsOff(spriteBatch, rect.X+31, rect.Y+31,nightMode);
         }
     }
 }
