@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Blackout.Enemies;
 using Blackout.Enemies.Mobs;
+using Blackout.Projectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -126,6 +127,25 @@ namespace Blackout
                     }
                 }
             } 
+
+            //bullet-enemy collision
+            for (int i = 0; i < enemies.Count ;i++)
+            {
+                if (enemies[i].GetType() == typeof(Cat))
+                {
+                    foreach (Bullet bullet in player.bullets)
+                    {
+                        if (((Cat) enemies[i]).rectangle.Intersects(bullet.rectangle))
+                        {
+                            enemies[i] = null;
+                        }
+                    }
+                }
+            }
+            //removes null instances in the enemies array
+            while (enemies.Contains(null))
+                enemies.Remove(null);
+
             player.rect.X = (int)mortimerX;
             player.rect.Y = (int)mortimerY;
             player.Update(gamePad);
