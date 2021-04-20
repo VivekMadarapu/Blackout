@@ -75,6 +75,7 @@ namespace Blackout
                 }
                 changeY = 0;
             }
+
             bool hitATileWallX = false;
             bool hitATileWallY = false;
             for (int i = 0; i < tiles.GetLength(0); i++)
@@ -113,16 +114,35 @@ namespace Blackout
             //}
             if (!hitATileWallX && mortimerMovesInX) mortimerX += mortimerChangeX;
             if (!hitATileWallY && mortimerMovesInY) mortimerY += mortimerChangeY;
-            if (!hitATileWallX) mapX += changeX;
-            if (!hitATileWallY) mapY += changeY;
+            if (!hitATileWallX)
+            {
+                mapX += changeX;
+                foreach (Enemy enemy in enemies)
+                {
+                    if (enemy.GetType() == typeof(Cat))
+                    {
+                        ((Cat)enemy).rectangle.X += (int)-changeX;
+                    }
+                }
+            }
+            if (!hitATileWallY) 
+            {
+                mapY += changeY;
+                foreach (Enemy enemy in enemies)
+                {
+                    if (enemy.GetType() == typeof(Cat))
+                    {
+                        ((Cat)enemy).rectangle.Y += (int)-changeY;
+                    }
+                }
+            } 
             player.rect.X = (int)mortimerX;
             player.rect.Y = (int)mortimerY;
         }
 
         public void loadContent(Game1 game)
         {
-            try
-            {
+            
                 using (StreamReader reader = new StreamReader(@"Content/TileMap.txt"))
                 {
                     string[] offStrings = reader.ReadLine().Split(' ');
@@ -146,6 +166,10 @@ namespace Blackout
                     {
                         string line = reader.ReadLine();
                         string[] data = line.Split(' ');
+                        if (data.Length > 50)
+                        {
+                            Console.WriteLine("Yes");
+                        }
                         for (int j = 0; j < tiles.GetLength(1); j++)
                         {
                             int entityid = Convert.ToInt32(data[j]);
@@ -158,19 +182,11 @@ namespace Blackout
                                 //fill in ids for all enemies and powerups
 
                             }
-
                         }
                     }
                 }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error reading file: ");
-                Console.WriteLine(e.Message);
-                Console.WriteLine(tiles.GetLength(0) + " " + tiles.GetLength(1));
-            }
 
-            player.loadContent(game);
+                player.loadContent(game);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -187,7 +203,7 @@ namespace Blackout
             {
                 if (enemy.GetType() == typeof(Cat))
                 {
-                    ((Cat)enemy).Draw();
+                    ((Cat)enemy).Draw(spriteBatch);
                 }
             }
 

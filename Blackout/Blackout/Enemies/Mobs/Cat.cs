@@ -24,7 +24,7 @@ namespace Blackout.Enemies.Mobs
         public List<Bullet> bullets;
 
         //speed/dimensions
-        public const int SIZE = 26;
+        public const int SIZE = 64;
         public const int SPEED = 5;
         //random
         public Random rand;
