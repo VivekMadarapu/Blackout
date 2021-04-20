@@ -41,7 +41,7 @@ namespace Blackout.Enemies.Mobs
         public Cat(Game game, Vector2 startingPosition)
         {
             //tex
-            this.tex = game.Content.Load<Texture2D>("Mortimer");
+            this.tex = game.Content.Load<Texture2D>("cats");
             this.bulletTex = game.Content.Load<Texture2D>("mortimerProjectile");
             //Rectangles
             rectangle = new Rectangle((int)startingPosition.X, (int)startingPosition.Y, SIZE, SIZE);

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Blackout.Enemies;
 using Blackout.Enemies.Mobs;
+using Blackout.Projectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -47,8 +48,8 @@ namespace Blackout
 
         public void Update(GamePadState gamePad)
         {
-            double changeX = gamePad.ThumbSticks.Left.X * 4;
-            double changeY = -gamePad.ThumbSticks.Left.Y * 4;
+            double changeX = Math.Round(gamePad.ThumbSticks.Left.X * 4);
+            double changeY = -Math.Round(gamePad.ThumbSticks.Left.Y * 4);
             double mortimerChangeX = changeX;
             double mortimerChangeY = changeY;
             bool mortimerMovesInX = false;
@@ -103,33 +104,59 @@ namespace Blackout
                     }
                 }
             //}
+            foreach (Enemy enemy in enemies)
+            {
+                if (enemy.GetType() == typeof(Cat))
+                {
+                    if (!hitATileWallX)
+                    {
+                        double move = ((Cat) enemy).rectangle.X + -changeX;
+                        ((Cat)enemy).rectangle.X = (int)move;
+                    }
+
+                    if (!hitATileWallY)
+                    {
+                        double move = ((Cat) enemy).rectangle.Y + -changeY;
+                        ((Cat)enemy).rectangle.Y = (int)move;
+                    }
+                    
+                }
+            }
+
             if (!hitATileWallX && mortimerMovesInX) mortimerX += mortimerChangeX;
             if (!hitATileWallY && mortimerMovesInY) mortimerY += mortimerChangeY;
             if (!hitATileWallX)
             {
                 mapX += changeX;
-                foreach (Enemy enemy in enemies)
-                {
-                    if (enemy.GetType() == typeof(Cat))
-                    {
-                        ((Cat)enemy).rectangle.X += (int)-changeX;
-                    }
-                }
             }
             if (!hitATileWallY) 
             {
                 mapY += changeY;
-                foreach (Enemy enemy in enemies)
+            } 
+
+            //bullet-enemy collision
+            for (int i = 0; i < enemies.Count ;i++)
+            {
+                if (enemies[i].GetType() == typeof(Cat))
                 {
-                    if (enemy.GetType() == typeof(Cat))
+                    for (int j = 0; j < player.bullets.Count; j++)
                     {
-                        ((Cat)enemy).rectangle.Y += (int)-changeY;
+                        Projectiles.Bullet bullet = player.bullets[j];
+                        if (((Cat)enemies[i]).rectangle.Intersects(bullet.rectangle))
+                        {
+                            enemies[i] = null;
+                            player.bullets.Remove(bullet);
+                        }
                     }
                 }
-            } 
+            }
+            //removes null instances in the enemies array
+            while (enemies.Contains(null))
+                enemies.Remove(null);
+
             player.rect.X = (int)mortimerX;
             player.rect.Y = (int)mortimerY;
-            player.Update(gamePad);
+            player.Update(gamePad, tiles);
         }
 
         public void loadContent(Game1 game)

@@ -63,7 +63,7 @@ namespace Blackout
         {
             this.oldPad = oldPad;
         }
-        public void Update(GamePadState newPad)
+        public void Update(GamePadState newPad, Tile[,] tiles)
         {
             //location update
             loc.X = rect.X;
@@ -80,9 +80,23 @@ namespace Blackout
                     bullets.RemoveAt(bullets.Count - 1);
                 bulletCooldown = 10;
             }
-            for(int i=0; i<bullets.Count; i++)
+            for(int i=bullets.Count - 1; i>=0; i--)
             {
-                bullets[i].Update();
+                bool collided = false;
+                for (int x = 0; x < tiles.GetLength(0) & !collided; x++)
+                {
+                    for (int y = 0; y < tiles.GetLength(1) && !collided; y++)
+                    {
+                        Rectangle tileRect = new Rectangle((int)(tiles[x, y].x), (int)(tiles[x, y].y), Tile.TILE_SIZE, Tile.TILE_SIZE);
+                        if (tiles[x, y].tileState == TileState.IMPASSABLE && tileRect.Intersects(bullets[i].rectangle)) collided = true;
+                    }
+                }
+
+                if (collided)
+                {
+                    bullets.Remove(bullets[i]);
+                }
+                 else bullets[i].Update();
             }
 
             //cooldown for bullets
