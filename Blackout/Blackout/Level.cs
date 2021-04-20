@@ -48,8 +48,8 @@ namespace Blackout
 
         public void Update(GamePadState gamePad)
         {
-            double changeX = gamePad.ThumbSticks.Left.X * 4;
-            double changeY = -gamePad.ThumbSticks.Left.Y * 4;
+            double changeX = Math.Round(gamePad.ThumbSticks.Left.X * 4);
+            double changeY = -Math.Round(gamePad.ThumbSticks.Left.Y * 4);
             double mortimerChangeX = changeX;
             double mortimerChangeY = changeY;
             bool mortimerMovesInX = false;
@@ -103,29 +103,34 @@ namespace Blackout
                     }
                 }
             //}
+            foreach (Enemy enemy in enemies)
+            {
+                if (enemy.GetType() == typeof(Cat))
+                {
+                    if (!hitATileWallX)
+                    {
+                        double move = ((Cat) enemy).rectangle.X + -changeX;
+                        ((Cat)enemy).rectangle.X = (int)move;
+                    }
+
+                    if (!hitATileWallY)
+                    {
+                        double move = ((Cat) enemy).rectangle.Y + -changeY;
+                        ((Cat)enemy).rectangle.Y = (int)move;
+                    }
+                    
+                }
+            }
+
             if (!hitATileWallX && mortimerMovesInX) mortimerX += mortimerChangeX;
             if (!hitATileWallY && mortimerMovesInY) mortimerY += mortimerChangeY;
             if (!hitATileWallX)
             {
                 mapX += changeX;
-                foreach (Enemy enemy in enemies)
-                {
-                    if (enemy.GetType() == typeof(Cat))
-                    {
-                        ((Cat)enemy).rectangle.X += (int)-changeX;
-                    }
-                }
             }
             if (!hitATileWallY) 
             {
                 mapY += changeY;
-                foreach (Enemy enemy in enemies)
-                {
-                    if (enemy.GetType() == typeof(Cat))
-                    {
-                        ((Cat)enemy).rectangle.Y += (int)-changeY;
-                    }
-                }
             } 
 
             //bullet-enemy collision
@@ -135,7 +140,7 @@ namespace Blackout
                 {
                     foreach (Bullet bullet in player.bullets)
                     {
-                        if (((Cat) enemies[i]).rectangle.Intersects(bullet.rectangle))
+                        if (enemies[i] != null && ((Cat) enemies[i]).rectangle.Intersects(bullet.rectangle))
                         {
                             enemies[i] = null;
                         }

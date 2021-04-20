@@ -95,7 +95,7 @@ namespace Blackout
                         break;
                 }
                 //Draws the powerup
-                spriteBatch.Draw(yellowTexture, powerupRectangle, Color.White);
+                // spriteBatch.Draw(yellowTexture, powerupRectangle, Color.White);
                 //Checks if the player intersects with the powerup
                 if (powerupRectangle.Intersects(new Rectangle((int)playerX,(int)playerY,20,30))) {
                     //used for cloning the array,and removing an element
