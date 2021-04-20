@@ -15,6 +15,7 @@ namespace Blackout
     class Lights
     {
         public Boolean lightsOff = false;
+        public Boolean nightVision = false;
         public int lightCooldown = 0;
         public int darkRemaining = 0;
         public Texture2D texture;
@@ -29,13 +30,13 @@ namespace Blackout
             texture = game.Content.Load<Texture2D>("hollowcircle");
         }
         //Takes the X and Y location of the mouse,and blacks everything out except for a small radius
-        public void Draw(SpriteBatch spriteBatch,int xPos,int yPos)
+      /*  public void Draw(SpriteBatch spriteBatch,int xPos,int yPos)
         {
             spriteBatch.Begin();
             spriteBatch.Draw(texture, new Rectangle(xPos-1350,yPos-1350,2700,2700),Color.White);
             spriteBatch.End();
-        }
-        public void checkIfLightsOff(SpriteBatch spriteBatch,int xPos,int yPos) {
+        }*/
+        public void checkIfLightsOff(SpriteBatch spriteBatch,int xPos,int yPos,Boolean nightMode) {
             if (lightCooldown > 0) { lightCooldown--; }
             if (lightCooldown == 0) {
                 if (darkRemaining == 0) {
@@ -47,7 +48,13 @@ namespace Blackout
                     }
                 } else{
                     spriteBatch.Begin();
-                    spriteBatch.Draw(texture, new Rectangle(xPos - 1350, yPos - 1350, 2700, 2700), Color.White);
+                    if (nightMode)
+                    {
+                        spriteBatch.Draw(texture, new Rectangle(xPos - 3100, yPos - 3100, 6200, 6200), Color.White);
+                    }
+                    else {
+                        spriteBatch.Draw(texture, new Rectangle(xPos - 1350, yPos - 1350, 2700, 2700), Color.White);
+                    }
                     spriteBatch.End();
                     darkRemaining--;
                 }

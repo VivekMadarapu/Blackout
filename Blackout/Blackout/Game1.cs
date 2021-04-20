@@ -47,8 +47,8 @@ namespace Blackout
         {
             // TODO: Add your initialization logic here
             gameState = GameState.LEVEL_ONE;
-
-            levelOne = new Level();
+            Game game = this;
+            //levelOne = new Level(spriteBatch,this);
             base.Initialize();
         }
 
@@ -60,9 +60,10 @@ namespace Blackout
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
             // TODO: use this.Content to load your game content here
-            levelOne.loadContent(this, this);
+            Game gameWORKIBEG = this;
+            levelOne = new Level(spriteBatch, this);
+            levelOne.loadContent(this);
             lights = new Lights(this);
             /*locs is a list of the coords of all the powerups,coords are like (Y,X)
              * types stores the powerup type for each powerup. 
@@ -118,7 +119,14 @@ namespace Blackout
             {
                 levelOne.Draw(spriteBatch);
             }
-            spriteBatch.End();
+            try
+            {
+                spriteBatch.End();
+            }
+            catch {
+                spriteBatch.Begin();
+                spriteBatch.End();
+            }
             /*This shuts off the light randomly for 11 seconds each time
             The parameters require spriteBatch,x position of mouse,and y position of mouse(center pos not top left)
             Uncomment line below to test*/

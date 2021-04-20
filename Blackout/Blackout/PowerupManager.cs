@@ -56,7 +56,14 @@ namespace Blackout
                 //Creates a rectangle to store powerup position
                 Rectangle powerupRectangle = new Rectangle((int)powerupLoc[x, 1], (int)powerupLoc[x, 0], 54, 33);
                 //Drawing takes place after this
-                spriteBatch.Begin();
+                try
+                {
+                    spriteBatch.Begin();
+                }
+                catch {
+                    spriteBatch.End();
+                    spriteBatch.Begin();
+                }
                 //Gets the effect for the current powerup
                 effect = powerupType[x];
                 //checks the effect value and loads the correct texture
@@ -118,9 +125,9 @@ namespace Blackout
             //returns the effect applied to the player
             return effect;
         }
-        public void drawPowerUps() {
+        /*public void drawPowerUps() {
             spriteBatch.Begin();
             spriteBatch.End();
-        }
+        }*/
     }
 }
