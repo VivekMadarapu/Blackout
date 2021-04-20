@@ -115,7 +115,9 @@ namespace Blackout
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(tex, rect, sourceRect, color);
+            //Rectangle rect2 = new Rectangle(rect.X + rect.Width / 2, rect.Y + rect.Height / 2, rect.Width, rect.Height);
+            spriteBatch.Draw(tex, rect, sourceRect, color, -1*(float)(bulletDirection-Math.PI/2), new Vector2(sourceRect.Width/2, sourceRect.Height/2), SpriteEffects.None, 0);
+            //spriteBatch.Draw(tex, rect, sourceRect, color);
             //bullets
             for(int i=0; i<bullets.Count; i++)
             {

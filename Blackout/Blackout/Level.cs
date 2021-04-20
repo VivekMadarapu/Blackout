@@ -60,6 +60,7 @@ namespace Blackout
                 if (mortimerX + playerTexWidth + changeX <= 1000 &&
                     mortimerX + changeX >= 0)
                 {
+                    
                     mortimerMovesInX = true;
                 }
                 changeX = 0;         
