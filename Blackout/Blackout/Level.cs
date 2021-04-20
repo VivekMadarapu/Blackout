@@ -138,11 +138,13 @@ namespace Blackout
             {
                 if (enemies[i].GetType() == typeof(Cat))
                 {
-                    foreach (Bullet bullet in player.bullets)
+                    for (int j = 0; j < player.bullets.Count; j++)
                     {
-                        if (enemies[i] != null && ((Cat) enemies[i]).rectangle.Intersects(bullet.rectangle))
+                        Projectiles.Bullet bullet = player.bullets[j];
+                        if (((Cat)enemies[i]).rectangle.Intersects(bullet.rectangle))
                         {
                             enemies[i] = null;
+                            player.bullets.Remove(bullet);
                         }
                     }
                 }
