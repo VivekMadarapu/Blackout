@@ -148,7 +148,7 @@ namespace Blackout
 
             player.rect.X = (int)mortimerX;
             player.rect.Y = (int)mortimerY;
-            player.Update(gamePad);
+            player.Update(gamePad, tiles);
         }
 
         public void loadContent(Game1 game)
