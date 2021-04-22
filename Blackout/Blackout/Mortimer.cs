@@ -132,7 +132,7 @@ namespace Blackout
         public void loadContent(Game game)
         {
             double[,] locs = new double[,] { { 100, 100 }};
-            string[] types = new string[] { "white "};
+            string[] types = new string[] { "white"};
             powerupManager = new PowerupManager(game, spriteBatch, locs, types);
             lights = new Lights(game);
             tex = game.Content.Load<Texture2D>("Mortimer");
@@ -159,7 +159,7 @@ namespace Blackout
             switch (tempEffect) {
                 case "white":
                     effect = "white";
-                    effectLength = 1800;
+                    effectLength = 180000;
                     break;
             }
             Boolean nightMode = false;
