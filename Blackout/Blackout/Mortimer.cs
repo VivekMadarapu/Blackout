@@ -76,7 +76,7 @@ namespace Blackout
                 yDir = 0;
             }
           //  string tempEffect = "white";
-            string tempEffect = powerupManager.updatePowerups(yDir, xDir, rect.X, rect.Y);
+          //  string tempEffect = powerupManager.updatePowerups(yDir, xDir, rect.X, rect.Y);
             prevX = rect.X;
             prevY = rect.Y;
         }
@@ -133,7 +133,7 @@ namespace Blackout
         {
             double[,] locs = new double[,] { { 100, 100 }};
             string[] types = new string[] { "white"};
-            powerupManager = new PowerupManager(game, spriteBatch, locs, types);
+           // powerupManager = new PowerupManager(game, spriteBatch, locs, types);
             lights = new Lights(game);
             tex = game.Content.Load<Texture2D>("Mortimer");
             bulletTex = game.Content.Load<Texture2D>("mortimerProjectile");

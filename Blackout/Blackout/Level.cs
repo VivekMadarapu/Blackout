@@ -103,6 +103,8 @@ namespace Blackout
                     }
                 }
             //}
+
+            //scrolls enemies with the map
             foreach (Enemy enemy in enemies)
             {
                 if (enemy.GetType() == typeof(Cat))
@@ -149,7 +151,7 @@ namespace Blackout
                 {
                     for (int j = 0; j < player.bullets.Count; j++)
                     {
-                        Projectiles.Bullet bullet = player.bullets[j];
+                        Bullet bullet = player.bullets[j];
                         if (((Cat)enemies[i]).rectangle.Intersects(bullet.rectangle))
                         {
                             enemies[i] = null;
@@ -187,26 +189,32 @@ namespace Blackout
                         }
                     }
                 }
+
+                //spawns entities from the entity map
                 using (StreamReader reader = new StreamReader(@"Content/EntityMap.txt"))
                 {
                     for (int i = 0; i < tiles.GetLength(0); i++)
                     {
                         string line = reader.ReadLine();
                         string[] data = line.Split(' ');
-                        if (data.Length > 50)
-                        {
-                            Console.WriteLine("Yes");
-                        }
                         for (int j = 0; j < tiles.GetLength(1); j++)
                         {
+                            //decodes the id from the text file
                             int entityid = Convert.ToInt32(data[j]);
+
+                            //interprets ids into entities
                             switch (entityid)
                             {
+                                // entity ids
                                 case 1:
+                                    //offsets are in the map file. They offset the enemy position to match the position of the map.
+                                    //Locations are loaded with the equations in the Vector2. They spawn them based on their locations in the entity map file and correspond with the tile locations in the map file. You can copy the equations directly for all entities.
                                     enemies.Add(new Cat(game, new Vector2(j*64-(int)offsets[0].X, i*64-(int)offsets[0].Y)));
                                     break;
-
-                                //fill in ids for all enemies and powerups
+                                
+                                //add as many entities (enemies or powerups) as needed, but don't reuse ids
+                                case 2:
+                                    break;
 
                             }
                         }
