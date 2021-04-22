@@ -199,7 +199,7 @@ namespace Blackout
                                 // entity ids
                                 case 1:
                                     //offsets are in the map file. They offset the enemy position to match the position of the map.
-                                    //Locations should be loaded with the equations in the Vector2. You can copy them directly.
+                                    //Locations are loaded with the equations in the Vector2. They spawn them based on their locations in the entity map file and correspond with the tile locations in the map file. You can copy the equations directly for all entities.
                                     enemies.Add(new Cat(game, new Vector2(j*64-(int)offsets[0].X, i*64-(int)offsets[0].Y)));
                                     break;
                                 
