@@ -47,6 +47,7 @@ namespace Blackout
         public string updatePowerups(double yMovement,double xMovement,double playerX,double playerY) {
             //Stores effec to apply to player,stays empty if there aren't collisions
             string effect = "";
+            string finalEffect = "";
             //Loops through the powerups
             for (int x = 0; x < powerupLoc.Length/2; x++)
             {
@@ -95,9 +96,13 @@ namespace Blackout
                         break;
                 }
                 //Draws the powerup
-                // spriteBatch.Draw(yellowTexture, powerupRectangle, Color.White);
+                spriteBatch.Draw(finalTexture, powerupRectangle, Color.White);
                 //Checks if the player intersects with the powerup
                 if (powerupRectangle.Intersects(new Rectangle((int)playerX,(int)playerY,20,30))) {
+                    if (finalEffect.Equals("")) {
+                        finalEffect = effect;
+                    }
+                    //finalEffect = effect;
                     //used for cloning the array,and removing an element
                     int indexInArray = 0;
                     //clones location and type arrays to temp variables
@@ -123,7 +128,7 @@ namespace Blackout
                 spriteBatch.End();
             }
             //returns the effect applied to the player
-            return effect;
+            return finalEffect;
         }
         /*public void drawPowerUps() {
             spriteBatch.Begin();

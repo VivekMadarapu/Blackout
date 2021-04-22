@@ -16,7 +16,9 @@ namespace Blackout
         public int effectLength = 0;
         public int health = 100;
         public string effect = "";
-        
+        public string tempEffect = "";
+
+
         public Texture2D tex;
         public Vector2 loc;
         public Color color;
@@ -40,6 +42,9 @@ namespace Blackout
         SpriteBatch spriteBatch;
         Game game;
 
+        int prevX = 0;
+        int prevY = 0;
+
         public Mortimer(Vector2 loc,SpriteBatch tempSpriteBatch,Game tempGame): base(50,50,20)
         {
            
@@ -55,13 +60,25 @@ namespace Blackout
             
             spriteBatch = tempSpriteBatch;
             game = tempGame;
-            double[,] locs = new double[,] { { 500, 100 }, { 600, 100 }, { -50, 50 }, { -40, 200 } };
-            string[] types = new string[] { "white", "pink", "pink", "red", "pink", "red", "pink" };
-            powerupManager = new PowerupManager(game, spriteBatch, locs, types);
+            //double[,] locs = new double[,] { { 100, 100 }, { 500, 100 }, { 600, 100 }, { -50, 50 }, { -40, 200 } };
+            //string[] types = new string[] { "white", "pink", "pink", "red", "pink", "red", "pink" };
+            //powerupManager = new PowerupManager(game, spriteBatch, locs, types);
         }
         public void setOldPad(GamePadState oldPad)
         {
             this.oldPad = oldPad;
+        }
+        public void mortimerMoved(double yDir,double xDir) {
+            if(prevX != rect.X) {
+                xDir = 0;
+            }
+            if (prevY != rect.Y) {
+                yDir = 0;
+            }
+          //  string tempEffect = "white";
+            string tempEffect = powerupManager.updatePowerups(yDir, xDir, rect.X, rect.Y);
+            prevX = rect.X;
+            prevY = rect.Y;
         }
         public void Update(GamePadState newPad, Tile[,] tiles)
         {
@@ -114,9 +131,9 @@ namespace Blackout
         }
         public void loadContent(Game game)
         {
-            double[,] locs = new double[,] { { 500, 100 }, { 600, 100 }, { -50, 50 }, { -40, 200 } };
-            string[] types = new string[] { "white", "pink", "pink", "red", "pink", "red", "pink" };
-           // powerupManager = new PowerupManager(game, spriteBatch, locs, types);
+            double[,] locs = new double[,] { { 100, 100 }};
+            string[] types = new string[] { "white "};
+            powerupManager = new PowerupManager(game, spriteBatch, locs, types);
             lights = new Lights(game);
             tex = game.Content.Load<Texture2D>("Mortimer");
             bulletTex = game.Content.Load<Texture2D>("mortimerProjectile");
@@ -136,7 +153,9 @@ namespace Blackout
                 bullets[i].Draw(spriteBatch);
             }
             //other
-            string tempEffect = powerupManager.updatePowerups(0, 0, 200, 0);
+            string tempEffect = powerupManager.updatePowerups(0, 0, rect.X,rect.Y);
+            //prevX = rect.X;
+            //prevY = rect.Y;
             switch (tempEffect) {
                 case "white":
                     effect = "white";
@@ -152,7 +171,7 @@ namespace Blackout
                 }
                 effectLength--;
             }
-            // lights.checkIfLightsOff(spriteBatch, rect.X+31, rect.Y+31,nightMode);
+             lights.checkIfLightsOff(spriteBatch, rect.X+31, rect.Y+31,nightMode);
         }
     }
 }

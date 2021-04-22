@@ -46,8 +46,17 @@ namespace Blackout
                     {
                         darkRemaining = 660;
                     }
-                } else{
-                    spriteBatch.Begin();
+                }
+                else
+                {
+                    try
+                    {
+                        spriteBatch.Begin();
+                    }
+                    catch {
+                        spriteBatch.End();
+                        spriteBatch.Begin();
+                    }
                     if (nightMode)
                     {
                         spriteBatch.Draw(texture, new Rectangle(xPos - 3100, yPos - 3100, 6200, 6200), Color.White);

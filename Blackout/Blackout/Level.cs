@@ -45,7 +45,7 @@ namespace Blackout
 
             spriteBatch = tempSpriteBatch;
         }
-
+        public void mapMoved() { }
         public void Update(GamePadState gamePad)
         {
             double changeX = Math.Round(gamePad.ThumbSticks.Left.X * 4);
@@ -121,7 +121,16 @@ namespace Blackout
                     
                 }
             }
-
+            double tempYChange = changeY;
+            double tempXChange = changeX;
+            if (mortimerMovesInX || hitATileWallX) {
+                tempXChange = 0;
+            }
+            if (mortimerMovesInY || hitATileWallY) {
+                tempYChange = 0;
+            }
+          //  player.mortimerMoved(changeY, changeX);
+            player.mortimerMoved(tempYChange, tempXChange);
             if (!hitATileWallX && mortimerMovesInX) mortimerX += mortimerChangeX;
             if (!hitATileWallY && mortimerMovesInY) mortimerY += mortimerChangeY;
             if (!hitATileWallX)
