@@ -236,8 +236,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="TileMap - Copy.txt">
-      <Name>TileMap - Copy</Name>
+    <None Include="TileMap2.txt">
+      <Name>TileMap2</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

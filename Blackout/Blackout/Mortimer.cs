@@ -157,7 +157,7 @@ namespace Blackout
                 }
                 effectLength--;
             }
-            // lights.checkIfLightsOff(spriteBatch, rect.X+31, rect.Y+31,nightMode);
+            lights.checkIfLightsOff(spriteBatch, rect.X+31, rect.Y+31,nightMode);
         }
         //public enum CHEESE
         //{

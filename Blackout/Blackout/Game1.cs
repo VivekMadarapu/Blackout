@@ -119,14 +119,7 @@ namespace Blackout
             {
                 levelOne.Draw(spriteBatch);
             }
-            try
-            {
-                spriteBatch.End();
-            }
-            catch {
-                spriteBatch.Begin();
-                spriteBatch.End();
-            }
+            
             /*This shuts off the light randomly for 11 seconds each time
             The parameters require spriteBatch,x position of mouse,and y position of mouse(center pos not top left)
             Uncomment line below to test*/
