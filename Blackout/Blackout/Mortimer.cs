@@ -40,7 +40,8 @@ namespace Blackout
         SpriteBatch spriteBatch;
         Game game;
 
-        public Mortimer(Vector2 loc,SpriteBatch tempSpriteBatch,Game tempGame): base(50,50,20)
+        //CHEESE currentCheese;
+        public Mortimer(Vector2 loc,SpriteBatch tempSpriteBatch,Game tempGame, PowerupManager powerupManager): base(50,50,20)
         {
            
             this.loc = loc;
@@ -53,11 +54,13 @@ namespace Blackout
             bulletDirection = (float)Math.PI / 2;
             oldPad = GamePad.GetState(PlayerIndex.One);
             
+            //powerup stuff
             spriteBatch = tempSpriteBatch;
             game = tempGame;
-            double[,] locs = new double[,] { { 500, 100 }, { 600, 100 }, { -50, 50 }, { -40, 200 } };
-            string[] types = new string[] { "white", "pink", "pink", "red", "pink", "red", "pink" };
-            powerupManager = new PowerupManager(game, spriteBatch, locs, types);
+            this.powerupManager = powerupManager;
+            //double[,] locs = new double[,] { { 500, 100 }, { 600, 100 }, { -50, 50 }, { -40, 200 } };
+            //string[] types = new string[] { "white", "pink", "pink", "red", "pink", "red", "pink" };
+            //powerupManager = new PowerupManager(game, spriteBatch, locs, types);
         }
         public void setOldPad(GamePadState oldPad)
         {
@@ -129,7 +132,9 @@ namespace Blackout
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(tex, rect, sourceRect, color);
+            //Rectangle rect2 = new Rectangle(rect.X + rect.Width / 2, rect.Y + rect.Height / 2, rect.Width, rect.Height);
+            spriteBatch.Draw(tex, rect, sourceRect, color, -1*(float)(bulletDirection-Math.PI/2), new Vector2(sourceRect.Width/2, sourceRect.Height/2), SpriteEffects.None, 0);
+            //spriteBatch.Draw(tex, rect, sourceRect, color);
             //bullets
             for(int i=0; i<bullets.Count; i++)
             {
@@ -154,5 +159,9 @@ namespace Blackout
             }
             lights.checkIfLightsOff(spriteBatch, rect.X+31, rect.Y+31,nightMode);
         }
+        //public enum CHEESE
+        //{
+        //    YELLOW, WHITE, RED, BLUE, PINK, PURPLE, GREEN
+        //}
     }
 }

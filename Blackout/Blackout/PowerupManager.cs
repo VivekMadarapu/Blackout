@@ -24,6 +24,7 @@ namespace Blackout
         Game game;
         double[,] powerupLoc;
         string[] powerupType;
+
         //Game and SpriteBatch are used for basic functionality. powerupLocTemp stores powerup locations,and powerupTypeTemp stores types
         public PowerupManager(Game gameTemp,SpriteBatch spriteBatchTemp,double[,] powerupLocTemp,string[] powerupTypeTemp) {
             game = gameTemp;
@@ -129,5 +130,7 @@ namespace Blackout
             spriteBatch.Begin();
             spriteBatch.End();
         }*/
+
+
     }
 }
