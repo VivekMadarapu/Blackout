@@ -141,6 +141,7 @@ namespace Blackout
                 bullets[i].Draw(spriteBatch);
             }
             //other
+ 
             string tempEffect = powerupManager.updatePowerups(0, 0, 200, 0);
             switch (tempEffect) {
                 case "white":

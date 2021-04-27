@@ -244,8 +244,8 @@ namespace Blackout
                 }
                 }
 
-          // powerupManager = new PowerupManager(game, spriteBatch, locs, types);
-
+            powerupManager = new PowerupManager(game, spriteBatch, locs, types);
+           
             player = new Mortimer(new Vector2(200, 200), spriteBatch, game, powerupManager);
 
             player.loadContent(game);
