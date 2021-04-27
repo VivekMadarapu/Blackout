@@ -143,6 +143,7 @@ namespace Blackout
                     for (int j = 0; j < player.bullets.Count; j++)
                     {
                         Bullet bullet = player.bullets[j];
+                        if ((Cat)enemies[i] == null) break;
                         if (((Cat)enemies[i]).rectangle.Intersects(bullet.rectangle))
                         {
                             enemies[i] = null;
