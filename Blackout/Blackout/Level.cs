@@ -30,6 +30,9 @@ namespace Blackout
         Game game;
         double mortimerX, mortimerY;
 
+        //powerups
+        PowerupManager powerupManager;
+
         public Level(SpriteBatch tempSpriteBatch,Game tempGame)
         {
             mapX = 0;
@@ -38,18 +41,19 @@ namespace Blackout
             mortimerY = 200;
 
             game = tempGame;
-            player = new Mortimer(new Vector2(200, 200),tempSpriteBatch,game);
+        
 
             tiles = new Tile[50, 50];
             offsets = new Vector2[6];
 
             spriteBatch = tempSpriteBatch;
+
         }
 
         public void Update(GamePadState gamePad)
         {
-            double changeX = Math.Round(gamePad.ThumbSticks.Left.X * 4);
-            double changeY = -Math.Round(gamePad.ThumbSticks.Left.Y * 4);
+            double changeX = Math.Round(gamePad.ThumbSticks.Left.X * player.speed);
+            double changeY = -Math.Round(gamePad.ThumbSticks.Left.Y * player.speed);
             double mortimerChangeX = changeX;
             double mortimerChangeY = changeY;
             bool mortimerMovesInX = false;
@@ -181,6 +185,8 @@ namespace Blackout
                 }
                 using (StreamReader reader = new StreamReader(@"Content/EntityMap.txt"))
                 {
+                List<Vector2> locs = new List<Vector2>();
+                List<String> types = new List<String>();
                     for (int i = 0; i < tiles.GetLength(0); i++)
                     {
                         string line = reader.ReadLine();
@@ -194,18 +200,49 @@ namespace Blackout
                             int entityid = Convert.ToInt32(data[j]);
                             switch (entityid)
                             {
-                                case 1:
+                                case 1://cats
                                     enemies.Add(new Cat(game, new Vector2(j*64-(int)offsets[0].X, i*64-(int)offsets[0].Y)));
-                                    break;
+                                break;
+                                case 99://yellow cheese
+                                     types.Add("yellow");
+                                     locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
+                                break;
+                                case 98://white cheese
+                                     types.Add("white");
+                                     locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
+                                break;
+                                case 97://blue cheese
+                                    types.Add("blue");
+                                    locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
+                                break;
+                                case 96://red cheese
+                                    types.Add("red");
+                                    locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
+                                break;
+                                case 95://pink cheese
+                                    types.Add("pink");
+                                    locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
+                                break;
+                                case 94://purple cheese 
+                                    types.Add("purple");
+                                    locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
+                                break;
+                                case 93://green cheese
+                                    types.Add("green");
+                                    locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
+                                break;
 
-                                //fill in ids for all enemies and powerups
-
-                            }
+                                //fill in ids for all enemies and 
                         }
                     }
                 }
+                }
 
-                player.loadContent(game);
+           powerupManager = new PowerupManager(game, spriteBatch, locs, types);
+
+            player = new Mortimer(new Vector2(200, 200), spriteBatch, game, powerupManager);
+
+            player.loadContent(game);
         }
 
         public void Draw(SpriteBatch spriteBatch)
