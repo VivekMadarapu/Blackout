@@ -157,6 +157,10 @@ namespace Blackout
             if (speedyTasks>0) { speedyTasks--; }
             return dataToReturn;
         }
+        public Boolean isMortimerInvisible()
+        {
+            return invisible;
+        }
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(tex, rect, sourceRect, color);
@@ -172,7 +176,7 @@ namespace Blackout
             switch (tempEffect) {
                 case "white":
                     effect = "white";
-                    effectLength = 240;
+                    effectLength = 2400;
                     break;
                 case "pink":
                     effect = "pink";
@@ -205,7 +209,6 @@ namespace Blackout
                     speedyTasks = 2;
                     effectLength = 0;
                 }
-            
                 effect = "";
             }
              lights.checkIfLightsOff(spriteBatch, rect.X+31, rect.Y+31,nightMode);
