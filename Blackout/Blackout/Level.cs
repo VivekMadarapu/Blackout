@@ -30,7 +30,8 @@ namespace Blackout
         Game game;
         double mortimerX, mortimerY;
 
-        PowerupManager powerups;
+        //powerups
+        PowerupManager powerupManager;
 
         public Level(SpriteBatch tempSpriteBatch,Game tempGame)
         {
@@ -45,12 +46,13 @@ namespace Blackout
             offsets = new Vector2[6];
 
             spriteBatch = tempSpriteBatch;
+
         }
         public void mapMoved() { }
         public void Update(GamePadState gamePad)
         {
-            double changeX = Math.Round(gamePad.ThumbSticks.Left.X * 4);
-            double changeY = -Math.Round(gamePad.ThumbSticks.Left.Y * 4);
+            double changeX = Math.Round(gamePad.ThumbSticks.Left.X * player.speed);
+            double changeY = -Math.Round(gamePad.ThumbSticks.Left.Y * player.speed);
             double mortimerChangeX = changeX;
             double mortimerChangeY = changeY;
             bool mortimerMovesInX = false;
@@ -62,6 +64,7 @@ namespace Blackout
                 if (mortimerX + playerTexWidth + changeX <= 1000 &&
                     mortimerX + changeX >= 0)
                 {
+                    
                     mortimerMovesInX = true;
                 }
                 changeX = 0;         
@@ -153,6 +156,7 @@ namespace Blackout
                     for (int j = 0; j < player.bullets.Count; j++)
                     {
                         Bullet bullet = player.bullets[j];
+                        if ((Cat)enemies[i] == null) break;
                         if (((Cat)enemies[i]).rectangle.Intersects(bullet.rectangle))
                         {
                             enemies[i] = null;
@@ -208,14 +212,13 @@ namespace Blackout
                             //interprets ids into entities
                             switch (entityid)
                             {
-                                // entity ids
+                             // entity ids
                                 case 1:
                                     //offsets are in the map file. They offset the enemy position to match the position of the map.
                                     //Locations are loaded with the equations in the Vector2. They spawn them based on their locations in the entity map file and correspond with the tile locations in the map file. You can copy the equations directly for all entities.
                                     enemies.Add(new Cat(game, new Vector2(j*64-(int)offsets[0].X, i*64-(int)offsets[0].Y)));
-                                    break;
-                                
-                                //add as many entities (enemies or powerups) as needed, but don't reuse ids
+                                    break;  
+                              //add as many entities (enemies or powerups) as needed, but don't reuse ids
                                 case 2://blue cheese
                                     types.Add("blue");
                                     locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
@@ -248,11 +251,12 @@ namespace Blackout
                         }
                         }
                     }
-                powerups = new PowerupManager(game, spriteBatch, locs, types);
-                player = new Mortimer(new Vector2(200, 200), spriteBatch,  game, powerups);
+                powerupManager = new PowerupManager(game, spriteBatch, locs, types);
+                player = new Mortimer(new Vector2(200, 200), spriteBatch,  game, powerupManager);
             }
 
-                player.loadContent(game);
+
+            player.loadContent(game);
         }
 
         public void Draw(SpriteBatch spriteBatch)

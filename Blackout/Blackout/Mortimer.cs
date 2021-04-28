@@ -46,8 +46,7 @@ namespace Blackout
         int prevY = 0;
 
         public Mortimer(Vector2 loc,SpriteBatch tempSpriteBatch,Game tempGame,PowerupManager powerupManager): base(50,50,20)
-        {
-           
+        {   
             this.loc = loc;
             color = Color.White;
             rect = new Rectangle((int)loc.X, (int)loc.Y, 50, 50);
@@ -58,6 +57,7 @@ namespace Blackout
             bulletDirection = (float)Math.PI / 2;
             oldPad = GamePad.GetState(PlayerIndex.One);
             
+            //powerup stuff
             spriteBatch = tempSpriteBatch;
             game = tempGame;
 
@@ -148,7 +148,9 @@ namespace Blackout
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(tex, rect, sourceRect, color);
+            //Rectangle rect2 = new Rectangle(rect.X + rect.Width / 2, rect.Y + rect.Height / 2, rect.Width, rect.Height);
+            spriteBatch.Draw(tex, rect, sourceRect, color, -1*(float)(bulletDirection-Math.PI/2), new Vector2(sourceRect.Width/2, sourceRect.Height/2), SpriteEffects.None, 0);
+            //spriteBatch.Draw(tex, rect, sourceRect, color);
             //bullets
             for(int i=0; i<bullets.Count; i++)
             {
@@ -175,5 +177,9 @@ namespace Blackout
             }
              lights.checkIfLightsOff(spriteBatch, rect.X+31, rect.Y+31,nightMode);
         }
+        //public enum CHEESE
+        //{
+        //    YELLOW, WHITE, RED, BLUE, PINK, PURPLE, GREEN
+        //}
     }
 }

@@ -26,7 +26,7 @@ namespace Blackout
        
         Level levelOne;
         Lights lights;
-        PowerupManager powerupManager;
+        
 
         public Game1()
         {

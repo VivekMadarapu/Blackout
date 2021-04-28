@@ -24,6 +24,7 @@ namespace Blackout
         Texture2D finalTexture;
         SpriteBatch spriteBatch;
         Game game;
+
         List<Vector2> powerupLoc;
         List<string> powerupType;
       //  double[,] powerupLoc;
@@ -144,5 +145,7 @@ namespace Blackout
             spriteBatch.Begin();
             spriteBatch.End();
         }*/
+
+
     }
 }
