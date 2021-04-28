@@ -123,8 +123,8 @@ namespace Blackout
                     
                 }
             }
-            double tempYChange = changeY;
-            double tempXChange = changeX;
+            int tempYChange = (int)changeY;
+            int tempXChange = (int)changeX;
             if (mortimerMovesInX || hitATileWallX) {
                 tempXChange = 0;
             }

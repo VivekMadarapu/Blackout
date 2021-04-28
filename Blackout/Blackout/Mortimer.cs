@@ -42,6 +42,9 @@ namespace Blackout
         SpriteBatch spriteBatch;
         Game game;
 
+        int speedyTasks = 0;
+        Boolean invisible = false;
+
         int prevX = 0;
         int prevY = 0;
 
@@ -62,13 +65,15 @@ namespace Blackout
             game = tempGame;
             //double[,] locs = new double[,] { { 100, 100 }, { 500, 100 }, { 600, 100 }, { -50, 50 }, { -40, 200 } };
             //string[] types = new string[] { "white", "pink", "pink", "red", "pink", "red", "pink" };
-            //powerupManager = new PowerupManager(game, spriteBatch, locs, types);
+           /* List<Vector2> locs = new List<Vector2>{new Vector2(100,100),new Vector2(100,500),new Vector2(100,600),new Vector2(50,-50),new Vector2(200,-40)};
+            List<String> types = new List<String> {"white","pink","pink","red","pink","pink","pink" };
+            powerupManager = new PowerupManager(game, spriteBatch, locs, types);*/
         }
         public void setOldPad(GamePadState oldPad)
         {
             this.oldPad = oldPad;
         }
-        public void mortimerMoved(double yDir,double xDir) {
+        public void mortimerMoved(int yDir,int xDir) {
             if(prevX != rect.X) {
                 xDir = 0;
             }
@@ -76,7 +81,7 @@ namespace Blackout
                 yDir = 0;
             }
           //  string tempEffect = "white";
-          //  string tempEffect = powerupManager.updatePowerups(yDir, xDir, rect.X, rect.Y);
+              string tempEffect = powerupManager.updatePowerups(yDir, xDir, rect.X, rect.Y);
             prevX = rect.X;
             prevY = rect.Y;
         }
@@ -131,9 +136,12 @@ namespace Blackout
         }
         public void loadContent(Game game)
         {
-            double[,] locs = new double[,] { { 100, 100 }};
-            string[] types = new string[] { "white"};
-           // powerupManager = new PowerupManager(game, spriteBatch, locs, types);
+            /*double[,] locs = new double[,] { { 100, 100 }};
+            string[] types = new string[] { "white"};*/
+            List<Vector2> locs = new List<Vector2> { new Vector2(100, 150), new Vector2(100, 300), new Vector2(100, 600), new Vector2(50, -50), new Vector2(200, -40) };
+            List<String> types = new List<String> { "white", "pink", "pink", "red", "pink", "pink", "pink" };
+            powerupManager = new PowerupManager(game, spriteBatch, locs, types);
+            // powerupManager = new PowerupManager(game, spriteBatch, locs, types);
             lights = new Lights(game);
             tex = game.Content.Load<Texture2D>("Mortimer");
             bulletTex = game.Content.Load<Texture2D>("mortimerProjectile");
@@ -143,6 +151,11 @@ namespace Blackout
         {
             return rect.Intersects(rect2);
 
+        }
+        public Boolean areTasksSpeedy() {
+            Boolean dataToReturn = speedyTasks > 0;
+            if (speedyTasks>0) { speedyTasks--; }
+            return dataToReturn;
         }
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -159,17 +172,41 @@ namespace Blackout
             switch (tempEffect) {
                 case "white":
                     effect = "white";
-                    effectLength = 180000;
+                    effectLength = 240;
+                    break;
+                case "pink":
+                    effect = "pink";
+                    effectLength = -5;
+                    break;
+                case "green":
+                    effect = "green";
+                    effectLength = 1800;
                     break;
             }
             Boolean nightMode = false;
+            invisible = false;
             if (effectLength > 0)
             {
                 if (effect.Equals("white"))
                 {
                     nightMode = true;
                 }
+                if (effect.Equals("green"))
+                {
+                    invisible = true;
+                }
                 effectLength--;
+                if (effectLength == 0) { effect = ""; }
+            }
+            if (effectLength == -5)
+            {
+                if (effect.Equals("pink"))
+                {
+                    speedyTasks = 2;
+                    effectLength = 0;
+                }
+            
+                effect = "";
             }
              lights.checkIfLightsOff(spriteBatch, rect.X+31, rect.Y+31,nightMode);
         }

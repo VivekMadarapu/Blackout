@@ -53,7 +53,7 @@ namespace Blackout
             string effect = "";
             string finalEffect = "";
             //Loops through the powerups
-            for (int x = 0; x < powerupLoc.Capacity; x++)
+            for (int x = 0; x < powerupLoc.Count; x++)
             {
                 //Moves the powerups depending on player movement
                 //powerupLoc[x, 0] -= yMovement;
@@ -106,34 +106,39 @@ namespace Blackout
                 //Draws the powerup
                 spriteBatch.Draw(finalTexture, powerupRectangle, Color.White);
                 //Checks if the player intersects with the powerup
-                if (powerupRectangle.Intersects(new Rectangle((int)playerX,(int)playerY,20,30))) {
-                    if (finalEffect.Equals("")) {
-                        finalEffect = effect;
+                if (yMovement == 0 && xMovement == 0)
+                {
+                    if (powerupRectangle.Intersects(new Rectangle((int)playerX, (int)playerY, 20, 30)))
+                    {
+                       // if (finalEffect.Equals(""))
+                        //{
+                            finalEffect = effect;
+                        //}
+                        //finalEffect = effect;
+                        //used for cloning the array,and removing an element
+                        int indexInArray = 0;
+                        //clones location and type arrays to temp variables
+                        /*double[,] tempPowerUpLocs = (double[,])powerupLoc.Clone();
+                        string[] tempPowerupType = (string[])powerupType.Clone();*/
+                        powerupLoc.RemoveAt(x);
+                        powerupType.RemoveAt(x);
+                        //shrinks location and type arrays
+                        /* powerupLoc = new double[tempPowerUpLocs.Length / 2 - 1, 2];
+                         powerupType = new string[powerupType.Length - 1];*/
+                        //loops through both arrays
+                        /*for (int y = 0; y < tempPowerUpLocs.Length/2;y++) {
+                            //executes unless the powerup needs to be removed
+                            if (y != x) {
+                                //copies a location from tempPowerUpLocs to powerupLoc
+                                powerupLoc[indexInArray, 0] = tempPowerUpLocs[y, 0];
+                                powerupLoc[indexInArray, 1] = tempPowerUpLocs[y, 1];
+                                //copies a type from tempPowerupType to powerupType
+                                powerupType[indexInArray] = tempPowerupType[y];
+                                //updates this for the next iteration
+                                indexInArray++;
+                            }
+                        }*/
                     }
-                    //finalEffect = effect;
-                    //used for cloning the array,and removing an element
-                    int indexInArray = 0;
-                    //clones location and type arrays to temp variables
-                    /*double[,] tempPowerUpLocs = (double[,])powerupLoc.Clone();
-                    string[] tempPowerupType = (string[])powerupType.Clone();*/
-                    powerupLoc.RemoveAt(x);
-                    powerupType.RemoveAt(x);
-                    //shrinks location and type arrays
-                   /* powerupLoc = new double[tempPowerUpLocs.Length / 2 - 1, 2];
-                    powerupType = new string[powerupType.Length - 1];*/
-                    //loops through both arrays
-                    /*for (int y = 0; y < tempPowerUpLocs.Length/2;y++) {
-                        //executes unless the powerup needs to be removed
-                        if (y != x) {
-                            //copies a location from tempPowerUpLocs to powerupLoc
-                            powerupLoc[indexInArray, 0] = tempPowerUpLocs[y, 0];
-                            powerupLoc[indexInArray, 1] = tempPowerUpLocs[y, 1];
-                            //copies a type from tempPowerupType to powerupType
-                            powerupType[indexInArray] = tempPowerupType[y];
-                            //updates this for the next iteration
-                            indexInArray++;
-                        }
-                    }*/
                 }
                 spriteBatch.End();
             }

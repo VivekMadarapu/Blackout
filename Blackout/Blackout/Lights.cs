@@ -41,7 +41,7 @@ namespace Blackout
             if (lightCooldown == 0) {
                 if (darkRemaining == 0) {
                     Random random = new Random();
-                    int lightsOff = random.Next(1, 1700);
+                    int lightsOff = random.Next(1, 170);
                     if (lightsOff == 1)
                     {
                         darkRemaining = 660;
@@ -66,6 +66,7 @@ namespace Blackout
                     }
                     spriteBatch.End();
                     darkRemaining--;
+                    if (darkRemaining ==0) { lightCooldown = 240; }
                 }
             }
         }
