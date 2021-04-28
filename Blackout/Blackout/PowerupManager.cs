@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Blackout.Enemies;
 using Blackout.Projectiles;
+using System;
+using System.Collections.Generic;
 
 namespace Blackout
 {
@@ -22,11 +24,13 @@ namespace Blackout
         Texture2D finalTexture;
         SpriteBatch spriteBatch;
         Game game;
-        double[,] powerupLoc;
-        string[] powerupType;
 
+        List<Vector2> powerupLoc;
+        List<string> powerupType;
+      //  double[,] powerupLoc;
+       // string[] powerupType;
         //Game and SpriteBatch are used for basic functionality. powerupLocTemp stores powerup locations,and powerupTypeTemp stores types
-        public PowerupManager(Game gameTemp,SpriteBatch spriteBatchTemp,double[,] powerupLocTemp,string[] powerupTypeTemp) {
+        public PowerupManager(Game gameTemp,SpriteBatch spriteBatchTemp,List<Vector2> powerupLocTemp,List<string> powerupTypeTemp) {
             game = gameTemp;
             spriteBatch = spriteBatchTemp;
             powerupLoc = powerupLocTemp;
@@ -45,17 +49,22 @@ namespace Blackout
             greenTexture = game.Content.Load<Texture2D>("greencheese");
         }
         //Draws the powerups,and checks for collisions
-        public string updatePowerups(double yMovement,double xMovement,double playerX,double playerY) {
+        public string updatePowerups(int yMovement,int xMovement,double playerX,double playerY) {
             //Stores effec to apply to player,stays empty if there aren't collisions
             string effect = "";
+            string finalEffect = "";
             //Loops through the powerups
-            for (int x = 0; x < powerupLoc.Length/2; x++)
+            for (int x = 0; x < powerupLoc.Capacity; x++)
             {
                 //Moves the powerups depending on player movement
-                powerupLoc[x, 0] -= yMovement;
-                powerupLoc[x, 1] -= xMovement;
-                //Creates a rectangle to store powerup position
-                Rectangle powerupRectangle = new Rectangle((int)powerupLoc[x, 1], (int)powerupLoc[x, 0], 54, 33);
+                //powerupLoc[x, 0] -= yMovement;
+                //powerupLoc[x, 1] -= xMovement;
+                Vector2 tempVector = powerupLoc[x];
+                tempVector.Y -= yMovement;
+                tempVector.X -= xMovement;
+                powerupLoc[x] = tempVector;
+               //Creates a rectangle to store powerup position
+                Rectangle powerupRectangle = new Rectangle((int)powerupLoc[x].X, (int)powerupLoc[x].Y, 54, 33);
                 //Drawing takes place after this
                 try
                 {
@@ -96,19 +105,25 @@ namespace Blackout
                         break;
                 }
                 //Draws the powerup
-                // spriteBatch.Draw(yellowTexture, powerupRectangle, Color.White);
+                spriteBatch.Draw(finalTexture, powerupRectangle, Color.White);
                 //Checks if the player intersects with the powerup
                 if (powerupRectangle.Intersects(new Rectangle((int)playerX,(int)playerY,20,30))) {
+                    if (finalEffect.Equals("")) {
+                        finalEffect = effect;
+                    }
+                    //finalEffect = effect;
                     //used for cloning the array,and removing an element
                     int indexInArray = 0;
                     //clones location and type arrays to temp variables
-                    double[,] tempPowerUpLocs = (double[,])powerupLoc.Clone();
-                    string[] tempPowerupType = (string[])powerupType.Clone();
+                    /*double[,] tempPowerUpLocs = (double[,])powerupLoc.Clone();
+                    string[] tempPowerupType = (string[])powerupType.Clone();*/
+                    powerupLoc.RemoveAt(x);
+                    powerupType.RemoveAt(x);
                     //shrinks location and type arrays
-                    powerupLoc = new double[tempPowerUpLocs.Length / 2 - 1, 2];
-                    powerupType = new string[powerupType.Length - 1];
+                   /* powerupLoc = new double[tempPowerUpLocs.Length / 2 - 1, 2];
+                    powerupType = new string[powerupType.Length - 1];*/
                     //loops through both arrays
-                    for (int y = 0; y < tempPowerUpLocs.Length/2;y++) {
+                    /*for (int y = 0; y < tempPowerUpLocs.Length/2;y++) {
                         //executes unless the powerup needs to be removed
                         if (y != x) {
                             //copies a location from tempPowerUpLocs to powerupLoc
@@ -119,12 +134,12 @@ namespace Blackout
                             //updates this for the next iteration
                             indexInArray++;
                         }
-                    }
+                    }*/
                 }
                 spriteBatch.End();
             }
             //returns the effect applied to the player
-            return effect;
+            return finalEffect;
         }
         /*public void drawPowerUps() {
             spriteBatch.Begin();
