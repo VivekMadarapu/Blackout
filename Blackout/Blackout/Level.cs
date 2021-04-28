@@ -41,7 +41,6 @@ namespace Blackout
             mortimerY = 200;
 
             game = tempGame;
-        
 
             tiles = new Tile[50, 50];
             offsets = new Vector2[6];
@@ -49,7 +48,7 @@ namespace Blackout
             spriteBatch = tempSpriteBatch;
 
         }
-
+        public void mapMoved() { }
         public void Update(GamePadState gamePad)
         {
             double changeX = Math.Round(gamePad.ThumbSticks.Left.X * player.speed);
@@ -128,7 +127,16 @@ namespace Blackout
                     
                 }
             }
-
+            double tempYChange = changeY;
+            double tempXChange = changeX;
+            if (mortimerMovesInX || hitATileWallX) {
+                tempXChange = 0;
+            }
+            if (mortimerMovesInY || hitATileWallY) {
+                tempYChange = 0;
+            }
+          //  player.mortimerMoved(changeY, changeX);
+            player.mortimerMoved(tempYChange, tempXChange);
             if (!hitATileWallX && mortimerMovesInX) mortimerX += mortimerChangeX;
             if (!hitATileWallY && mortimerMovesInY) mortimerY += mortimerChangeY;
             if (!hitATileWallX)
@@ -209,44 +217,44 @@ namespace Blackout
                                     //offsets are in the map file. They offset the enemy position to match the position of the map.
                                     //Locations are loaded with the equations in the Vector2. They spawn them based on their locations in the entity map file and correspond with the tile locations in the map file. You can copy the equations directly for all entities.
                                     enemies.Add(new Cat(game, new Vector2(j*64-(int)offsets[0].X, i*64-(int)offsets[0].Y)));
-                                    break;
-                                case 99://yellow cheese
-                                     types.Add("yellow");
-                                     locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
-                                break;
-                                case 98://white cheese
-                                     types.Add("white");
-                                     locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
-                                break;
-                                case 97://blue cheese
+                                    break;  
+                              //add as many entities (enemies or powerups) as needed, but don't reuse ids
+                                case 2://blue cheese
                                     types.Add("blue");
                                     locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
-                                break;
-                                case 96://red cheese
-                                    types.Add("red");
+                                    break;
+                               case 3://white cheese
+                                    types.Add("white");
                                     locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
-                                break;
-                                case 95://pink cheese
+                                    break;
+                               case 4://pink cheese
                                     types.Add("pink");
                                     locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
-                                break;
-                                case 94://purple cheese 
-                                    types.Add("purple");
-                                    locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
-                                break;
-                                case 93://green cheese
+                                    break;
+                               case 5://green cheese
                                     types.Add("green");
                                     locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
+                                    break;
+                               case 6://purple cheese
+                                    types.Add("purple");
+                                    locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
+                                    break;
+                               case 7://yellow cheese
+                                    types.Add("yellow");
+                                    locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
+                                    break;
+                               case 8://red cheese
+                                types.Add("red");
+                                locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
                                 break;
- 
+
+                        }
                         }
                     }
-                }
-                }
+                powerupManager = new PowerupManager(game, spriteBatch, locs, types);
+                player = new Mortimer(new Vector2(200, 200), spriteBatch,  game, powerupManager);
+            }
 
-          // powerupManager = new PowerupManager(game, spriteBatch, locs, types);
-
-            player = new Mortimer(new Vector2(200, 200), spriteBatch, game, powerupManager);
 
             player.loadContent(game);
         }
