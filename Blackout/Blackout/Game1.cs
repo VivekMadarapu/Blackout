@@ -118,8 +118,9 @@ namespace Blackout
             if (gameState == GameState.LEVEL_ONE)
             {
                 levelOne.Draw(spriteBatch);
+
             }
-            
+            spriteBatch.End();
             /*This shuts off the light randomly for 11 seconds each time
             The parameters require spriteBatch,x position of mouse,and y position of mouse(center pos not top left)
             Uncomment line below to test*/

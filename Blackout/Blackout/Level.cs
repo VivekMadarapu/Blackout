@@ -30,6 +30,8 @@ namespace Blackout
         Game game;
         double mortimerX, mortimerY;
 
+        PowerupManager powerups;
+
         public Level(SpriteBatch tempSpriteBatch,Game tempGame)
         {
             mapX = 0;
@@ -38,7 +40,6 @@ namespace Blackout
             mortimerY = 200;
 
             game = tempGame;
-            player = new Mortimer(new Vector2(200, 200),tempSpriteBatch,game);
 
             tiles = new Tile[50, 50];
             offsets = new Vector2[6];
@@ -193,6 +194,8 @@ namespace Blackout
                 //spawns entities from the entity map
                 using (StreamReader reader = new StreamReader(@"Content/EntityMap.txt"))
                 {
+                List<Vector2> locs = new List<Vector2>();
+                List<String> types = new List<String>();
                     for (int i = 0; i < tiles.GetLength(0); i++)
                     {
                         string line = reader.ReadLine();
@@ -213,13 +216,41 @@ namespace Blackout
                                     break;
                                 
                                 //add as many entities (enemies or powerups) as needed, but don't reuse ids
-                                case 2:
+                                case 2://blue cheese
+                                    types.Add("blue");
+                                    locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
                                     break;
+                               case 3://white cheese
+                                    types.Add("white");
+                                    locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
+                                    break;
+                               case 4://pink cheese
+                                    types.Add("pink");
+                                    locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
+                                    break;
+                               case 5://green cheese
+                                    types.Add("green");
+                                    locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
+                                    break;
+                               case 6://purple cheese
+                                    types.Add("purple");
+                                    locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
+                                    break;
+                               case 7://yellow cheese
+                                    types.Add("yellow");
+                                    locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
+                                    break;
+                               case 8://red cheese
+                                types.Add("red");
+                                locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
+                                break;
 
-                            }
+                        }
                         }
                     }
-                }
+                powerups = new PowerupManager(game, spriteBatch, locs, types);
+                player = new Mortimer(new Vector2(200, 200), spriteBatch,  game, powerups);
+            }
 
                 player.loadContent(game);
         }

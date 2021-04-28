@@ -45,7 +45,7 @@ namespace Blackout
         int prevX = 0;
         int prevY = 0;
 
-        public Mortimer(Vector2 loc,SpriteBatch tempSpriteBatch,Game tempGame): base(50,50,20)
+        public Mortimer(Vector2 loc,SpriteBatch tempSpriteBatch,Game tempGame,PowerupManager powerupManager): base(50,50,20)
         {
            
             this.loc = loc;
@@ -60,6 +60,8 @@ namespace Blackout
             
             spriteBatch = tempSpriteBatch;
             game = tempGame;
+
+            this.powerupManager = powerupManager;
             //double[,] locs = new double[,] { { 100, 100 }, { 500, 100 }, { 600, 100 }, { -50, 50 }, { -40, 200 } };
             //string[] types = new string[] { "white", "pink", "pink", "red", "pink", "red", "pink" };
             //powerupManager = new PowerupManager(game, spriteBatch, locs, types);
