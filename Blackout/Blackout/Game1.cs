@@ -99,7 +99,7 @@ namespace Blackout
             {
                // powerupManager.updatePowerups(0, 0, 200, 0);
 
-                levelOne.Update(gamePadState);
+               levelOne.Update(gamePadState);
 
             }
             base.Update(gameTime);
