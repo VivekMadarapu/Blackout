@@ -64,6 +64,5 @@ namespace Blackout
             spriteBatch.Draw(tex, rectangle, Color.White);
         }
 
-
     }
 }
