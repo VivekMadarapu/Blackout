@@ -20,6 +20,12 @@ namespace Blackout
         public int darkRemaining = 0;
         public Texture2D texture;
         public Game game;
+
+        //draw stuffff
+        public int xPos;
+        public int yPos;
+        public Boolean nightMode;
+
         public Lights(Game tempGame) {
             game = tempGame;
             loadContent(game);
@@ -29,14 +35,10 @@ namespace Blackout
         {
             texture = game.Content.Load<Texture2D>("hollowcircle");
         }
-        //Takes the X and Y location of the mouse,and blacks everything out except for a small radius
-      /*  public void Draw(SpriteBatch spriteBatch,int xPos,int yPos)
-        {
-            spriteBatch.Begin();
-            spriteBatch.Draw(texture, new Rectangle(xPos-1350,yPos-1350,2700,2700),Color.White);
-            spriteBatch.End();
-        }*/
-        public void checkIfLightsOff(SpriteBatch spriteBatch,int xPos,int yPos,Boolean nightMode) {
+        public void checkIfLightsOff(int xPos,int yPos,Boolean nightMode) {
+            this.xPos = xPos;
+            this.yPos = yPos;
+            this.nightMode = nightMode;
             if (lightCooldown > 0) { lightCooldown--; }
             if (lightCooldown == 0) {
                 if (darkRemaining == 0) {
@@ -49,25 +51,17 @@ namespace Blackout
                 }
                 else
                 {
-                    try
-                    {
-                        spriteBatch.Begin();
-                    }
-                    catch {
-                        spriteBatch.End();
-                        spriteBatch.Begin();
-                    }
-                    if (nightMode)
-                    {
-                        spriteBatch.Draw(texture, new Rectangle(xPos - 3100, yPos - 3100, 6200, 6200), Color.White);
-                    }
-                    else {
-                        spriteBatch.Draw(texture, new Rectangle(xPos - 1350, yPos - 1350, 2700, 2700), Color.White);
-                    }
-                    spriteBatch.End();
-                    darkRemaining--;
+                     darkRemaining--;
                 }
             }
+        }
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            if (nightMode)
+            {
+                spriteBatch.Draw(texture, new Rectangle(xPos - 3100, yPos - 3100, 6200, 6200), Color.White);
+            }
+            
         }
         //Code used to generate a texture(may be used in the future)
         /*Texture2D createCircleText(int radius)

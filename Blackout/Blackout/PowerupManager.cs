@@ -22,17 +22,21 @@ namespace Blackout
         Texture2D purpleTexture;
         Texture2D greenTexture;
         Texture2D finalTexture;
-        SpriteBatch spriteBatch;
+        Rectangle powerupRectangle;
         Game game;
 
         List<Vector2> powerupLoc;
         List<string> powerupType;
+
+        //draw stuff
+        List<Texture2D> texList = new List<Texture2D>();
+        List<Rectangle> rectList = new List<Rectangle>();
+       
       //  double[,] powerupLoc;
        // string[] powerupType;
         //Game and SpriteBatch are used for basic functionality. powerupLocTemp stores powerup locations,and powerupTypeTemp stores types
-        public PowerupManager(Game gameTemp,SpriteBatch spriteBatchTemp,List<Vector2> powerupLocTemp,List<string> powerupTypeTemp) {
+        public PowerupManager(Game gameTemp, List<Vector2> powerupLocTemp,List<string> powerupTypeTemp) {
             game = gameTemp;
-            spriteBatch = spriteBatchTemp;
             powerupLoc = powerupLocTemp;
             powerupType = powerupTypeTemp;
             loadContent(game);
@@ -64,16 +68,7 @@ namespace Blackout
                 tempVector.X -= xMovement;
                 powerupLoc[x] = tempVector;
                //Creates a rectangle to store powerup position
-                Rectangle powerupRectangle = new Rectangle((int)powerupLoc[x].X, (int)powerupLoc[x].Y, 54, 33);
-                //Drawing takes place after this
-                try
-                {
-                    spriteBatch.Begin();
-                }
-                catch {
-                    spriteBatch.End();
-                    spriteBatch.Begin();
-                }
+                powerupRectangle = new Rectangle((int)powerupLoc[x].X, (int)powerupLoc[x].Y, 54, 33);
                 //Gets the effect for the current powerup
                 effect = powerupType[x];
                 //checks the effect value and loads the correct texture
@@ -104,8 +99,9 @@ namespace Blackout
                         finalTexture = yellowTexture;
                         break;
                 }
-                //Draws the powerup
-                spriteBatch.Draw(finalTexture, powerupRectangle, Color.White);
+                //Drawing parameterrs the powerup
+                rectList.Add(powerupRectangle);
+                texList.Add(finalTexture);
                 //Checks if the player intersects with the powerup
                 if (powerupRectangle.Intersects(new Rectangle((int)playerX,(int)playerY,20,30))) {
                     if (finalEffect.Equals("")) {
@@ -119,6 +115,8 @@ namespace Blackout
                     string[] tempPowerupType = (string[])powerupType.Clone();*/
                     powerupLoc.RemoveAt(x);
                     powerupType.RemoveAt(x);
+                    rectList.RemoveAt(x);
+                    texList.RemoveAt(x);
                     //shrinks location and type arrays
                    /* powerupLoc = new double[tempPowerUpLocs.Length / 2 - 1, 2];
                     powerupType = new string[powerupType.Length - 1];*/
@@ -136,16 +134,19 @@ namespace Blackout
                         }
                     }*/
                 }
-                spriteBatch.End();
+  
             }
             //returns the effect applied to the player
             return finalEffect;
         }
-        /*public void drawPowerUps() {
-            spriteBatch.Begin();
-            spriteBatch.End();
-        }*/
-
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            for (int i = 0; i < powerupLoc.Count; i++)
+            {
+                spriteBatch.Draw(texList[i], rectList[i], Color.White);
+            }   
+        }
+        
 
     }
 }

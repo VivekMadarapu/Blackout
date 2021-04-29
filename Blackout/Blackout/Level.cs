@@ -215,11 +215,12 @@ namespace Blackout
                     }
                 }
 
-                //spawns entities from the entity map
-                using (StreamReader reader = new StreamReader(@"Content/EntityMap.txt"))
+            //spawns entities from the entity map
+            List<Vector2> locs = new List<Vector2>();
+            List<String> types = new List<String>();
+            using (StreamReader reader = new StreamReader(@"Content/EntityMap.txt"))
                 {
-                List<Vector2> locs = new List<Vector2>();
-                List<String> types = new List<String>();
+
                     for (int i = 0; i < tiles.GetLength(0); i++)
                     {
                         string line = reader.ReadLine();
@@ -275,10 +276,10 @@ namespace Blackout
                         }
                         }
                     }
-                powerupManager = new PowerupManager(game, spriteBatch, locs, types);
-                player = new Mortimer(new Vector2(200, 200), spriteBatch,  game, powerupManager);
+           
             }
-
+            powerupManager = new PowerupManager(game, locs, types);
+            player = new Mortimer(new Vector2(200, 200), game, powerupManager);
 
             player.loadContent(game);
         }

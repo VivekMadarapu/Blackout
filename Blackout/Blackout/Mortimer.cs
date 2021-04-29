@@ -36,16 +36,22 @@ namespace Blackout
         public int bulletCooldown = 0;
         //necessary gamepadcontrols
         public GamePadState oldPad;
-        
+
+
+        //turning mouse direction
+        public float direction;
+
+        //other
         Lights lights;
         PowerupManager powerupManager;
-        SpriteBatch spriteBatch;
         Game game;
 
         int prevX = 0;
         int prevY = 0;
 
-        public Mortimer(Vector2 loc,SpriteBatch tempSpriteBatch,Game tempGame,PowerupManager powerupManager): base(50,50,20)
+        
+
+        public Mortimer(Vector2 loc,Game tempGame,PowerupManager powerupManager): base(50,50,20)
         {   
             this.loc = loc;
             color = Color.White;
@@ -56,9 +62,12 @@ namespace Blackout
             bullets = new List<Projectiles.Bullet>();
             bulletDirection = (float)Math.PI / 2;
             oldPad = GamePad.GetState(PlayerIndex.One);
+
+            //direction
+            direction = 0;
             
             //powerup stuff
-            spriteBatch = tempSpriteBatch;
+        
             game = tempGame;
 
             this.powerupManager = powerupManager;
@@ -87,6 +96,23 @@ namespace Blackout
             //location update
             loc.X = rect.X;
             loc.Y = rect.Y;
+            //direction update
+            if(newPad.ThumbSticks.Left.Y!=0 || newPad.ThumbSticks.Left.X!=0)
+            {
+
+                if (newPad.ThumbSticks.Left.X == 0)
+                    direction = (float)(Math.PI / 2) + (float)Math.Atan2(newPad.ThumbSticks.Left.Y, newPad.ThumbSticks.Left.X);
+                else if (newPad.ThumbSticks.Left.Y == 0)
+                    direction = (-1) * (float)(Math.PI / 2) + (float)Math.Atan2(newPad.ThumbSticks.Left.Y, newPad.ThumbSticks.Left.X);
+                else
+                {
+                    direction = (float)Math.Atan2(newPad.ThumbSticks.Left.Y, newPad.ThumbSticks.Left.X);
+                    if((newPad.ThumbSticks.Left.Y>0 && newPad.ThumbSticks.Left.X>0)|| (newPad.ThumbSticks.Left.Y < 0 && newPad.ThumbSticks.Left.X < 0))
+                    {
+                        direction +=(float) Math.PI;
+                    }
+                }
+            }
 
             //bullets
             bulletDirection = (float)Math.Atan2((double)newPad.ThumbSticks.Right.Y, (double)(newPad.ThumbSticks.Right.X));
@@ -122,6 +148,48 @@ namespace Blackout
             if (bulletCooldown > 0)
                 bulletCooldown--;
 
+            //effects
+            //other
+            string tempEffect = powerupManager.updatePowerups(0, 0, rect.X, rect.Y);
+            //prevX = rect.X;
+            //prevY = rect.Y;
+            switch (tempEffect)
+            {
+                case "white":
+                    effect = tempEffect;
+                    effectLength = 180000;
+                    break;
+                case "yellow":
+                    effect = tempEffect;
+                    break;
+                case "red":
+                    effect = tempEffect;
+                    break;
+                case "blue":
+                    effect = tempEffect;
+                    effectLength = 3600;
+                    break;
+            }
+            Boolean nightMode = false;
+            if (effectLength > 0)
+            {
+                if (effect.Equals("white"))
+                {
+                    nightMode = true;
+                }
+                else if (effect.Equals("blue"))
+                {
+                    speed = 8;
+                }
+                effectLength--;
+
+            }
+            else
+            {
+                speed = 4;
+            }
+            lights.checkIfLightsOff(rect.X + 31, rect.Y + 31, nightMode);
+
             oldPad = newPad;
         }
         public void relationalUpdate(float mx, float my)
@@ -149,37 +217,18 @@ namespace Blackout
         public void Draw(SpriteBatch spriteBatch)
         {
             //Rectangle rect2 = new Rectangle(rect.X + rect.Width / 2, rect.Y + rect.Height / 2, rect.Width, rect.Height);
-            spriteBatch.Draw(tex, rect, sourceRect, color, -1*(float)(bulletDirection-Math.PI/2), new Vector2(sourceRect.Width/2, sourceRect.Height/2), SpriteEffects.None, 0);
+            spriteBatch.Draw(tex, rect, sourceRect, color, direction, new Vector2(sourceRect.Width/2, sourceRect.Height/2), SpriteEffects.None, 0);
             //spriteBatch.Draw(tex, rect, sourceRect, color);
             //bullets
             for(int i=0; i<bullets.Count; i++)
             {
                 bullets[i].Draw(spriteBatch);
             }
-            //other
-            string tempEffect = powerupManager.updatePowerups(0, 0, rect.X,rect.Y);
-            //prevX = rect.X;
-            //prevY = rect.Y;
-            switch (tempEffect) {
-                case "white":
-                    effect = "white";
-                    effectLength = 180000;
-                    break;
-            }
-            Boolean nightMode = false;
-            if (effectLength > 0)
-            {
-                if (effect.Equals("white"))
-                {
-                    nightMode = true;
-                }
-                effectLength--;
-            }
-             lights.checkIfLightsOff(spriteBatch, rect.X+31, rect.Y+31,nightMode);
+         
+
+            lights.Draw(spriteBatch);
+
+           powerupManager.Draw(spriteBatch);
         }
-        //public enum CHEESE
-        //{
-        //    YELLOW, WHITE, RED, BLUE, PINK, PURPLE, GREEN
-        //}
     }
 }
