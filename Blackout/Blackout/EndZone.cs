@@ -34,7 +34,7 @@ namespace Blackout
         public EndZone(Game game, Vector2 startingPosition)
         {
             //tex
-            this.tex = new Texture2D(game.GraphicsDevice, 1, 1);
+            tex = new Texture2D(game.GraphicsDevice, 1, 1);
             this.tex.SetData(new Color[] { new Color(255, 255, 0, 100) });
             //Rectangles
             rectangle = new Rectangle((int)startingPosition.X, (int)startingPosition.Y, SIZE, SIZE);
@@ -45,9 +45,12 @@ namespace Blackout
 
         }
 
-        public void Update(double gameTime, Level level, GamePadState newPad, Mortimer player)
+        public void Update(Level level, GamePadState newPad, Mortimer player)
         {
-            
+            if (rectangle.Intersects(player.rect))
+            {
+                //win
+            }
 
         }
 

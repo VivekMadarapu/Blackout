@@ -35,14 +35,14 @@ namespace Blackout
         //powerups
         PowerupManager powerupManager;
 
-        public Level(SpriteBatch tempSpriteBatch,Game tempGame)
+        public Level(SpriteBatch tempSpriteBatch, Game game)
         {
             mapX = 0;
             mapY = 0;
             mortimerX = 200;
             mortimerY = 200;
 
-            game = tempGame;
+            this.game = game;
 
             tiles = new Tile[50, 50];
             offsets = new Vector2[6];
@@ -129,7 +129,7 @@ namespace Blackout
                 }
             }
 
-            //scrolls win area with map
+            //scrolls win area with map and updates
             foreach (EndZone endzone in winArea)
             {
                 if (!hitATileWallX)
@@ -143,6 +143,8 @@ namespace Blackout
                     double move = endzone.rectangle.Y + -changeY;
                     endzone.rectangle.Y = (int)move;
                 }
+
+                endzone.Update(this, gamePad, player);
             }
 
             double tempYChange = changeY;
