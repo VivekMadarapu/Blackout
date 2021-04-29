@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using Blackout.Enemies;
 using Blackout.Enemies.Mobs;
@@ -23,6 +24,7 @@ namespace Blackout
         private int playerTexHeight = 31, playerTexWidth = 31;
 
         public List<Enemy> enemies = new List<Enemy>();
+        public List<EndZone> winArea = new List<EndZone>();
         public static Vector2[] offsets; 
 
         double mapX;
@@ -124,9 +126,25 @@ namespace Blackout
                         double move = ((Cat) enemy).rectangle.Y + -changeY;
                         ((Cat)enemy).rectangle.Y = (int)move;
                     }
-                    
                 }
             }
+
+            //scrolls win area with map
+            foreach (EndZone endzone in winArea)
+            {
+                if (!hitATileWallX)
+                {
+                    double move = endzone.rectangle.X + -changeX;
+                    endzone.rectangle.X = (int)move;
+                }
+
+                if (!hitATileWallY)
+                {
+                    double move = endzone.rectangle.Y + -changeY;
+                    endzone.rectangle.Y = (int)move;
+                }
+            }
+
             double tempYChange = changeY;
             double tempXChange = changeX;
             if (mortimerMovesInX || hitATileWallX) {
@@ -244,10 +262,14 @@ namespace Blackout
                                     locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
                                     break;
                                case 8://red cheese
-                                types.Add("red");
-                                locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
-                                break;
-
+                                    types.Add("red");
+                                    locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
+                                    break;
+                               case 9://win area
+                                   winArea.Add(new EndZone(game, new Vector2(j*64-(int)offsets[0].X, i*64-(int)offsets[0].Y)));
+                                   break;
+                               // default:
+                               //     throw new InvalidDataException("Unknown entity id");
                         }
                         }
                     }
@@ -275,6 +297,11 @@ namespace Blackout
                 {
                     ((Cat)enemy).Draw(spriteBatch);
                 }
+            }
+
+            foreach (EndZone endZone in winArea)
+            {
+                endZone.Draw(spriteBatch);
             }
 
             player.Draw(spriteBatch);
