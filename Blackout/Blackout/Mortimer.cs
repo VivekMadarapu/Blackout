@@ -20,7 +20,6 @@ namespace Blackout
         public bool extraDamage = false;
         int visionLevel = 0;
 
-
         public Texture2D tex;
         public Vector2 loc;
         public Color color;
@@ -43,6 +42,10 @@ namespace Blackout
         PowerupManager powerupManager;
         SpriteBatch spriteBatch;
         Game game;
+
+        public Texture2D greyTexture;
+        public Texture2D blackTexture;
+        public Texture2D greenTexture;
 
         int speedyTasks = 0;
         Boolean invisible = false;
@@ -147,7 +150,9 @@ namespace Blackout
             lights = new Lights(game);
             tex = game.Content.Load<Texture2D>("Mortimer");
             bulletTex = game.Content.Load<Texture2D>("mortimerProjectile");
-
+            blackTexture = game.Content.Load<Texture2D>("blacksquare");
+            greyTexture = game.Content.Load<Texture2D>("greysquare");
+            greenTexture = game.Content.Load<Texture2D>("greensquare");
         }
         public Boolean mortyCollision(Rectangle rect2)//collisions for mortimer
         {
@@ -166,6 +171,12 @@ namespace Blackout
         {
             return invisible;
         }
+        public void clearEffect() {
+            if (health > 100) { health = 100; }
+            extraDamage = false;
+            visionLevel = 0;
+            effect = "";
+        }
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(tex, rect, sourceRect, color);
@@ -176,21 +187,28 @@ namespace Blackout
             }
             //other
             string tempEffect = powerupManager.updatePowerups(0, 0, rect.X,rect.Y);
-            //prevX = rect.X;
-            //prevY = rect.Y;
+            if (!tempEffect.Equals("")) {
+                clearEffect();
+            }
             switch (tempEffect) {
                 case "white":
                     effect = "white";
-                    effectLength = 2400;
+                    effectLength = 1200;
                     visionLevel = 1;
                     break;
                 case "pink":
                     effect = "pink";
+                    speedyTasks = 2;
                     effectLength = -5;
                     break;
                 case "green":
                     effect = "green";
                     effectLength = 1800;
+                    break;
+                case "red":
+                    effect = "red";
+                    effectLength = 1800;
+                    extraDamage = true;
                     break;
                 case "purple":
                     effect = "purple";
@@ -200,15 +218,9 @@ namespace Blackout
                     extraDamage = true;
                     break;
             }
-           // int visionLevel = 0;
             invisible = false;
             if (effectLength > 0)
             {
-                if (effect.Equals("white"))
-                {
-                    //visionLevel = 1;
-                    //nightMode = true;
-                }
                 if (effect.Equals("green"))
                 {
                     invisible = true;
@@ -217,22 +229,24 @@ namespace Blackout
                 }
                 effectLength--;
                 if (effectLength == 0) {
-                    if (health > 100) { health = 100; }
-                    extraDamage = false;
-                    visionLevel = 0;
-                    effect = "";
+                    clearEffect();
                 }
-            }
-            if (effectLength == -5)
-            {
-                if (effect.Equals("pink"))
-                {
-                    speedyTasks = 2;
-                    effectLength = 0;
-                }
-                effect = "";
             }
              lights.checkIfLightsOff(spriteBatch, rect.X+31, rect.Y+31,visionLevel);
+            if (!effect.Equals("") || speedyTasks > 0) {
+                spriteBatch.Begin();
+                spriteBatch.Draw(greyTexture, new Rectangle(10, 60, 50, 50), Color.White);
+                spriteBatch.Draw(blackTexture, new Rectangle(15, 65, 40, 40), Color.Black);
+                if (effect.Equals("pink"))
+                {
+                    spriteBatch.Draw(greenTexture, new Rectangle(10, 110, speedyTasks * 25, 5), Color.White);
+                }
+                else {
+                    spriteBatch.Draw(greenTexture, new Rectangle(10, 110, effectLength / 36, 5), Color.White);
+                }
+                spriteBatch.Draw(powerupManager.getPowerUpTexture(effect), new Rectangle(18, 75, 34,20), Color.White);
+                spriteBatch.End();
+            }
         }
     }
 }

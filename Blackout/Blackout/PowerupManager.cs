@@ -23,9 +23,14 @@ namespace Blackout
         Texture2D greenTexture;
         Texture2D finalTexture;
         SpriteBatch spriteBatch;
+
+        public Texture2D greyTexture;
+        public Texture2D blackTexture;
+
         Game game;
         List<Vector2> powerupLoc;
         List<string> powerupType;
+        public bool powerupApplied = false;
       //  double[,] powerupLoc;
        // string[] powerupType;
         //Game and SpriteBatch are used for basic functionality. powerupLocTemp stores powerup locations,and powerupTypeTemp stores types
@@ -35,6 +40,9 @@ namespace Blackout
             powerupLoc = powerupLocTemp;
             powerupType = powerupTypeTemp;
             loadContent(game);
+        }
+        public void togglePowerupApplied(bool state) {
+            powerupApplied = state;
         }
         //Loads the textures for the powerups
         public void loadContent(Game game)
@@ -46,6 +54,39 @@ namespace Blackout
             pinkTexture = game.Content.Load<Texture2D>("pinkcheese");
             purpleTexture = game.Content.Load<Texture2D>("purplecheese");
             greenTexture = game.Content.Load<Texture2D>("greencheese");
+            blackTexture = game.Content.Load<Texture2D>("blacksquare");
+            greyTexture = game.Content.Load<Texture2D>("greysquare");
+        }
+        public Texture2D getPowerUpTexture(String effect) {
+            Texture2D tempTexture;
+            switch (effect)
+            {
+                case "yellow":
+                    tempTexture = yellowTexture;
+                    break;
+                case "white":
+                    tempTexture = whiteTexture;
+                    break;
+                case "red":
+                    tempTexture = redTexture;
+                    break;
+                case "blue":
+                    tempTexture = blueTexture;
+                    break;
+                case "pink":
+                    tempTexture = pinkTexture;
+                    break;
+                case "purple":
+                    tempTexture = purpleTexture;
+                    break;
+                case "green":
+                    tempTexture = greenTexture;
+                    break;
+                default:
+                    tempTexture = yellowTexture;
+                    break;
+            }
+            return tempTexture;
         }
         //Draws the powerups,and checks for collisions
         public string updatePowerups(int yMovement,int xMovement,double playerX,double playerY) {
@@ -76,33 +117,8 @@ namespace Blackout
                 //Gets the effect for the current powerup
                 effect = powerupType[x];
                 //checks the effect value and loads the correct texture
-                switch (effect)
-                {
-                    case "yellow":
-                        finalTexture = yellowTexture;
-                        break;
-                    case "white":
-                        finalTexture = whiteTexture;
-                        break;
-                    case "red":
-                        finalTexture = redTexture;
-                        break;
-                    case "blue":
-                        finalTexture = blueTexture;
-                        break;
-                    case "pink":
-                        finalTexture = pinkTexture;
-                        break;
-                    case "purple":
-                        finalTexture = purpleTexture;
-                        break;
-                    case "green":
-                        finalTexture = greenTexture;
-                        break;
-                     default :
-                        finalTexture = yellowTexture;
-                        break;
-                }
+                finalTexture = getPowerUpTexture(effect);
+              
                 //Draws the powerup
                 spriteBatch.Draw(finalTexture, powerupRectangle, Color.White);
                 //Checks if the player intersects with the powerup
@@ -142,12 +158,8 @@ namespace Blackout
                 }
                 spriteBatch.End();
             }
-            //returns the effect applied to the player
+            //returns the effect applied to the player          
             return finalEffect;
         }
-        /*public void drawPowerUps() {
-            spriteBatch.Begin();
-            spriteBatch.End();
-        }*/
     }
 }
