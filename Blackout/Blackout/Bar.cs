@@ -37,8 +37,8 @@ namespace Blackout
         /// Creates the bar with the specifications
         /// </summary>
         /// <param name="game">The game object</param>
-        /// <param name="startingPosition">position to spawn the bar</param>
-        /// <param name="width">maximum width of the bar</param>
+        /// <param name="startingPosition">position the bar will be placed at (update the X/Y of both barRect and backRect if you want to move the bar's position)</param>
+        /// <param name="width">width of the bar</param>
         /// <param name="height">height of the bar</param>
         /// <param name="startingValue">value the bar should initially start at</param>
         /// <param name="maxValue">maximum value of the bar</param>
