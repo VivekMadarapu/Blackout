@@ -18,6 +18,7 @@ namespace Blackout
         int counter = 0;
         float elapsedTime = 0;
         private int oldSec;
+        public Bar progressBar;
 
         //speed/dimensions
         public const int SIZE = 32;
@@ -37,6 +38,8 @@ namespace Blackout
             //Rectangles
             rectangle = new Rectangle((int)startingPosition.X+16, (int)startingPosition.Y+16, SIZE, SIZE);
 
+            progressBar = new Bar(game, new Vector2(startingPosition.X - 16, startingPosition.Y - 16), 4, 32, 0, 50, Color.Green);
+
             //screen dimensions
             this.screenW = 800;
             this.screenH = 500;
@@ -50,13 +53,17 @@ namespace Blackout
         {
             if (rectangle.Intersects(player.rect) && newPad.IsButtonDown(Buttons.X) && !hasCompleted)
             {
-                if (timeRemaining == 0)
+                if (timeRemaining <= 0)
                 {
                     hasCompleted = true;
                 }
                 else
                 {
                     timeRemaining--;
+                    if (timeRemaining%60 == 0)
+                    {
+                        progressBar.update(10);
+                    }
                 }
             }
         }
@@ -69,6 +76,10 @@ namespace Blackout
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(tex, rectangle, Color.White);
+            if (!hasCompleted)
+            {
+                progressBar.Draw(spriteBatch);
+            }
         }
     }
 }
