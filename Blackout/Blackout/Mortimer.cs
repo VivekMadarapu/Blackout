@@ -144,7 +144,7 @@ namespace Blackout
             /*double[,] locs = new double[,] { { 100, 100 }};
             string[] types = new string[] { "white"};*/
             List<Vector2> locs = new List<Vector2> { new Vector2(100, 150), new Vector2(100, 300), new Vector2(100, 600), new Vector2(50, -50), new Vector2(200, -40) };
-            List<String> types = new List<String> { "purple", "pink", "pink", "red", "pink", "pink", "pink" };
+            List<String> types = new List<String> { "purple", "yellow", "pink", "red", "pink", "pink", "pink" };
             powerupManager = new PowerupManager(game, spriteBatch, locs, types);
             // powerupManager = new PowerupManager(game, spriteBatch, locs, types);
             lights = new Lights(game);
@@ -162,6 +162,7 @@ namespace Blackout
         public Boolean areTasksSpeedy() {
             Boolean dataToReturn = speedyTasks > 0;
             if (speedyTasks>0) { speedyTasks--; }
+            if (speedyTasks == 0) { effectLength = 0;effect = ""; }
             return dataToReturn;
         }
         public Boolean isMortyStrong() {
@@ -175,6 +176,7 @@ namespace Blackout
             if (health > 100) { health = 100; }
             extraDamage = false;
             visionLevel = 0;
+            invisible = false;
             effect = "";
         }
         public void Draw(SpriteBatch spriteBatch)
@@ -196,6 +198,11 @@ namespace Blackout
                     effectLength = 1200;
                     visionLevel = 1;
                     break;
+                case "yellow":
+                    effect = "yellow";
+                    effectLength = 1500;
+                    health+=30;
+                    break;
                 case "pink":
                     effect = "pink";
                     speedyTasks = 2;
@@ -204,6 +211,7 @@ namespace Blackout
                 case "green":
                     effect = "green";
                     effectLength = 1800;
+                    invisible = true;
                     break;
                 case "red":
                     effect = "red";
@@ -218,15 +226,8 @@ namespace Blackout
                     extraDamage = true;
                     break;
             }
-            invisible = false;
             if (effectLength > 0)
             {
-                if (effect.Equals("green"))
-                {
-                    invisible = true;
-                }
-                if (effect.Equals("purple")) {
-                }
                 effectLength--;
                 if (effectLength == 0) {
                     clearEffect();
