@@ -65,6 +65,10 @@ namespace Blackout
 
         }
 
+        /// <summary>
+        /// Updates the current value of the bar 
+        /// </summary>
+        /// <param name="value">negative numbers decrease the value and positive numbers increase the value</param>
         public void update(int value)
         {
             if (curValue+value <= maxValue && curValue+value >= 0)
