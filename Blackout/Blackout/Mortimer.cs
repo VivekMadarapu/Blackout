@@ -17,6 +17,8 @@ namespace Blackout
         public int health = 100;
         public string effect = "";
         public string tempEffect = "";
+        public bool extraDamage = false;
+        int visionLevel = 0;
 
 
         public Texture2D tex;
@@ -139,7 +141,7 @@ namespace Blackout
             /*double[,] locs = new double[,] { { 100, 100 }};
             string[] types = new string[] { "white"};*/
             List<Vector2> locs = new List<Vector2> { new Vector2(100, 150), new Vector2(100, 300), new Vector2(100, 600), new Vector2(50, -50), new Vector2(200, -40) };
-            List<String> types = new List<String> { "white", "pink", "pink", "red", "pink", "pink", "pink" };
+            List<String> types = new List<String> { "purple", "pink", "pink", "red", "pink", "pink", "pink" };
             powerupManager = new PowerupManager(game, spriteBatch, locs, types);
             // powerupManager = new PowerupManager(game, spriteBatch, locs, types);
             lights = new Lights(game);
@@ -156,6 +158,9 @@ namespace Blackout
             Boolean dataToReturn = speedyTasks > 0;
             if (speedyTasks>0) { speedyTasks--; }
             return dataToReturn;
+        }
+        public Boolean isMortyStrong() {
+            return extraDamage;
         }
         public Boolean isMortimerInvisible()
         {
@@ -177,6 +182,7 @@ namespace Blackout
                 case "white":
                     effect = "white";
                     effectLength = 2400;
+                    visionLevel = 1;
                     break;
                 case "pink":
                     effect = "pink";
@@ -186,21 +192,36 @@ namespace Blackout
                     effect = "green";
                     effectLength = 1800;
                     break;
+                case "purple":
+                    effect = "purple";
+                    effectLength = 1800;
+                    health += 30;
+                    visionLevel = 2;
+                    extraDamage = true;
+                    break;
             }
-            Boolean nightMode = false;
+           // int visionLevel = 0;
             invisible = false;
             if (effectLength > 0)
             {
                 if (effect.Equals("white"))
                 {
-                    nightMode = true;
+                    //visionLevel = 1;
+                    //nightMode = true;
                 }
                 if (effect.Equals("green"))
                 {
                     invisible = true;
                 }
+                if (effect.Equals("purple")) {
+                }
                 effectLength--;
-                if (effectLength == 0) { effect = ""; }
+                if (effectLength == 0) {
+                    if (health > 100) { health = 100; }
+                    extraDamage = false;
+                    visionLevel = 0;
+                    effect = "";
+                }
             }
             if (effectLength == -5)
             {
@@ -211,7 +232,7 @@ namespace Blackout
                 }
                 effect = "";
             }
-             lights.checkIfLightsOff(spriteBatch, rect.X+31, rect.Y+31,nightMode);
+             lights.checkIfLightsOff(spriteBatch, rect.X+31, rect.Y+31,visionLevel);
         }
     }
 }

@@ -36,7 +36,7 @@ namespace Blackout
             spriteBatch.Draw(texture, new Rectangle(xPos-1350,yPos-1350,2700,2700),Color.White);
             spriteBatch.End();
         }*/
-        public void checkIfLightsOff(SpriteBatch spriteBatch,int xPos,int yPos,Boolean nightMode) {
+        public void checkIfLightsOff(SpriteBatch spriteBatch,int xPos,int yPos,int visionStrength) {
             if (lightCooldown > 0) { lightCooldown--; }
             if (lightCooldown == 0) {
                 if (darkRemaining == 0) {
@@ -57,13 +57,17 @@ namespace Blackout
                         spriteBatch.End();
                         spriteBatch.Begin();
                     }
-                    if (nightMode)
-                    {
+                    if (visionStrength == 0) {
+                        spriteBatch.Draw(texture, new Rectangle(xPos - 1350, yPos - 1350, 2700, 2700), Color.White);
+                    } else if (visionStrength == 1) {
+                        spriteBatch.Draw(texture, new Rectangle(xPos - 3100, yPos - 3100, 6200, 6200), Color.White);
+                    }
+                    /*{
                         spriteBatch.Draw(texture, new Rectangle(xPos - 3100, yPos - 3100, 6200, 6200), Color.White);
                     }
                     else {
                         spriteBatch.Draw(texture, new Rectangle(xPos - 1350, yPos - 1350, 2700, 2700), Color.White);
-                    }
+                    }*/
                     spriteBatch.End();
                     darkRemaining--;
                     if (darkRemaining ==0) { lightCooldown = 240; }
