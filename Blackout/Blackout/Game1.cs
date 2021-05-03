@@ -97,19 +97,9 @@ namespace Blackout
                 this.Exit();
 
             // TODO: Add your update logic here
-            if (gameState == GameState.LEVEL_ONE)
-            {
-               // powerupManager.updatePowerups(0, 0, 200, 0);
-               
-            }
-            else if (gameState == GameState.LEVEL_TWO)
-            {
-
-            }
-            else if (gameState == GameState.BOSS_LEVEL_ONE)
-            {
-
-            }
+            // powerupManager.updatePowerups(0, 0, 200, 0);
+            levels[(int)gameState+1].Draw(spriteBatch);
+            
             base.Update(gameTime);
         }
 
