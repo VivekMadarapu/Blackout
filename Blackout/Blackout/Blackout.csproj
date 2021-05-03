@@ -60,6 +60,8 @@
     <Compile Include="AnimatedSprite.cs" />
     <Compile Include="Animation.cs" />
     <Compile Include="Button.cs" />
+    <Compile Include="Bar.cs" />
+    <Compile Include="EndZone.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="Lights.cs" />
     <Compile Include="Mortimer.cs" />
@@ -75,6 +77,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="StartingScreen.cs" />
+    <Compile Include="Task.cs" />
     <Compile Include="Tile.cs" />
   </ItemGroup>
   <ItemGroup>

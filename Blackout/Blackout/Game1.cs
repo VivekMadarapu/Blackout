@@ -29,7 +29,12 @@ namespace Blackout
         private Level levelOne;
         private Lights lights;
         PowerupManager powerupManager;
+        GameState gameState;
 
+        Level[] levels = new Level[3];
+
+        Lights lights;
+        
         private GamePadState oldPadState;
 
 
@@ -53,6 +58,7 @@ namespace Blackout
             // TODO: Add your initialization logic here
             gameState = GameState.START;
             Game game = this;
+
             //levelOne = new Level(spriteBatch,this);
             startingScreen = new StartingScreen(graphics);
             settingsScreen = new SettingsScreen(startingScreen.mousePointer);
@@ -69,9 +75,10 @@ namespace Blackout
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             // TODO: use this.Content to load your game content here
-            Game gameWORKIBEG = this;
-            levelOne = new Level(spriteBatch, this);
-            levelOne.loadContent(this);
+            for (int i = 0; i < levels.Length; i++)
+            {
+                levels[i] = new Level(spriteBatch, this);
+            }
             lights = new Lights(this);
 
             MousePointer.loadPointerImage(this);
@@ -108,7 +115,6 @@ namespace Blackout
                 this.Exit();
 
             // TODO: Add your update logic here
-
             if (gameState == GameState.START) startingScreen.Update(this, graphics, gamePadState, oldPadState);
             else if (gameState == GameState.SETTINGS) settingsScreen.Update(this, gamePadState, oldPadState);
             if (gameState == GameState.LEVEL_ONE)
@@ -120,6 +126,8 @@ namespace Blackout
             }
 
             oldPadState = gamePadState;
+            // powerupManager.updatePowerups(0, 0, 200, 0);
+//             levels[(int)gameState+1].Draw(spriteBatch);   
             base.Update(gameTime);
         }
 
@@ -139,6 +147,7 @@ namespace Blackout
             {
                 levelOne.Draw(spriteBatch);
             }
+//             levels[(int)gameState+1].Draw(spriteBatch);
             spriteBatch.End();
             /*This shuts off the light randomly for 11 seconds each time
             The parameters require spriteBatch,x position of mouse,and y position of mouse(center pos not top left)

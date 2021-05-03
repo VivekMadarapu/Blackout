@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using Blackout.Enemies;
 using Blackout.Enemies.Mobs;
@@ -23,6 +24,8 @@ namespace Blackout
         private int playerTexHeight = 31, playerTexWidth = 31;
 
         public List<Enemy> enemies = new List<Enemy>();
+        public List<EndZone> winArea = new List<EndZone>();
+        public List<Task> tasks = new List<Task>();
         public static Vector2[] offsets; 
 
         double mapX;
@@ -30,26 +33,29 @@ namespace Blackout
         Game game;
         double mortimerX, mortimerY;
 
-        public Level(SpriteBatch tempSpriteBatch,Game tempGame)
+        //powerups
+        PowerupManager powerupManager;
+
+        public Level(SpriteBatch tempSpriteBatch, Game game)
         {
             mapX = 0;
             mapY = 0;
             mortimerX = 200;
             mortimerY = 200;
 
-            game = tempGame;
-            player = new Mortimer(new Vector2(200, 200),tempSpriteBatch,game);
+            this.game = game;
 
             tiles = new Tile[50, 50];
             offsets = new Vector2[6];
 
             spriteBatch = tempSpriteBatch;
-        }
 
+        }
+        public void mapMoved() { }
         public void Update(GamePadState gamePad)
         {
-            double changeX = Math.Round(gamePad.ThumbSticks.Left.X * 4);
-            double changeY = -Math.Round(gamePad.ThumbSticks.Left.Y * 4);
+            double changeX = Math.Round(gamePad.ThumbSticks.Left.X * player.speed);
+            double changeY = -Math.Round(gamePad.ThumbSticks.Left.Y * player.speed);
             double mortimerChangeX = changeX;
             double mortimerChangeY = changeY;
             bool mortimerMovesInX = false;
@@ -61,6 +67,7 @@ namespace Blackout
                 if (mortimerX + playerTexWidth + changeX <= 1000 &&
                     mortimerX + changeX >= 0)
                 {
+                    
                     mortimerMovesInX = true;
                 }
                 changeX = 0;         
@@ -120,10 +127,37 @@ namespace Blackout
                         double move = ((Cat) enemy).rectangle.Y + -changeY;
                         ((Cat)enemy).rectangle.Y = (int)move;
                     }
-                    
                 }
             }
 
+            //scrolls win area with map and updates
+            foreach (EndZone endzone in winArea)
+            {
+                if (!hitATileWallX)
+                {
+                    double move = endzone.rectangle.X + -changeX;
+                    endzone.rectangle.X = (int)move;
+                }
+
+                if (!hitATileWallY)
+                {
+                    double move = endzone.rectangle.Y + -changeY;
+                    endzone.rectangle.Y = (int)move;
+                }
+
+                endzone.Update(this, gamePad, player);
+            }
+
+            double tempYChange = changeY;
+            double tempXChange = changeX;
+            if (mortimerMovesInX || hitATileWallX) {
+                tempXChange = 0;
+            }
+            if (mortimerMovesInY || hitATileWallY) {
+                tempYChange = 0;
+            }
+          //  player.mortimerMoved(changeY, changeX);
+            player.mortimerMoved(tempYChange, tempXChange);
             if (!hitATileWallX && mortimerMovesInX) mortimerX += mortimerChangeX;
             if (!hitATileWallY && mortimerMovesInY) mortimerY += mortimerChangeY;
             if (!hitATileWallX)
@@ -161,10 +195,10 @@ namespace Blackout
             player.Update(gamePad, tiles);
         }
 
-        public void loadContent(Game1 game)
+        public void loadContent(Game1 game, string tilemap, string entitymap)
         {
             
-                using (StreamReader reader = new StreamReader(@"Content/TileMap.txt"))
+                using (StreamReader reader = new StreamReader(@"Content/" + tilemap))
                 {
                     string[] offStrings = reader.ReadLine().Split(' ');
                     offsets[0] = new Vector2(Convert.ToInt32(offStrings[0]), Convert.ToInt32(offStrings[1]));
@@ -182,9 +216,12 @@ namespace Blackout
                     }
                 }
 
-                //spawns entities from the entity map
-                using (StreamReader reader = new StreamReader(@"Content/EntityMap.txt"))
+            //spawns entities from the entity map
+            List<Vector2> locs = new List<Vector2>();
+            List<String> types = new List<String>();
+            using (StreamReader reader = new StreamReader(@"Content/" + entitymap))
                 {
+
                     for (int i = 0; i < tiles.GetLength(0); i++)
                     {
                         string line = reader.ReadLine();
@@ -197,23 +234,58 @@ namespace Blackout
                             //interprets ids into entities
                             switch (entityid)
                             {
-                                // entity ids
+                             // entity ids
                                 case 1:
                                     //offsets are in the map file. They offset the enemy position to match the position of the map.
                                     //Locations are loaded with the equations in the Vector2. They spawn them based on their locations in the entity map file and correspond with the tile locations in the map file. You can copy the equations directly for all entities.
                                     enemies.Add(new Cat(game, new Vector2(j*64-(int)offsets[0].X, i*64-(int)offsets[0].Y)));
+                                    break;  
+                              //add as many entities (enemies or powerups) as needed, but don't reuse ids
+                                case 2://blue cheese
+                                    types.Add("blue");
+                                    locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
                                     break;
-                                
-                                //add as many entities (enemies or powerups) as needed, but don't reuse ids
-                                case 2:
+                               case 3://white cheese
+                                    types.Add("white");
+                                    locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
                                     break;
-
-                            }
+                               case 4://pink cheese
+                                    types.Add("pink");
+                                    locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
+                                    break;
+                               case 5://green cheese
+                                    types.Add("green");
+                                    locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
+                                    break;
+                               case 6://purple cheese
+                                    types.Add("purple");
+                                    locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
+                                    break;
+                               case 7://yellow cheese
+                                    types.Add("yellow");
+                                    locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
+                                    break;
+                               case 8://red cheese
+                                    types.Add("red");
+                                    locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
+                                    break;
+                               case 9://tasks
+                                   tasks.Add(new Task(game, new Vector2(j*64-(int)offsets[0].X, i*64-(int)offsets[0].Y)));
+                                   break;
+                               case 10://win area
+                                   winArea.Add(new EndZone(game, new Vector2(j*64-(int)offsets[0].X, i*64-(int)offsets[0].Y)));
+                                   break;
+                               // default:
+                               //     throw new InvalidDataException("Unknown entity id");
+                        }
                         }
                     }
-                }
+           
+            }
+            powerupManager = new PowerupManager(game, locs, types);
+            player = new Mortimer(new Vector2(200, 200), game, powerupManager);
 
-                player.loadContent(game);
+            player.loadContent(game);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -232,6 +304,11 @@ namespace Blackout
                 {
                     ((Cat)enemy).Draw(spriteBatch);
                 }
+            }
+
+            foreach (EndZone endZone in winArea)
+            {
+                endZone.Draw(spriteBatch);
             }
 
             player.Draw(spriteBatch);

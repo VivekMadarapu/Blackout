@@ -16,7 +16,9 @@ namespace Blackout
         public int effectLength = 0;
         public int health = 100;
         public string effect = "";
-        
+        public string tempEffect = "";
+
+
         public Texture2D tex;
         public Vector2 loc;
         public Color color;
@@ -34,15 +36,23 @@ namespace Blackout
         public int bulletCooldown = 0;
         //necessary gamepadcontrols
         public GamePadState oldPad;
-        
+
+
+        //turning mouse direction
+        public float direction;
+
+        //other
         Lights lights;
         PowerupManager powerupManager;
-        SpriteBatch spriteBatch;
         Game game;
 
-        public Mortimer(Vector2 loc,SpriteBatch tempSpriteBatch,Game tempGame): base(50,50,20)
-        {
-           
+        int prevX = 0;
+        int prevY = 0;
+
+        
+
+        public Mortimer(Vector2 loc,Game tempGame,PowerupManager powerupManager): base(50,50,20)
+        {   
             this.loc = loc;
             color = Color.White;
             rect = new Rectangle((int)loc.X, (int)loc.Y, 50, 50);
@@ -52,22 +62,57 @@ namespace Blackout
             bullets = new List<Projectiles.Bullet>();
             bulletDirection = (float)Math.PI / 2;
             oldPad = GamePad.GetState(PlayerIndex.One);
+
+            //direction
+            direction = 0;
             
-            spriteBatch = tempSpriteBatch;
+            //powerup stuff
+        
             game = tempGame;
-            double[,] locs = new double[,] { { 500, 100 }, { 600, 100 }, { -50, 50 }, { -40, 200 } };
-            string[] types = new string[] { "white", "pink", "pink", "red", "pink", "red", "pink" };
-            powerupManager = new PowerupManager(game, spriteBatch, locs, types);
+
+            this.powerupManager = powerupManager;
+            //double[,] locs = new double[,] { { 100, 100 }, { 500, 100 }, { 600, 100 }, { -50, 50 }, { -40, 200 } };
+            //string[] types = new string[] { "white", "pink", "pink", "red", "pink", "red", "pink" };
+            //powerupManager = new PowerupManager(game, spriteBatch, locs, types);
         }
         public void setOldPad(GamePadState oldPad)
         {
             this.oldPad = oldPad;
+        }
+        public void mortimerMoved(double yDir,double xDir) {
+            if(prevX != rect.X) {
+                xDir = 0;
+            }
+            if (prevY != rect.Y) {
+                yDir = 0;
+            }
+          //  string tempEffect = "white";
+          //  string tempEffect = powerupManager.updatePowerups(yDir, xDir, rect.X, rect.Y);
+            prevX = rect.X;
+            prevY = rect.Y;
         }
         public void Update(GamePadState newPad, Tile[,] tiles)
         {
             //location update
             loc.X = rect.X;
             loc.Y = rect.Y;
+            //direction update
+            if(newPad.ThumbSticks.Left.Y!=0 || newPad.ThumbSticks.Left.X!=0)
+            {
+
+                if (newPad.ThumbSticks.Left.X == 0)
+                    direction = (float)(Math.PI / 2) + (float)Math.Atan2(newPad.ThumbSticks.Left.Y, newPad.ThumbSticks.Left.X);
+                else if (newPad.ThumbSticks.Left.Y == 0)
+                    direction = (-1) * (float)(Math.PI / 2) + (float)Math.Atan2(newPad.ThumbSticks.Left.Y, newPad.ThumbSticks.Left.X);
+                else
+                {
+                    direction = (float)Math.Atan2(newPad.ThumbSticks.Left.Y, newPad.ThumbSticks.Left.X);
+                    if((newPad.ThumbSticks.Left.Y>0 && newPad.ThumbSticks.Left.X>0)|| (newPad.ThumbSticks.Left.Y < 0 && newPad.ThumbSticks.Left.X < 0))
+                    {
+                        direction +=(float) Math.PI;
+                    }
+                }
+            }
 
             //bullets
             bulletDirection = (float)Math.Atan2((double)newPad.ThumbSticks.Right.Y, (double)(newPad.ThumbSticks.Right.X));
@@ -103,6 +148,48 @@ namespace Blackout
             if (bulletCooldown > 0)
                 bulletCooldown--;
 
+            //effects
+            //other
+            string tempEffect = powerupManager.updatePowerups(0, 0, rect.X, rect.Y);
+            //prevX = rect.X;
+            //prevY = rect.Y;
+            switch (tempEffect)
+            {
+                case "white":
+                    effect = tempEffect;
+                    effectLength = 180000;
+                    break;
+                case "yellow":
+                    effect = tempEffect;
+                    break;
+                case "red":
+                    effect = tempEffect;
+                    break;
+                case "blue":
+                    effect = tempEffect;
+                    effectLength = 3600;
+                    break;
+            }
+            Boolean nightMode = false;
+            if (effectLength > 0)
+            {
+                if (effect.Equals("white"))
+                {
+                    nightMode = true;
+                }
+                else if (effect.Equals("blue"))
+                {
+                    speed = 8;
+                }
+                effectLength--;
+
+            }
+            else
+            {
+                speed = 4;
+            }
+            lights.checkIfLightsOff(rect.X + 31, rect.Y + 31, nightMode);
+
             oldPad = newPad;
         }
         public void relationalUpdate(float mx, float my)
@@ -114,8 +201,8 @@ namespace Blackout
         }
         public void loadContent(Game game)
         {
-            double[,] locs = new double[,] { { 500, 100 }, { 600, 100 }, { -50, 50 }, { -40, 200 } };
-            string[] types = new string[] { "white", "pink", "pink", "red", "pink", "red", "pink" };
+            double[,] locs = new double[,] { { 100, 100 }};
+            string[] types = new string[] { "white"};
            // powerupManager = new PowerupManager(game, spriteBatch, locs, types);
             lights = new Lights(game);
             tex = game.Content.Load<Texture2D>("Mortimer");
@@ -129,30 +216,19 @@ namespace Blackout
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(tex, rect, sourceRect, color);
+            //Rectangle rect2 = new Rectangle(rect.X + rect.Width / 2, rect.Y + rect.Height / 2, rect.Width, rect.Height);
+            spriteBatch.Draw(tex, rect, sourceRect, color, direction, new Vector2(sourceRect.Width/2, sourceRect.Height/2), SpriteEffects.None, 0);
+            //spriteBatch.Draw(tex, rect, sourceRect, color);
             //bullets
             for(int i=0; i<bullets.Count; i++)
             {
                 bullets[i].Draw(spriteBatch);
             }
-            //other
-            string tempEffect = powerupManager.updatePowerups(0, 0, 200, 0);
-            switch (tempEffect) {
-                case "white":
-                    effect = "white";
-                    effectLength = 1800;
-                    break;
-            }
-            Boolean nightMode = false;
-            if (effectLength > 0)
-            {
-                if (effect.Equals("white"))
-                {
-                    nightMode = true;
-                }
-                effectLength--;
-            }
-            lights.checkIfLightsOff(spriteBatch, rect.X+31, rect.Y+31,nightMode);
+         
+
+            lights.Draw(spriteBatch);
+
+           powerupManager.Draw(spriteBatch);
         }
     }
 }
