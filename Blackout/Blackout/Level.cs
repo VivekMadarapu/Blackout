@@ -62,7 +62,7 @@ namespace Blackout
             double mortimerChangeY = changeY;
             bool mortimerMovesInX = false;
             bool mortimerMovesInY = false;
-          
+
             if (changeX + mapX < 0 || mortimerX < 475 ||
                 changeX + mapX + 1000 > Tile.TILE_SIZE * WIDTH || mortimerX > 525)
             {

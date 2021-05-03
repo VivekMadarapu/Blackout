@@ -63,8 +63,8 @@ namespace Blackout
             backRect = new Rectangle((int)startingPosition.X, (int)startingPosition.Y, width, height);
 
             //screen dimensions
-            this.screenW = 800;
-            this.screenH = 500;
+            this.screenW = 1000;
+            this.screenH = 700;
 
         }
 

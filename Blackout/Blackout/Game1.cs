@@ -75,7 +75,7 @@ namespace Blackout
             for (int i = 0; i < levels.Length; i++)
             {
                 levels[i] = new Level(spriteBatch, this);
-                levels[i].loadContent(this, "TileMap.txt", "EntityMap.txt");
+                levels[i].loadContent(this, "TileMap"+ (i+1) +".txt", "EntityMap"+ (i+1) +".txt");
             }
             lights = new Lights(this);
 

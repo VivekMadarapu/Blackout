@@ -198,8 +198,8 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
     </Compile>
-    <None Include="TileMap.txt">
-      <Name>TileMap</Name>
+    <None Include="TileMap1.txt">
+      <Name>TileMap1</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Compile Include="tp1.bmp">
@@ -303,8 +303,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="EntityMap.txt">
-      <Name>EntityMap</Name>
+    <None Include="EntityMap1.txt">
+      <Name>EntityMap1</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -328,6 +328,24 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="EntityMap2.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>EntityMap2</Name>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="EntityMap3.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>EntityMap3</Name>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TileMap3.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>TileMap3</Name>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
