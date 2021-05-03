@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="AnimatedSprite.cs" />
     <Compile Include="Animation.cs" />
+    <Compile Include="Button.cs" />
     <Compile Include="Bar.cs" />
     <Compile Include="EndZone.cs" />
     <Compile Include="Level.cs" />
@@ -68,12 +69,14 @@
     <Compile Include="Enemies\Bosses\CatBoss.cs" />
     <Compile Include="Enemies\Enemy.cs" />
     <Compile Include="Enemies\Mobs\Cat.cs" />
+    <Compile Include="MousePointer.cs" />
     <Compile Include="PowerupManager.cs" />
     <Compile Include="Projectiles\Bullet.cs" />
     <Compile Include="Projectiles\Projectile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="StartingScreen.cs" />
     <Compile Include="Task.cs" />
     <Compile Include="Tile.cs" />
   </ItemGroup>

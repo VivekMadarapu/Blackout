@@ -22,12 +22,18 @@ namespace Blackout
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         
-        GameState gameState;
+        public GameState gameState;
+
+        private StartingScreen startingScreen;
+        private SettingsScreen settingsScreen;
+        private Lights lights;
+        PowerupManager powerupManager;
 
         Level[] levels = new Level[3];
 
-        Lights lights;
-        
+
+        private GamePadState oldPadState;
+
 
         public Game1()
         {
@@ -47,9 +53,13 @@ namespace Blackout
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            gameState = GameState.LEVEL_ONE;
+            gameState = GameState.START;
+            Game game = this;
 
-            //levelOne = new Level(spriteBatch,this);
+            // levelOne = new Level(spriteBatch,this);
+            startingScreen = new StartingScreen(graphics);
+            settingsScreen = new SettingsScreen(startingScreen.mousePointer);
+            oldPadState = GamePad.GetState(PlayerIndex.One);
             base.Initialize();
         }
 
@@ -65,8 +75,14 @@ namespace Blackout
             for (int i = 0; i < levels.Length; i++)
             {
                 levels[i] = new Level(spriteBatch, this);
+                levels[i].loadContent(this, "TileMap.txt", "EntityMap.txt");
             }
             lights = new Lights(this);
+
+            MousePointer.loadPointerImage(this);
+            Button.loadContent(this);
+            StartingScreen.loadTitleScreenImage(this);
+            LabelPrompt.loadSpriteFont(this);
             /*locs is a list of the coords of all the powerups,coords are like (Y,X)
              * types stores the powerup type for each powerup. 
              */
@@ -97,9 +113,19 @@ namespace Blackout
                 this.Exit();
 
             // TODO: Add your update logic here
+            if (gameState == GameState.START) startingScreen.Update(this, graphics, gamePadState, oldPadState);
+            else if (gameState == GameState.SETTINGS) settingsScreen.Update(this, gamePadState, oldPadState);
+            if (gameState != GameState.START && gameState != GameState.SETTINGS && gameState != GameState.END)
+            {
+                // powerupManager.updatePowerups(0, 0, 200, 0);
+
+                levels[(int)gameState - 2].Update(gamePadState);
+
+            }
+
+            oldPadState = gamePadState;
             // powerupManager.updatePowerups(0, 0, 200, 0);
-            levels[(int)gameState+1].Draw(spriteBatch);
-            
+//             levels[(int)gameState+1].Draw(spriteBatch);   
             base.Update(gameTime);
         }
 
@@ -109,11 +135,16 @@ namespace Blackout
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.White);
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            levels[(int)gameState+1].Draw(spriteBatch);
+            if (gameState == GameState.START) startingScreen.Draw(spriteBatch);
+            else if (gameState == GameState.SETTINGS) settingsScreen.Draw(spriteBatch);
+            else if (gameState != GameState.START && gameState != GameState.SETTINGS && gameState != GameState.END)
+            {
+                levels[(int)gameState - 2].Draw(spriteBatch);
+            }
             spriteBatch.End();
             /*This shuts off the light randomly for 11 seconds each time
             The parameters require spriteBatch,x position of mouse,and y position of mouse(center pos not top left)
@@ -131,6 +162,6 @@ namespace Blackout
 
     public enum GameState
     {
-        START, LEVEL_ONE, LEVEL_TWO, BOSS_LEVEL_ONE, LEVEL_FOUR, LEVEL_FIVE, BOSS_LEVEL_TWO, END,
+        START, SETTINGS, LEVEL_ONE, LEVEL_TWO, BOSS_LEVEL_ONE, LEVEL_FOUR, LEVEL_FIVE, BOSS_LEVEL_TWO, END,
     }
 }

@@ -50,6 +50,8 @@ namespace Blackout
 
             spriteBatch = tempSpriteBatch;
 
+            // player = new Mortimer(mortimerX, mortimerY, powerupManager);
+
         }
         public void mapMoved() { }
         public void Update(GamePadState gamePad)
