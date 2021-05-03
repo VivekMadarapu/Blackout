@@ -193,6 +193,11 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="LabelPromptFont.spritefont">
+      <Name>LabelPromptFont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
     <None Include="TileMap.txt">
       <Name>TileMap</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -306,6 +311,20 @@
   <ItemGroup>
     <Compile Include="cats.png">
       <Name>cats</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CirclePointer.png">
+      <Name>CirclePointer</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BlackoutLogo.png">
+      <Name>BlackoutLogo</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
