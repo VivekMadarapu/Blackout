@@ -25,6 +25,7 @@ namespace Blackout
 
         public List<Enemy> enemies = new List<Enemy>();
         public List<EndZone> winArea = new List<EndZone>();
+        public List<Task> tasks = new List<Task>();
         public static Vector2[] offsets; 
 
         double mapX;
@@ -268,7 +269,10 @@ namespace Blackout
                                     types.Add("red");
                                     locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
                                     break;
-                               case 9://win area
+                               case 9://tasks
+                                   tasks.Add(new Task(game, new Vector2(j*64-(int)offsets[0].X, i*64-(int)offsets[0].Y)));
+                                   break;
+                               case 10://win area
                                    winArea.Add(new EndZone(game, new Vector2(j*64-(int)offsets[0].X, i*64-(int)offsets[0].Y)));
                                    break;
                                // default:

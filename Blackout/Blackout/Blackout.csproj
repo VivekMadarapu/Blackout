@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="AnimatedSprite.cs" />
     <Compile Include="Animation.cs" />
+    <Compile Include="Bar.cs" />
     <Compile Include="EndZone.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="Lights.cs" />
