@@ -56,6 +56,7 @@ namespace Blackout
                 if (timeRemaining <= 0)
                 {
                     hasCompleted = true;
+                    progressBar.barColor = Color.Gold;
                 }
                 else
                 {
@@ -76,10 +77,7 @@ namespace Blackout
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(tex, rectangle, Color.White);
-            if (!hasCompleted)
-            {
-                progressBar.Draw(spriteBatch);
-            }
+            progressBar.Draw(spriteBatch);
         }
     }
 }

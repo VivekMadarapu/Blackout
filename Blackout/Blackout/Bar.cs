@@ -32,6 +32,8 @@ namespace Blackout
         public int curValue;
         //The maximum value the bar can reach
         public int maxValue;
+        //Color of the bar
+        public Color barColor;
 
         /// <summary>
         /// Creates the bar with the specifications
@@ -50,6 +52,7 @@ namespace Blackout
             this.barTex.SetData(new Color[] { barColor });
             backTex = new Texture2D(game.GraphicsDevice, 1, 1);
             this.backTex.SetData(new Color[] { Color.LightGray });
+            this.barColor = barColor;
 
             this.width = width;
             this.height = height;
