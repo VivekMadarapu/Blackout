@@ -51,13 +51,14 @@ namespace Blackout
                 }
                 else
                 {
-                     darkRemaining--;
+                    if(darkRemaining>0)
+                    darkRemaining--;
                 }
             }
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (nightMode)
+            if (darkRemaining>0)
             {
                 spriteBatch.Draw(texture, new Rectangle(xPos - 3100, yPos - 3100, 6200, 6200), Color.White);
             }
