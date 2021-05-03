@@ -26,15 +26,12 @@ namespace Blackout
 
         private StartingScreen startingScreen;
         private SettingsScreen settingsScreen;
-        private Level levelOne;
         private Lights lights;
         PowerupManager powerupManager;
-        GameState gameState;
 
         Level[] levels = new Level[3];
 
-        Lights lights;
-        
+
         private GamePadState oldPadState;
 
 
@@ -59,7 +56,7 @@ namespace Blackout
             gameState = GameState.START;
             Game game = this;
 
-            //levelOne = new Level(spriteBatch,this);
+            // levelOne = new Level(spriteBatch,this);
             startingScreen = new StartingScreen(graphics);
             settingsScreen = new SettingsScreen(startingScreen.mousePointer);
             oldPadState = GamePad.GetState(PlayerIndex.One);
@@ -78,6 +75,7 @@ namespace Blackout
             for (int i = 0; i < levels.Length; i++)
             {
                 levels[i] = new Level(spriteBatch, this);
+                levels[i].loadContent(this, "TileMap.txt", "EntityMap.txt");
             }
             lights = new Lights(this);
 
@@ -117,11 +115,11 @@ namespace Blackout
             // TODO: Add your update logic here
             if (gameState == GameState.START) startingScreen.Update(this, graphics, gamePadState, oldPadState);
             else if (gameState == GameState.SETTINGS) settingsScreen.Update(this, gamePadState, oldPadState);
-            if (gameState == GameState.LEVEL_ONE)
+            if (gameState != GameState.START && gameState != GameState.SETTINGS && gameState != GameState.END)
             {
-               // powerupManager.updatePowerups(0, 0, 200, 0);
+                // powerupManager.updatePowerups(0, 0, 200, 0);
 
-                levelOne.Update(gamePadState);
+                levels[(int)gameState - 2].Update(gamePadState);
 
             }
 
@@ -143,11 +141,10 @@ namespace Blackout
             spriteBatch.Begin();
             if (gameState == GameState.START) startingScreen.Draw(spriteBatch);
             else if (gameState == GameState.SETTINGS) settingsScreen.Draw(spriteBatch);
-            if (gameState == GameState.LEVEL_ONE)
+            else if (gameState != GameState.START && gameState != GameState.SETTINGS && gameState != GameState.END)
             {
-                levelOne.Draw(spriteBatch);
+                levels[(int)gameState - 2].Draw(spriteBatch);
             }
-//             levels[(int)gameState+1].Draw(spriteBatch);
             spriteBatch.End();
             /*This shuts off the light randomly for 11 seconds each time
             The parameters require spriteBatch,x position of mouse,and y position of mouse(center pos not top left)

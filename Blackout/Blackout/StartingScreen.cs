@@ -53,7 +53,7 @@ namespace Blackout
             {
                 game.gameState = GameState.LEVEL_ONE;
                 graphics.PreferredBackBufferWidth = 800;
-                graphics.PreferredBackBufferHeight = 500;
+                graphics.PreferredBackBufferHeight = 600;
                 graphics.ApplyChanges();
             }
 
