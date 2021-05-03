@@ -195,10 +195,10 @@ namespace Blackout
             player.Update(gamePad, tiles);
         }
 
-        public void loadContent(Game1 game)
+        public void loadContent(Game1 game, string tilemap, string entitymap)
         {
             
-                using (StreamReader reader = new StreamReader(@"Content/TileMap.txt"))
+                using (StreamReader reader = new StreamReader(@"Content/" + tilemap))
                 {
                     string[] offStrings = reader.ReadLine().Split(' ');
                     offsets[0] = new Vector2(Convert.ToInt32(offStrings[0]), Convert.ToInt32(offStrings[1]));
@@ -219,7 +219,7 @@ namespace Blackout
             //spawns entities from the entity map
             List<Vector2> locs = new List<Vector2>();
             List<String> types = new List<String>();
-            using (StreamReader reader = new StreamReader(@"Content/EntityMap.txt"))
+            using (StreamReader reader = new StreamReader(@"Content/" + entitymap))
                 {
 
                     for (int i = 0; i < tiles.GetLength(0); i++)

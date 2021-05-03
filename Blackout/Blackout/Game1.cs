@@ -23,8 +23,9 @@ namespace Blackout
         SpriteBatch spriteBatch;
         
         GameState gameState;
-       
-        Level levelOne;
+
+        Level[] levels = new Level[3];
+
         Lights lights;
         
 
@@ -47,7 +48,7 @@ namespace Blackout
         {
             // TODO: Add your initialization logic here
             gameState = GameState.LEVEL_ONE;
-            Game game = this;
+
             //levelOne = new Level(spriteBatch,this);
             base.Initialize();
         }
@@ -61,9 +62,10 @@ namespace Blackout
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             // TODO: use this.Content to load your game content here
-            Game gameWORKIBEG = this;
-            levelOne = new Level(spriteBatch, this);
-            levelOne.loadContent(this);
+            for (int i = 0; i < levels.Length; i++)
+            {
+                levels[i] = new Level(spriteBatch, this);
+            }
             lights = new Lights(this);
             /*locs is a list of the coords of all the powerups,coords are like (Y,X)
              * types stores the powerup type for each powerup. 
@@ -98,8 +100,14 @@ namespace Blackout
             if (gameState == GameState.LEVEL_ONE)
             {
                // powerupManager.updatePowerups(0, 0, 200, 0);
+               
+            }
+            else if (gameState == GameState.LEVEL_TWO)
+            {
 
-               levelOne.Update(gamePadState);
+            }
+            else if (gameState == GameState.BOSS_LEVEL_ONE)
+            {
 
             }
             base.Update(gameTime);
@@ -115,13 +123,8 @@ namespace Blackout
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            if (gameState == GameState.LEVEL_ONE)
-            {
-                levelOne.Draw(spriteBatch);
-
-            }
-
-           spriteBatch.End();
+            levels[(int)gameState+1].Draw(spriteBatch);
+            spriteBatch.End();
             /*This shuts off the light randomly for 11 seconds each time
             The parameters require spriteBatch,x position of mouse,and y position of mouse(center pos not top left)
             Uncomment line below to test*/
