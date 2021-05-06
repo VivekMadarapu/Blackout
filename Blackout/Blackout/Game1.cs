@@ -29,7 +29,7 @@ namespace Blackout
         private Lights lights;
         PowerupManager powerupManager;
 
-        Level[] levels = new Level[3];
+        private Level[] levels;
 
 
         private GamePadState oldPadState;
@@ -72,6 +72,7 @@ namespace Blackout
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             // TODO: use this.Content to load your game content here
+            levels = new Level[3];
             for (int i = 0; i < levels.Length; i++)
             {
                 levels[i] = new Level(spriteBatch, this);
@@ -121,11 +122,20 @@ namespace Blackout
 
                 levels[(int)gameState - 2].Update(gamePadState);
 
+                EndZone[] winAreaInstance = new EndZone[levels[(int)gameState-2].winArea.Count];
+                levels[(int) gameState - 2].winArea.CopyTo(winAreaInstance);
+                foreach (var endzone in winAreaInstance)
+                {
+                    if (levels[(int) gameState - 2].player.rect.Intersects(endzone.rectangle))
+                    {
+                        gameState++;
+                        break;
+                    }
+                }
             }
 
             oldPadState = gamePadState;
             // powerupManager.updatePowerups(0, 0, 200, 0);
-//             levels[(int)gameState+1].Draw(spriteBatch);   
             base.Update(gameTime);
         }
 
