@@ -43,13 +43,14 @@ namespace Blackout
 
         //other
         Lights lights;
-        PowerupManager powerupManager;
+        public PowerupManager powerupManager;
         Game game;
 
         int prevX = 0;
         int prevY = 0;
 
-        
+        //power bars
+        Bar healthBar;
 
         public Mortimer(Vector2 loc,Game tempGame,PowerupManager powerupManager): base(50,50,20)
         {   
@@ -69,6 +70,11 @@ namespace Blackout
             //powerup stuff
         
             game = tempGame;
+
+            //powerbar
+            healthBar = new Bar(game, new Vector2(0, 0), 100, 20, health, health, Color.Green);
+
+
 
             this.powerupManager = powerupManager;
             //double[,] locs = new double[,] { { 100, 100 }, { 500, 100 }, { 600, 100 }, { -50, 50 }, { -40, 200 } };
@@ -190,6 +196,9 @@ namespace Blackout
             }
             lights.checkIfLightsOff(rect.X + 31, rect.Y + 31, nightMode);
 
+            //healtbar;
+            healthBar.update(health);
+
             oldPad = newPad;
         }
         public void relationalUpdate(float mx, float my)
@@ -224,11 +233,14 @@ namespace Blackout
             {
                 bullets[i].Draw(spriteBatch);
             }
-         
+
+            powerupManager.Draw(spriteBatch);
 
             lights.Draw(spriteBatch);
 
-           powerupManager.Draw(spriteBatch);
+
+            //powerups
+            healthBar.Draw(spriteBatch);
         }
     }
 }
