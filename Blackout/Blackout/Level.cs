@@ -153,6 +153,30 @@ namespace Blackout
                 endzone.Update(this, gamePad, player);
             }
 
+            //scrolls tasks with map and updates
+            foreach (Task task in tasks)
+            {
+                if (!hitATileWallX)
+                {
+                    double move = task.rectangle.X + -changeX;
+                    task.rectangle.X = (int)move;
+                    move = task.progressBar.backRect.X + -changeX;
+                    task.progressBar.backRect.X = (int)move;
+                    task.progressBar.barRect.X = (int)move;
+                }
+
+                if (!hitATileWallY)
+                {
+                    double move = task.rectangle.Y + -changeY;
+                    task.rectangle.Y = (int)move;
+                    move = task.progressBar.backRect.Y + -changeY;
+                    task.progressBar.backRect.Y = (int)move;
+                    task.progressBar.barRect.Y = (int)move;
+                }
+
+                task.Update(this, gamePad, player);
+            }
+
             double tempYChange = changeY;
             double tempXChange = changeX;
             if (mortimerMovesInX || hitATileWallX) {
@@ -314,6 +338,11 @@ namespace Blackout
                 {
                     ((Cat)enemy).Draw(spriteBatch);
                 }
+            }
+
+            foreach (Task task in tasks)
+            {
+                task.Draw(spriteBatch);
             }
 
             foreach (EndZone endZone in winArea)

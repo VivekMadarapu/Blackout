@@ -122,16 +122,29 @@ namespace Blackout
 
                 levels[(int)gameState - 2].Update(gamePadState);
 
-                EndZone[] winAreaInstance = new EndZone[levels[(int)gameState-2].winArea.Count];
-                levels[(int) gameState - 2].winArea.CopyTo(winAreaInstance);
-                foreach (var endzone in winAreaInstance)
+                bool canAdvance = true;
+                foreach (var task in levels[(int) gameState - 2].tasks)
                 {
-                    if (levels[(int) gameState - 2].player.rect.Intersects(endzone.rectangle))
+                    if (!task.hasCompleted)
                     {
-                        gameState++;
-                        break;
+                        canAdvance = false;
                     }
                 }
+                if (canAdvance)
+                {
+                    EndZone[] winAreaInstance = new EndZone[levels[(int)gameState-2].winArea.Count];
+                    levels[(int) gameState - 2].winArea.CopyTo(winAreaInstance);
+                    foreach (var endzone in winAreaInstance)
+                    {
+                        if (levels[(int) gameState - 2].player.rect.Intersects(endzone.rectangle))
+                        {
+                            gameState++;
+                            break;
+                        }
+                    }
+                }
+
+                
             }
 
             oldPadState = gamePadState;

@@ -147,7 +147,7 @@ namespace Blackout
           for(int i=0; i<powerupLoc.Count; i++)
             {
                 powerupLoc[i] = new Vector2(powerupLoc[i].X-changeX, powerupLoc[i].Y);
-                //rectList[i] = new Rectangle((int)powerupLoc[i].X, (int)powerupLoc[i].Y, rectList[i].Width, rectList[i].Height);
+                // rectList[i] = new Rectangle((int)powerupLoc[i].X, (int)powerupLoc[i].Y, rectList[i].Width, rectList[i].Height);
             }
         }
         public void relationalUpdateY(float changeY)

@@ -93,18 +93,10 @@ namespace Blackout
     {
         public static String controls =
             "Controls/Rules: \n\n" +
-            "Left Thumbstick - move up and down\n" +
-            "Left Trigger - Thrust\n" +
-            "X - Reverse\n" +
-            "Y - Fire\n" +
-            "B - Drop Humanoid\n\n" +
-            "Point Values:\n" +
-            "Lander 150\n" +
-            "Bomber 150\n" +
-            "Mutant 150\n" +
-            "Humanoid falls without dying 250\n" +
-            "Catching Humanoid 500\n" +
-            "Returning Humanoid to Ground 500\n";
+            "Left Thumbstick - move around\n" +
+            "Right Thumbstick - Aim\n" +
+            "Left Trigger - Shoot\n" +
+            "X - Activate Tasks\n";
 
         public LabelPrompt settingsPrompt;
         public Button backButton;
