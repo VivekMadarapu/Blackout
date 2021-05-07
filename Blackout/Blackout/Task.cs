@@ -41,8 +41,8 @@ namespace Blackout
             progressBar = new Bar(game, new Vector2(startingPosition.X - 16, startingPosition.Y - 16), 4, 32, 0, 50, Color.Green);
 
             //screen dimensions
-            this.screenW = 800;
-            this.screenH = 500;
+            this.screenW = 1000;
+            this.screenH = 700;
 
             //time to complete tasks
             timeRemaining = 5*60;

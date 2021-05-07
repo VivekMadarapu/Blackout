@@ -49,7 +49,7 @@ namespace Blackout
         {
             if (rectangle.Intersects(player.rect))
             {
-                //win
+                
             }
 
         }

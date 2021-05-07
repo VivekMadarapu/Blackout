@@ -30,7 +30,7 @@ namespace Blackout
 
         double mapX;
         double mapY;
-        Game game;
+        public Game game;
         double mortimerX, mortimerY;
 
         //powerups
@@ -50,6 +50,8 @@ namespace Blackout
 
             spriteBatch = tempSpriteBatch;
 
+            // player = new Mortimer(mortimerX, mortimerY, powerupManager);
+
         }
         public void mapMoved() { }
         public void Update(GamePadState gamePad)
@@ -60,7 +62,7 @@ namespace Blackout
             double mortimerChangeY = changeY;
             bool mortimerMovesInX = false;
             bool mortimerMovesInY = false;
-          
+
             if (changeX + mapX < 0 || mortimerX < 475 ||
                 changeX + mapX + 1000 > Tile.TILE_SIZE * WIDTH || mortimerX > 525)
             {
@@ -200,10 +202,10 @@ namespace Blackout
             player.Update(gamePad, tiles);
         }
 
-        public void loadContent(Game1 game)
+        public void loadContent(Game1 game, string tilemap, string entitymap)
         {
             
-                using (StreamReader reader = new StreamReader(@"Content/TileMap.txt"))
+                using (StreamReader reader = new StreamReader(@"Content/" + tilemap))
                 {
                     string[] offStrings = reader.ReadLine().Split(' ');
                     offsets[0] = new Vector2(Convert.ToInt32(offStrings[0]), Convert.ToInt32(offStrings[1]));
@@ -224,7 +226,7 @@ namespace Blackout
             //spawns entities from the entity map
             List<Vector2> locs = new List<Vector2>();
             List<String> types = new List<String>();
-            using (StreamReader reader = new StreamReader(@"Content/EntityMap.txt"))
+            using (StreamReader reader = new StreamReader(@"Content/" + entitymap))
                 {
 
                     for (int i = 0; i < tiles.GetLength(0); i++)
@@ -239,7 +241,10 @@ namespace Blackout
                             //interprets ids into entities
                             switch (entityid)
                             {
-                             // entity ids
+                            // entity ids
+                                case 0:
+                                    //no entities on this tile
+                                    break;
                                 case 1:
                                     //offsets are in the map file. They offset the enemy position to match the position of the map.
                                     //Locations are loaded with the equations in the Vector2. They spawn them based on their locations in the entity map file and correspond with the tile locations in the map file. You can copy the equations directly for all entities.
@@ -280,8 +285,8 @@ namespace Blackout
                                case 10://win area
                                    winArea.Add(new EndZone(game, new Vector2(j*64-(int)offsets[0].X, i*64-(int)offsets[0].Y)));
                                    break;
-                               // default:
-                               //     throw new InvalidDataException("Unknown entity id");
+                               default:
+                                   throw new InvalidDataException("Unknown entity id: " + entityid);
                         }
                         }
                     }
