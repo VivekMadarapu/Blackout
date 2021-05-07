@@ -69,6 +69,7 @@ namespace Blackout
                 {
                     
                     mortimerMovesInX = true;
+
                 }
                 changeX = 0;         
             }
@@ -80,6 +81,8 @@ namespace Blackout
                     mortimerY + changeY >= 0)
                 {
                     mortimerMovesInY = true;
+
+
                 }
                 changeY = 0;
             }
@@ -163,10 +166,12 @@ namespace Blackout
             if (!hitATileWallX)
             {
                 mapX += changeX;
+                player.powerupManager.relationalUpdateX((float)changeX);
             }
             if (!hitATileWallY) 
             {
                 mapY += changeY;
+                player.powerupManager.relationalUpdateY((float)changeY);
             } 
 
             //bullet-enemy collision
