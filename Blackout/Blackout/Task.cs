@@ -38,7 +38,7 @@ namespace Blackout
             //Rectangles
             rectangle = new Rectangle((int)startingPosition.X+16, (int)startingPosition.Y+16, SIZE, SIZE);
 
-            progressBar = new Bar(game, new Vector2(startingPosition.X - 16, startingPosition.Y - 16), 4, 32, 0, 50, Color.Green);
+            progressBar = new Bar(game, new Vector2(startingPosition.X + 8, startingPosition.Y - 6), 48, 8, 0, 50, Color.Green);
 
             //screen dimensions
             this.screenW = 1000;
@@ -56,7 +56,8 @@ namespace Blackout
                 if (timeRemaining <= 0)
                 {
                     hasCompleted = true;
-                    progressBar.barColor = Color.Gold;
+                    progressBar.barTex = new Texture2D(level.game.GraphicsDevice, 1, 1);
+                    progressBar.barTex.SetData(new Color[] { Color.Gold });
                 }
                 else
                 {

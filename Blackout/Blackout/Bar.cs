@@ -53,6 +53,7 @@ namespace Blackout
             backTex = new Texture2D(game.GraphicsDevice, 1, 1);
             this.backTex.SetData(new Color[] { Color.LightGray });
             this.barColor = barColor;
+            this.maxValue = maxValue;
 
             this.width = width;
             this.height = height;
@@ -76,6 +77,7 @@ namespace Blackout
         {
             if (curValue+value <= maxValue && curValue+value >= 0)
                 curValue += value;
+            barRect.Width = width * curValue / maxValue;
         }
 
         public Boolean isOnScreen()
