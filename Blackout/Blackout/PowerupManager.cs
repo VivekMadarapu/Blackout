@@ -58,15 +58,15 @@ namespace Blackout
             string effect = "";
             string finalEffect = "";
             //Loops through the powerups
-            for (int x = 0; x < powerupLoc.Capacity; x++)
+            for (int x = 0; x < powerupLoc.Count; x++)
             {
                 //Moves the powerups depending on player movement
                 //powerupLoc[x, 0] -= yMovement;
                 //powerupLoc[x, 1] -= xMovement;
-                Vector2 tempVector = powerupLoc[x];
-                tempVector.Y -= yMovement;
-                tempVector.X -= xMovement;
-                powerupLoc[x] = tempVector;
+                //Vector2 tempVector = powerupLoc[x];
+                //tempVector.Y -= yMovement;
+                //tempVector.X += xMovement;
+                //powerupLoc[x] = tempVector;
                //Creates a rectangle to store powerup position
                 powerupRectangle = new Rectangle((int)powerupLoc[x].X, (int)powerupLoc[x].Y, 54, 33);
                 //Gets the effect for the current powerup
@@ -137,7 +137,27 @@ namespace Blackout
   
             }
             //returns the effect applied to the player
+            for(int i=0; i<powerupLoc.Count-1; i++)
+            rectList[i] = new Rectangle((int)powerupLoc[i].X, (int)powerupLoc[i].Y, rectList[i].Width, rectList[i].Height);
+
             return finalEffect;
+        }
+        public void relationalUpdateX(float changeX)
+        {
+          for(int i=0; i<powerupLoc.Count; i++)
+            {
+                powerupLoc[i] = new Vector2(powerupLoc[i].X-changeX, powerupLoc[i].Y);
+                //rectList[i] = new Rectangle((int)powerupLoc[i].X, (int)powerupLoc[i].Y, rectList[i].Width, rectList[i].Height);
+            }
+        }
+        public void relationalUpdateY(float changeY)
+        {
+            for (int i = 0; i < powerupLoc.Count; i++)
+            {
+                powerupLoc[i] = new Vector2(powerupLoc[i].X, powerupLoc[i].Y-changeY);
+               // rectList[i] = new Rectangle((int)powerupLoc[i].X, (int)powerupLoc[i].Y, rectList[i].Width, rectList[i].Height);
+
+            }
         }
         public void Draw(SpriteBatch spriteBatch)
         {
