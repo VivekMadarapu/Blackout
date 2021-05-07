@@ -67,6 +67,7 @@ namespace Blackout
                 //tempVector.Y -= yMovement;
                 //tempVector.X += xMovement;
                 //powerupLoc[x] = tempVector;
+
                //Creates a rectangle to store powerup position
                 powerupRectangle = new Rectangle((int)powerupLoc[x].X, (int)powerupLoc[x].Y, 54, 33);
                 //Gets the effect for the current powerup
