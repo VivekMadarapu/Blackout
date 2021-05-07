@@ -165,7 +165,7 @@ namespace Blackout
         {
             for (int i = 0; i < powerupLoc.Count; i++)
             {
-                spriteBatch.Draw(texList[i], rectList[i], Color.White);
+                // spriteBatch.Draw(texList[i], rectList[i], Color.White);
             }   
         }
         

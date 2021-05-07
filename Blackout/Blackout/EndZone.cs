@@ -47,11 +47,7 @@ namespace Blackout
 
         public void Update(Level level, GamePadState newPad, Mortimer player)
         {
-            if (rectangle.Intersects(player.rect))
-            {
-                
-            }
-
+            
         }
 
         public Boolean isOnScreen()
