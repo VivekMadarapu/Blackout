@@ -226,6 +226,7 @@ namespace Blackout
         public void Draw(SpriteBatch spriteBatch)
         {
             //Rectangle rect2 = new Rectangle(rect.X + rect.Width / 2, rect.Y + rect.Height / 2, rect.Width, rect.Height);
+            powerupManager.Draw(spriteBatch);
             spriteBatch.Draw(tex, rect, sourceRect, color, direction, new Vector2(sourceRect.Width/2, sourceRect.Height/2), SpriteEffects.None, 0);
             //spriteBatch.Draw(tex, rect, sourceRect, color);
             //bullets
