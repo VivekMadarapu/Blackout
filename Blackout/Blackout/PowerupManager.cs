@@ -31,15 +31,58 @@ namespace Blackout
         //draw stuff
         List<Texture2D> texList = new List<Texture2D>();
         List<Rectangle> rectList = new List<Rectangle>();
-       
-      //  double[,] powerupLoc;
-       // string[] powerupType;
+
+        //reformat stuff
+        public string effect = "";
+        public string finalEffect = "";
+
+        //  double[,] powerupLoc;
+        // string[] powerupType;
         //Game and SpriteBatch are used for basic functionality. powerupLocTemp stores powerup locations,and powerupTypeTemp stores types
         public PowerupManager(Game gameTemp, List<Vector2> powerupLocTemp,List<string> powerupTypeTemp) {
             game = gameTemp;
             powerupLoc = powerupLocTemp;
             powerupType = powerupTypeTemp;
             loadContent(game);
+            for(int i=0; i<powerupLoc.Count; i++)
+            {
+                //Creates a rectangle to store powerup position
+                powerupRectangle = new Rectangle((int)powerupLoc[i].X, (int)powerupLoc[i].Y, 54, 33);
+                //Gets the effect for the current powerup
+                effect = powerupType[i];
+                //checks the effect value and loads the correct texture
+                switch (effect)
+                {
+                    case "yellow":
+                        finalTexture = yellowTexture;
+                        break;
+                    case "white":
+                        finalTexture = whiteTexture;
+                        break;
+                    case "red":
+                        finalTexture = redTexture;
+                        break;
+                    case "blue":
+                        finalTexture = blueTexture;
+                        break;
+                    case "pink":
+                        finalTexture = pinkTexture;
+                        break;
+                    case "purple":
+                        finalTexture = purpleTexture;
+                        break;
+                    case "green":
+                        finalTexture = greenTexture;
+                        break;
+                    default:
+                        finalTexture = yellowTexture;
+                        break;
+                }
+                //Drawing parameterrs the powerup
+                rectList.Add(powerupRectangle);
+                texList.Add(finalTexture);
+
+            }
         }
         //Loads the textures for the powerups
         public void loadContent(Game game)
@@ -55,8 +98,8 @@ namespace Blackout
         //Draws the powerups,and checks for collisions
         public string updatePowerups(int yMovement,int xMovement,double playerX,double playerY) {
             //Stores effec to apply to player,stays empty if there aren't collisions
-            string effect = "";
-            string finalEffect = "";
+            //string effect = "";
+            //string finalEffect = "";
             //Loops through the powerups
             for (int x = 0; x < powerupLoc.Count; x++)
             {
@@ -102,8 +145,8 @@ namespace Blackout
                         break;
                 }
                 //Drawing parameterrs the powerup
-                rectList.Add(powerupRectangle);
-                texList.Add(finalTexture);
+                //rectList.Add(powerupRectangle);
+                //texList.Add(finalTexture);
                 //Checks if the player intersects with the powerup
                 if (powerupRectangle.Intersects(new Rectangle((int)playerX,(int)playerY,20,30))) {
                     if (finalEffect.Equals("")) {
@@ -149,7 +192,7 @@ namespace Blackout
           for(int i=0; i<powerupLoc.Count; i++)
             {
                 powerupLoc[i] = new Vector2(powerupLoc[i].X-changeX, powerupLoc[i].Y);
-                // rectList[i] = new Rectangle((int)powerupLoc[i].X, (int)powerupLoc[i].Y, rectList[i].Width, rectList[i].Height);
+               // rectList[i] = new Rectangle((int)powerupLoc[i].X, (int)powerupLoc[i].Y, rectList[i].Width, rectList[i].Height);
             }
         }
         public void relationalUpdateY(float changeY)
@@ -163,9 +206,9 @@ namespace Blackout
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            for (int i = 0; i < powerupLoc.Count; i++)
+            for (int i = 0; i < texList.Count; i++)
             {
-                // spriteBatch.Draw(texList[i], rectList[i], Color.White);
+                spriteBatch.Draw(texList[i], rectList[i], Color.White);
             }   
         }
         
