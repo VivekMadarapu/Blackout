@@ -15,7 +15,7 @@ namespace Blackout
 {
     class Level
     {
-        Tile[,] tiles;
+        public Tile[,] tiles;
 
         public static int WIDTH = 50, HEIGHT = 50;
 
@@ -54,7 +54,7 @@ namespace Blackout
 
         }
         public void mapMoved() { }
-        public void Update(GamePadState gamePad)
+        public void Update(GameTime gameTime, GamePadState gamePad)
         {
             double changeX = Math.Round(gamePad.ThumbSticks.Left.X * player.speed);
             double changeY = -Math.Round(gamePad.ThumbSticks.Left.Y * player.speed);
@@ -132,6 +132,8 @@ namespace Blackout
                         double move = ((Cat) enemy).rectangle.Y + -changeY;
                         ((Cat)enemy).rectangle.Y = (int)move;
                     }
+                    
+                    ((Cat)enemy).Update(this, gamePad, player);
                 }
             }
 
