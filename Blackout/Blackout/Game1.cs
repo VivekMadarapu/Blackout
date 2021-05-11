@@ -144,7 +144,11 @@ namespace Blackout
                     }
                 }
 
-                
+                if (gamePadState.DPad.Up == ButtonState.Pressed && oldPadState.DPad.Up == ButtonState.Released)
+                {
+                    gameState++;
+                }
+
             }
 
             oldPadState = gamePadState;
