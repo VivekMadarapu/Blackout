@@ -27,7 +27,7 @@ namespace Blackout.Enemies.Mobs
         public const int SIZE = 64;
         public const int SPEED = 5;
         //random
-        public Random rand;
+        public static Random rand = new Random();
         public int switchDirectionTime = 0;
         public Vector2 speed;
 
@@ -49,7 +49,7 @@ namespace Blackout.Enemies.Mobs
 
             bullets = new List<Bullet>();
 
-            rand = new Random();
+            // rand = new Random();
 
             //screen dimensions
             this.screenW = 800;

@@ -116,8 +116,10 @@ namespace Blackout
             //}
 
             //scrolls enemies with the map
-            foreach (Enemy enemy in enemies)
+            int num = 0;
+            for (int i = 0; i < enemies.Count; i++)
             {
+                Enemy enemy = enemies[i];
                 if (enemy.GetType() == typeof(Cat))
                 {
                     if (!hitATileWallX)
@@ -125,14 +127,16 @@ namespace Blackout
                         double move = ((Cat) enemy).rectangle.X + -changeX;
                         ((Cat)enemy).rectangle.X = (int)move;
                     }
-
+            
                     if (!hitATileWallY)
                     {
                         double move = ((Cat) enemy).rectangle.Y + -changeY;
                         ((Cat)enemy).rectangle.Y = (int)move;
                     }
                     
-                    ((Cat)enemy).Update(this, gamePad, player);
+                    ((Cat)enemies[i]).Update(this, gamePad, player);
+                    // Console.WriteLine("Cat " + num + " : " + ((Cat)enemy).speed.X);
+                    num++;
                 }
             }
 
