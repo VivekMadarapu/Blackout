@@ -63,7 +63,7 @@ namespace Blackout
             bool mortimerMovesInX = false;
             bool mortimerMovesInY = false;
 
-            if (changeX + mapX < 0 || mortimerX < 475 ||
+            if (changeX + mapX < 0 || mortimerX < 225 ||
                 changeX + mapX + 1000 > Tile.TILE_SIZE * WIDTH || mortimerX > 525)
             {
                 if (mortimerX + playerTexWidth + changeX <= 1000 &&
@@ -83,7 +83,6 @@ namespace Blackout
                     mortimerY + changeY >= 0)
                 {
                     mortimerMovesInY = true;
-
 
                 }
                 changeY = 0;

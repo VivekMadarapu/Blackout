@@ -1,4 +1,4 @@
-2228 2600 350 500
+2128 2458 200 300
 w1 w1 w1 w1 w1 w1 f1 f1 f1 f1 f1 f1 f1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 f1 f1 f1 f1 f1 f1 f1 f1 f1 f1 f1 
 w1 w1 w1 w1 w1 w1 f1 f1 f1 f1 f1 f1 f1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 f1 f1 f1 f1 f1 f1 f1 f1 f1 f1 f1 
 w1 w1 w1 w1 w1 w1 f1 f1 f1 f1 f1 f1 f1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 w1 f1 f1 f1 f1 f1 f1 f1 f1 f1 f1 f1 
