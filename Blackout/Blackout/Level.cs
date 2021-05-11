@@ -40,8 +40,8 @@ namespace Blackout
         {
             mapX = 0;
             mapY = 0;
-            mortimerX = 200;
-            mortimerY = 200;
+            mortimerX = 0;
+            mortimerY = 0;
 
             this.game = game;
 
@@ -235,6 +235,8 @@ namespace Blackout
                     offsets[0] = new Vector2(Convert.ToInt32(offStrings[0]), Convert.ToInt32(offStrings[1]));
                     mapX = offsets[0].X;
                     mapY = offsets[0].Y;
+                    mortimerX = Convert.ToInt32(offStrings[2]);
+                    mortimerY = Convert.ToInt32(offStrings[3]);
                     for (int i = 0; i < tiles.GetLength(0); i++)
                     {
                         string line = reader.ReadLine();
@@ -265,7 +267,7 @@ namespace Blackout
                             //interprets ids into entities
                             switch (entityid)
                             {
-                            // entity ids
+                                // entity ids
                                 case 0:
                                     //no entities on this tile
                                     break;
@@ -274,7 +276,7 @@ namespace Blackout
                                     //Locations are loaded with the equations in the Vector2. They spawn them based on their locations in the entity map file and correspond with the tile locations in the map file. You can copy the equations directly for all entities.
                                     enemies.Add(new Cat(game, new Vector2(j*64-(int)offsets[0].X, i*64-(int)offsets[0].Y)));
                                     break;  
-                              //add as many entities (enemies or powerups) as needed, but don't reuse ids
+                                //add as many entities (enemies or powerups) as needed, but don't reuse ids
                                 case 2://blue cheese
                                     types.Add("blue");
                                     locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
