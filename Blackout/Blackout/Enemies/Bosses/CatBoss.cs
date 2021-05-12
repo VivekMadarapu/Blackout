@@ -31,6 +31,7 @@ namespace Blackout.Enemies
         public static Random rand = new Random();
         public int switchDirectionTime = 0;
         public Vector2 speed;
+        private float bulletHeading;
 
         //screen dimensions
         public int screenW;
@@ -57,7 +58,7 @@ namespace Blackout.Enemies
 
             speed = new Vector2(1, 1);
 
-            fireTimer = 120;
+            fireTimer = 0;
         }
 
         public void Update(Level level, GamePadState newPad, Mortimer player)
@@ -99,23 +100,19 @@ namespace Blackout.Enemies
             else
                 switchDirectionTime--;
 
-            if (fireTimer <= 0 && isOnScreen())
+            fireTimer++;
+            if (fireTimer < Int32.MaxValue)
             {
-                bullets.Add(new Bullet(new Rectangle(), bulletTex, 1, 0));
-                fireTimer = 120;
-            }
-            
-            for (int i = 0; i < bullets.Count; i++)
-            {
-                if (bullets[i].rectangle.Y > screenW+10 || bullets[i].rectangle.Y < -10 || bullets[i] == null)
-                    bullets[i] = null;
-                else
-                    bullets[i].Update();
-            }
-            while (bullets.Contains(null))
-                bullets.Remove(null);
+                double multiplier = fireTimer / 600.0 * 3;
+                bulletHeading = (float)(bulletHeading + rand.NextDouble() * multiplier) % 360;
+                bullets.Add(new Bullet(new Rectangle(rectangle.X, rectangle.Y, 16, 16), bulletTex, 3, bulletHeading));
 
-            fireTimer--;
+            }
+            else
+            {
+                fireTimer = 0;
+                bulletHeading = 0;
+            }
 
             // if (rectangle.Right >= screenW)
             //     speed.X *= -1;
@@ -129,7 +126,8 @@ namespace Blackout.Enemies
 
             rectangle.X += (int)speed.X;
             rectangle.Y += (int)speed.Y;
-
+            foreach (Bullet bullet in bullets)
+                bullet.Update();
         }
 
         public Boolean isOnScreen()
@@ -141,7 +139,7 @@ namespace Blackout.Enemies
         {
             spriteBatch.Draw(tex, rectangle, sourceRectangle, Color.White);
             foreach (Bullet bullet in bullets)
-                spriteBatch.Draw(tex, bullet.rectangle, Color.White);
+                spriteBatch.Draw(bulletTex, bullet.rectangle, Color.Red);
         }
 
     }
