@@ -148,6 +148,10 @@ namespace Blackout
                 {
                     gameState++;
                 }
+                else if (gamePadState.DPad.Down == ButtonState.Pressed && oldPadState.DPad.Down == ButtonState.Released)
+                {
+                    gameState++;
+                }
 
             }
 

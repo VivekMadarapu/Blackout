@@ -34,10 +34,19 @@ namespace Blackout
         public EndZone(Game game, Vector2 startingPosition)
         {
             //tex
-            tex = new Texture2D(game.GraphicsDevice, 1, 1);
-            this.tex.SetData(new Color[] { new Color(255, 255, 0, 100) });
+            if ((int)((Game1)game).gameState == 3)
+            {
+                tex = game.Content.Load<Texture2D>("sh1");
+            }
+            else
+            {
+                tex = game.Content.Load<Texture2D>("sv1");
+            }
+            
             //Rectangles
             rectangle = new Rectangle((int)startingPosition.X, (int)startingPosition.Y, SIZE, SIZE);
+
+            rand = new Random();
 
             //screen dimensions
             this.screenW = 800;
