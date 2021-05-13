@@ -104,7 +104,8 @@ namespace Blackout.Enemies.Mobs
 
             if (fireTimer <= 0 && isOnScreen())
             {
-                bullets.Add(new Bullet(new Rectangle(rectangle.X + rectangle.Width/2, rectangle.Y + rectangle.Height/2, 8, 8), bulletTex, 1, 0));
+                float angle = (float)Math.Atan2(rectangle.Y - level.player.rect.Y, level.player.rect.X - rectangle.X);
+                bullets.Add(new Bullet(new Rectangle(rectangle.X + rectangle.Width/2, rectangle.Y + rectangle.Height/2, 8, 8), bulletTex, 4, angle));
                 fireTimer = 120;
             }
             
