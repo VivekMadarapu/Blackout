@@ -122,7 +122,6 @@ namespace Blackout
             //}
 
             //scrolls enemies with the map
-            int num = 0;
             for (int i = 0; i < enemies.Count; i++)
             {
                 Enemy enemy = enemies[i];
@@ -142,20 +141,18 @@ namespace Blackout
                     }
                     
                     ((Cat)enemies[i]).Update(this, gamePad, player, changeX, changeY, hitATileWallX, hitATileWallY);
-                    // Console.WriteLine("Cat " + num + " : " + ((Cat)enemy).speed.X);
-                    num++;
                 }
                 else if (enemy.GetType() == typeof(CatBoss))
                 {
                     if (!hitATileWallX)
                     {
-                        double move = ((CatBoss) enemy).rectangle.X + changeX;
+                        double move = ((CatBoss) enemy).rectangle.X + -changeX;
                         ((CatBoss)enemy).rectangle.X = (int)move;
                     }
             
                     if (!hitATileWallY)
                     {
-                        double move = ((CatBoss) enemy).rectangle.Y + changeY;
+                        double move = ((CatBoss) enemy).rectangle.Y + -changeY;
                         ((CatBoss)enemy).rectangle.Y = (int)move;
                     }
                    
@@ -250,9 +247,10 @@ namespace Blackout
 
                             player.bullets.Remove(bullet);
                         }
-
                     }
-                    for (int r = 0; r < ((Cat)enemies[i]).bullets.Count; r++)
+
+                    while (enemies.Contains(null)) enemies.Remove(null);
+                    for (int r = 0; (Cat)enemies[i] != null && r < ((Cat)enemies[i]).bullets.Count; r++)
                     {
                         if (((Cat)enemies[i]).bullets[r].rectangle.Intersects(player.rect))
                         {
@@ -281,7 +279,8 @@ namespace Blackout
                             player.bullets.Remove(bullet);
                         }
                     }
-                    for (int r = 0; r < ((CatBoss)enemies[i]).bullets.Count; r++)
+                    while (enemies.Contains(null)) enemies.Remove(null);
+                    for (int r = 0; (CatBoss)enemies[i] != null && r < ((CatBoss)enemies[i]).bullets.Count; r++)
                     {
                         if (((CatBoss)enemies[i]).bullets[r].rectangle.Intersects(player.rect))
                         {
