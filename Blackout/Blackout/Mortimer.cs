@@ -51,7 +51,7 @@ namespace Blackout
         int prevY = 0;
 
         //power bars
-        Bar healthBar;
+       public  Bar healthBar;
 
         public Mortimer(Vector2 loc,Game tempGame,PowerupManager powerupManager): base(50,50,20)
         {   
