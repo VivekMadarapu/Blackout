@@ -34,6 +34,7 @@ namespace Blackout
         public float bulletDirection;
         public int bulletSize = 10;
         public int bulletCooldown = 0;
+        public int bulletDamage = 10;
         //necessary gamepadcontrols
         public GamePadState oldPad;
 
@@ -158,7 +159,11 @@ namespace Blackout
                     break;
                 case "blue":
                     effect = tempEffect;
-                    effectLength = 3600;
+                    effectLength = 1800;
+                    break;
+                case "green":
+                    effect = tempEffect;
+                    effectLength = 1;
                     break;
             }
             Boolean nightMode = false;
@@ -171,6 +176,10 @@ namespace Blackout
                 else if (effect.Equals("blue"))
                 {
                     speed = 8;
+                }
+                else if(effect.Equals("green"))
+                {
+                    health += 20;
                 }
                 effectLength--;
 
@@ -196,7 +205,7 @@ namespace Blackout
         public void loadContent(Game game)
         {
             double[,] locs = new double[,] { { 100, 100 }};
-            string[] types = new string[] { "white"};
+            string[] types = new string[] {"white"};
            // powerupManager = new PowerupManager(game, spriteBatch, locs, types);
             lights = new Lights(game);
             tex = game.Content.Load<Texture2D>("Mortimer");

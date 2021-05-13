@@ -162,6 +162,7 @@ namespace Blackout
                     powerupType.RemoveAt(x);
                     rectList.RemoveAt(x);
                     texList.RemoveAt(x);
+
                     //shrinks location and type arrays
                    /* powerupLoc = new double[tempPowerUpLocs.Length / 2 - 1, 2];
                     powerupType = new string[powerupType.Length - 1];*/

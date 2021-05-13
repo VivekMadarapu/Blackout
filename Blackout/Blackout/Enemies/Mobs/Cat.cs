@@ -37,6 +37,9 @@ namespace Blackout.Enemies.Mobs
 
         private int fireTimer;
 
+        //health system - ask shreeya
+        public int health = 50;
+
 
         public Cat(Game game, Vector2 startingPosition)
         {
