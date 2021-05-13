@@ -114,7 +114,8 @@ namespace Blackout
                     {
                         tiles[i, j].Update((hitATileWallX) ? 0 : -changeX, (hitATileWallY) ? 0 : -changeY);
                     }
-                }
+                }   
+
             //}
 
             //scrolls enemies with the map
@@ -137,7 +138,7 @@ namespace Blackout
                         ((Cat)enemy).rectangle.Y = (int)move;
                     }
                     
-                    ((Cat)enemies[i]).Update(this, gamePad, player, changeX, changeY);
+                    ((Cat)enemies[i]).Update(this, gamePad, player, changeX, changeY, hitATileWallX, hitATileWallY);
                     // Console.WriteLine("Cat " + num + " : " + ((Cat)enemy).speed.X);
                     num++;
                 }
@@ -155,7 +156,7 @@ namespace Blackout
                         ((CatBoss)enemy).rectangle.Y = (int)move;
                     }
                     
-                    ((CatBoss)enemies[i]).Update(this, gamePad, player);
+                    ((CatBoss)enemies[i]).Update(this, gamePad, player, (float)changeX, (float)changeY, hitATileWallX, hitATileWallY);
                 }
             }
 
@@ -297,6 +298,7 @@ namespace Blackout
             player.rect.X = (int)mortimerX;
             player.rect.Y = (int)mortimerY;
             player.Update(gamePad, tiles);
+            player.relationalUpdate((float)changeX, (float)changeY, hitATileWallX, hitATileWallY);
         }
 
         public void loadContent(Game1 game, string tilemap, string entitymap)

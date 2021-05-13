@@ -162,18 +162,19 @@ namespace Blackout
                     effectLength = 1800;
                     break;
                 case "green":
-                   // effect = tempEffect;
-                  //  effectLength = 0;
-                    health += 30;
-                    if (health < healthBar.maxValue)
+                if (health + 30<= healthBar.maxValue)
                     {
+                        health += 30;
                         healthBar.update(30);
                     }
-                    else if (health > healthBar.maxValue)
+                    else
                     {
-                        healthBar.maxValue = health;
-                        healthBar.curValue = health;
+                        healthBar.maxValue = 100;
+                        healthBar.curValue = 100;
                     }
+                    //effect = tempEffect;
+                    //effectLength = 1;
+
                     break;
             }
             Boolean nightMode = false;
@@ -187,27 +188,21 @@ namespace Blackout
                 {
                     speed = 8;
                 }
-                //else if (effect.Equals("green"))
-                //{
-                //    health+= 30;
-                //    if (health < healthBar.maxValue)
-                //    {
-                //        healthBar.update(30);
-                //    }
-                //    else if(health>healthBar.maxValue)
-                //    {
-                //        healthBar.maxValue = health;
-                //        healthBar.curValue = health;
-                //    }
-                    
-                //    //if(health>healthBar.maxValue)
-                //    //{
-                //    //    healthBar.maxValue = health;
-                //    //    //healthBar.curValue = health;
-                //    //}
-                //    effect = null;
-                //    tempEffect = null;
-                //}
+
+                else if(effect.Equals("green"))
+                {
+                    /*health += 30;
+                    if (health < healthBar.maxValue)
+                    {
+                        healthBar.update(30);
+                    }
+                    else
+                    {
+                        healthBar.maxValue = health;
+                        healthBar.curValue = health;
+                    }*/
+                }
+
                 effectLength--;
 
             }
@@ -219,12 +214,12 @@ namespace Blackout
 
             oldPad = newPad;
         }
-        public void relationalUpdate(float mx, float my)
+        public void relationalUpdate(float mx, float my, bool changeX, bool changeY)
         {
-           for(int i=0; i<bullets.Count; i++)
-            {
-                bullets[i].relationalBulletUpdate(mx, my);
-            }
+           for (int i=0; i<bullets.Count; i++)
+           {
+               bullets[i].relationalBulletUpdate(mx, my, changeX, changeY);
+           }
         }
         public void loadContent(Game game)
         {

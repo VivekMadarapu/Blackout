@@ -61,6 +61,7 @@
     <Compile Include="Animation.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="Bar.cs" />
+    <Compile Include="EndingScreen.cs" />
     <Compile Include="EndZone.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="Lights.cs" />

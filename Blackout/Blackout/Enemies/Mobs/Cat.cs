@@ -61,10 +61,10 @@ namespace Blackout.Enemies.Mobs
 
             speed = new Vector2(2, 2);
 
-            fireTimer = 60;
+            fireTimer = 120;
         }
 
-        public void Update(Level level, GamePadState newPad, Mortimer player, double changeX, double changeY)
+        public void Update(Level level, GamePadState newPad, Mortimer player, double mx, double my, bool isChangingX, bool isChangingY)
         {
             Tile[,] tiles = level.tiles;
             bool hitATileWallX = false;
@@ -105,14 +105,15 @@ namespace Blackout.Enemies.Mobs
 
             if (fireTimer <= 0 && isOnScreen())
             {
-                bullets.Add(new Bullet(new Rectangle(rectangle.X + rectangle.Width/2, rectangle.Y + rectangle.Height/2, 8, 8), bulletTex, 1, 0));
-                fireTimer = 60;
+                float angle = (float)Math.Atan2(rectangle.Y - level.player.rect.Y, level.player.rect.X - rectangle.X);
+                bullets.Add(new Bullet(new Rectangle(rectangle.X + rectangle.Width/2, rectangle.Y + rectangle.Height/2, 8, 8), bulletTex, 4, angle));
+                fireTimer = 120;
             }
             
             for (int i = 0; i < bullets.Count; i++)
             {
                 bullets[i].Update();
-                bullets[i].relationalBulletUpdate((float)changeX, (float)changeY);
+                bullets[i].relationalBulletUpdate((float)mx, (float)my, isChangingX, isChangingY);
             }
             while (bullets.Contains(null))
                 bullets.Remove(null);
