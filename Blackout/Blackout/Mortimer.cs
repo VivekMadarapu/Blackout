@@ -51,7 +51,7 @@ namespace Blackout
         int prevY = 0;
 
         //power bars
-        Bar healthBar;
+       public  Bar healthBar;
 
         public Mortimer(Vector2 loc,Game tempGame,PowerupManager powerupManager): base(50,50,20)
         {   
@@ -162,8 +162,7 @@ namespace Blackout
                     effectLength = 1800;
                     break;
                 case "green":
-                   
-                    if (health + 30<= healthBar.maxValue)
+                if (health + 30<= healthBar.maxValue)
                     {
                         health += 30;
                         healthBar.update(30);
@@ -175,6 +174,7 @@ namespace Blackout
                     }
                     //effect = tempEffect;
                     //effectLength = 1;
+
                     break;
             }
             Boolean nightMode = false;
@@ -188,6 +188,7 @@ namespace Blackout
                 {
                     speed = 8;
                 }
+
                 else if(effect.Equals("green"))
                 {
                     /*health += 30;
@@ -201,6 +202,7 @@ namespace Blackout
                         healthBar.curValue = health;
                     }*/
                 }
+
                 effectLength--;
 
             }

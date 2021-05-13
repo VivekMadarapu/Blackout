@@ -54,7 +54,7 @@ namespace Blackout
 
         }
         public void mapMoved() { }
-        public void Update(GameTime gameTime, GamePadState gamePad)
+        public void Update(GameTime gameTime, GamePadState gamePad, GameState gameState)
         {
             double changeX = Math.Round(gamePad.ThumbSticks.Left.X * player.speed);
             double changeY = -Math.Round(gamePad.ThumbSticks.Left.Y * player.speed);
@@ -62,7 +62,9 @@ namespace Blackout
             double mortimerChangeY = changeY;
             bool mortimerMovesInX = false;
             bool mortimerMovesInY = false;
-
+            //morty death
+            if (player.health <= 0)
+                gameState = GameState.END;
             if (changeX + mapX < 0 || mortimerX < 450 ||
                 changeX + mapX + 800 > Tile.TILE_SIZE * WIDTH || mortimerX > 550)
             {
@@ -144,13 +146,13 @@ namespace Blackout
                 {
                     if (!hitATileWallX)
                     {
-                        double move = ((CatBoss) enemy).rectangle.X + -changeX;
+                        double move = ((CatBoss) enemy).rectangle.X + changeX;
                         ((CatBoss)enemy).rectangle.X = (int)move;
                     }
             
                     if (!hitATileWallY)
                     {
-                        double move = ((CatBoss) enemy).rectangle.Y + -changeY;
+                        double move = ((CatBoss) enemy).rectangle.Y + changeY;
                         ((CatBoss)enemy).rectangle.Y = (int)move;
                     }
                     
@@ -216,12 +218,15 @@ namespace Blackout
             {
                 mapX += changeX;
                 player.powerupManager.relationalUpdateX((float)changeX);
+                
             }
             if (!hitATileWallY) 
             {
                 mapY += changeY;
                 player.powerupManager.relationalUpdateY((float)changeY);
-            } 
+               
+            }
+
 
             //bullet-enemy collision
             for (int i = 0; i < enemies.Count ;i++)
@@ -234,12 +239,55 @@ namespace Blackout
                         if ((Cat)enemies[i] == null) break;
                         if (((Cat)enemies[i]).rectangle.Intersects(bullet.rectangle))
                         {
+
                             ((Cat)enemies[i]).health -= player.bulletDamage;
-                            if(((Cat)enemies[i]).health<=0)
+                            int cHealth = player.health;
+                            if (((Cat)enemies[i]).health<=0)
                                  enemies[i] = null;
 
                             player.bullets.Remove(bullet);
                         }
+
+                    }
+                    for (int r = 0; r < ((Cat)enemies[i]).bullets.Count; r++)
+                    {
+                        if (((Cat)enemies[i]).bullets[r].rectangle.Intersects(player.rect))
+                        {
+                            ((Cat)enemies[i]).bullets.RemoveAt(r);
+                            int cHealth = player.health;
+                            player.health -= ((Cat)enemies[i]).bulletDamage;
+                            cHealth -= player.health;
+                            player.healthBar.update(-cHealth);
+                        }
+
+                    }
+                }
+                else if (enemies[i].GetType() == typeof(CatBoss))
+                {
+                    for (int j = 0; j < player.bullets.Count; j++)
+                    {
+                        Bullet bullet = player.bullets[j];
+                        if ((CatBoss)enemies[i] == null) break;
+                        if (((CatBoss)enemies[i]).rectangle.Intersects(bullet.rectangle))
+                        {
+                            ((CatBoss)enemies[i]).health -= player.bulletDamage;
+                            if (((CatBoss)enemies[i]).health <= 0)
+                                enemies[i] = null;
+
+                            player.bullets.Remove(bullet);
+                        }
+                    }
+                    for (int r = 0; r < ((CatBoss)enemies[i]).bullets.Count; r++)
+                    {
+                        if (((CatBoss)enemies[i]).bullets[r].rectangle.Intersects(player.rect))
+                        {
+                            ((CatBoss)enemies[i]).bullets.RemoveAt(r);
+                            int cHealth = player.health;
+                            player.health -= ((CatBoss)enemies[i]).bulletDamage;
+                            cHealth -= player.health;
+                            player.healthBar.update(-cHealth);
+                        }
+
                     }
                 }
             }

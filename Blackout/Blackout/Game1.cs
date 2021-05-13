@@ -115,7 +115,7 @@ namespace Blackout
             {
                 // powerupManager.updatePowerups(0, 0, 200, 0);
 
-                levels[(int)gameState - 2].Update(gameTime, gamePadState);
+                levels[(int)gameState - 2].Update(gameTime, gamePadState, gameState);
 
                 bool canAdvance = true;
                 foreach (var task in levels[(int) gameState - 2].tasks)

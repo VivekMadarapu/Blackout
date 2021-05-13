@@ -15,6 +15,8 @@ namespace Blackout.Projectiles
         public Vector2 speed;
         public Vector2 loc;
         float direction;//radians
+
+        //health system --> 
         public Bullet(Rectangle rectangle, Texture2D texture, int speed, float direct) : base(rectangle, texture)
         {
             //d accounts for messups in direction

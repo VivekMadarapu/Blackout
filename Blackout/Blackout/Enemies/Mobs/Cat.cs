@@ -39,6 +39,7 @@ namespace Blackout.Enemies.Mobs
 
         //health system - ask shreeya
         public int health = 50;
+        public int bulletDamage = 5;
 
 
         public Cat(Game game, Vector2 startingPosition)
@@ -138,7 +139,20 @@ namespace Blackout.Enemies.Mobs
         {
             return rectangle.X >= 0 && rectangle.Right <= screenW && rectangle.Y >= 0 && rectangle.Bottom <= screenH;
         }
-
+        public void relationalUpdateX(float changeX)
+        {
+            for(int i=0; i<bullets.Count; i++)
+            {
+                bullets[i].loc = new Vector2(bullets[i].loc.X + changeX, bullets[i].loc.Y);
+            }
+        }
+        public void relationalUpdateY(float changeY)
+        {
+            for (int i = 0; i < bullets.Count; i++)
+            {
+                bullets[i].loc = new Vector2(bullets[i].loc.X, bullets[i].loc.Y += changeY);
+            }
+        }
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(tex, rectangle, sourceRectangle, Color.White);
