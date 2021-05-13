@@ -42,7 +42,7 @@ namespace Blackout.Enemies
 
         //health system
         public int health = 500;
-        public int bulletDamage = 10; 
+        public int bulletDamage = 15; 
         public CatBoss(Game game, Vector2 startingPosition)
         {
             //tex
@@ -128,7 +128,8 @@ namespace Blackout.Enemies
             rectangle.Y += (int)speed.Y;
             for (var i = 0; i < bullets.Count; i++)
             {
-                bullets[i].Update();
+                // bullets[i].Update();
+                // bullets[i].relationalBulletUpdate(mx, my, isChangingX, isChangingY);
                 if (bullets[i].rectangle.Intersects(player.rect))
                 {
                     bullets[i] = null;
@@ -162,10 +163,10 @@ namespace Blackout.Enemies
             while (bullets.Contains(null))
                 bullets.Remove(null);
              
-            if (catTimer == 1200)
+            if (catTimer == 420)
             {
                 catTimer = 0;
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 4; i++)
                     level.enemies.Add(new Cat(level.game, 
                         new Vector2(rectangle.X + rand.Next(-60, 60), rectangle.Y + rand.Next(-60, 60))));
             }
