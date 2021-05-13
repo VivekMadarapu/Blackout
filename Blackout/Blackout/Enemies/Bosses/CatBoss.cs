@@ -63,7 +63,7 @@ namespace Blackout.Enemies
             catTimer = 0;
         }
 
-        public void Update(Level level, GamePadState newPad, Mortimer player)
+        public void Update(Level level, GamePadState newPad, Mortimer player, float mx, float my, bool isChangingX, bool isChangingY)
         {
             Tile[,] tiles = level.tiles;
             bool hitATileWallX = false;
@@ -150,7 +150,11 @@ namespace Blackout.Enemies
                 {
                     bullets[i] = null;
                 }
-                else bullets[i].Update();
+                else
+                {
+                    bullets[i].Update();
+                    bullets[i].relationalBulletUpdate(mx, my, isChangingX, isChangingY);
+                }
             }
             while (bullets.Contains(null))
                 bullets.Remove(null);

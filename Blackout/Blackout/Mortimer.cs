@@ -195,12 +195,12 @@ namespace Blackout
 
             oldPad = newPad;
         }
-        public void relationalUpdate(float mx, float my)
+        public void relationalUpdate(float mx, float my, bool changeX, bool changeY)
         {
-           for(int i=0; i<bullets.Count; i++)
-            {
-                bullets[i].relationalBulletUpdate(mx, my);
-            }
+           for (int i=0; i<bullets.Count; i++)
+           {
+               bullets[i].relationalBulletUpdate(mx, my, changeX, changeY);
+           }
         }
         public void loadContent(Game game)
         {

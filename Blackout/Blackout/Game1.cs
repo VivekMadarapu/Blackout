@@ -29,7 +29,9 @@ namespace Blackout
         private Lights lights;
         PowerupManager powerupManager;
 
-        private Level[] levels;
+        Level[] levels;
+
+        private EndingScreen endingScreen;
 
 
         private GamePadState oldPadState;
@@ -39,9 +41,6 @@ namespace Blackout
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            graphics.PreferredBackBufferWidth = 1000;
-            graphics.PreferredBackBufferHeight = 700;
-            graphics.ApplyChanges();
         }
 
         /// <summary>
@@ -59,6 +58,7 @@ namespace Blackout
             // levelOne = new Level(spriteBatch,this);
             startingScreen = new StartingScreen(graphics);
             settingsScreen = new SettingsScreen(startingScreen.mousePointer);
+            endingScreen = new EndingScreen(GraphicsDevice);
             oldPadState = GamePad.GetState(PlayerIndex.One);
             base.Initialize();
         }
@@ -72,13 +72,7 @@ namespace Blackout
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             // TODO: use this.Content to load your game content here
-            levels = new Level[3];
-            for (int i = 0; i < levels.Length; i++)
-            {
-                levels[i] = new Level(spriteBatch, this);
-                levels[i].loadContent(this, "TileMap"+ (i+1) +".txt", "EntityMap"+ (i+1) +".txt");
-            }
-            lights = new Lights(this);
+            resetLevels();
 
             MousePointer.loadPointerImage(this);
             Button.loadContent(this);
@@ -116,6 +110,7 @@ namespace Blackout
             // TODO: Add your update logic here
             if (gameState == GameState.START) startingScreen.Update(this, graphics, gamePadState, oldPadState);
             else if (gameState == GameState.SETTINGS) settingsScreen.Update(this, gamePadState, oldPadState);
+            else if (gameState == GameState.END) endingScreen.Update(this, gamePadState, spriteBatch);
             if (gameState != GameState.START && gameState != GameState.SETTINGS && gameState != GameState.END)
             {
                 // powerupManager.updatePowerups(0, 0, 200, 0);
@@ -172,9 +167,10 @@ namespace Blackout
             spriteBatch.Begin();
             if (gameState == GameState.START) startingScreen.Draw(spriteBatch);
             else if (gameState == GameState.SETTINGS) settingsScreen.Draw(spriteBatch);
-            else if (gameState != GameState.START && gameState != GameState.SETTINGS && gameState != GameState.END)
+            else if (gameState != GameState.START && gameState != GameState.SETTINGS)
             {
                 levels[(int)gameState - 2].Draw(spriteBatch);
+                if (gameState == GameState.END) endingScreen.Draw(spriteBatch);
             }
             spriteBatch.End();
             /*This shuts off the light randomly for 11 seconds each time
@@ -188,6 +184,17 @@ namespace Blackout
              */
             //String effect = powerupManager.updatePowerups(0, 0, 200, 0);
             base.Draw(gameTime);
+        }
+
+        public void resetLevels()
+        {
+            levels = new Level[3];
+            for (int i = 0; i < levels.Length; i++)
+            {
+                levels[i] = new Level(spriteBatch, this);
+                levels[i].loadContent(this, "TileMap" + (i + 1) + ".txt", "EntityMap" + (i + 1) + ".txt");
+            }
+            lights = new Lights(this);
         }
     }
 

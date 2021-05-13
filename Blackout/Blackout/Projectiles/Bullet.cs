@@ -61,10 +61,10 @@ namespace Blackout.Projectiles
             rectangle.Y = (int)loc.Y;
            
         }
-        public void relationalBulletUpdate(float mx, float my)
+        public void relationalBulletUpdate(float mx, float my, bool changeX, bool changeY)
         {
-            loc.X += mx;
-            loc.Y += my;
+            loc.X += (changeX) ? 0 : -mx;
+            loc.Y += (changeY) ? 0 : -my;
         }
         public void Draw(SpriteBatch spriteBatch)//draws individual bullets
         {
