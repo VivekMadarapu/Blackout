@@ -38,6 +38,7 @@ namespace Blackout.Enemies
         public int screenH;
 
         private int fireTimer;
+        private int catTimer;
 
         public CatBoss(Game game, Vector2 startingPosition)
         {
@@ -59,6 +60,7 @@ namespace Blackout.Enemies
             speed = new Vector2(1, 1);
 
             fireTimer = 0;
+            catTimer = 0;
         }
 
         public void Update(Level level, GamePadState newPad, Mortimer player)
@@ -152,7 +154,16 @@ namespace Blackout.Enemies
             }
             while (bullets.Contains(null))
                 bullets.Remove(null);
-                
+             
+            if (catTimer == 1200)
+            {
+                catTimer = 0;
+                for (int i = 0; i < 3; i++)
+                    level.enemies.Add(new Cat(level.game, 
+                        new Vector2(rectangle.X + rand.Next(-60, 60), rectangle.Y + rand.Next(-60, 60))));
+            }
+
+            catTimer++;
         }
 
         public Boolean isOnScreen()
