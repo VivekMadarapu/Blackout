@@ -122,6 +122,7 @@ namespace Blackout
                 Enemy enemy = enemies[i];
                 if (enemy.GetType() == typeof(Cat))
                 {
+                   
                     if (!hitATileWallX)
                     {
                         double move = ((Cat) enemy).rectangle.X + -changeX;
@@ -232,7 +233,10 @@ namespace Blackout
                         if ((Cat)enemies[i] == null) break;
                         if (((Cat)enemies[i]).rectangle.Intersects(bullet.rectangle))
                         {
-                            enemies[i] = null;
+                            ((Cat)enemies[i]).health -= player.bulletDamage;
+                            if(((Cat)enemies[i]).health<=0)
+                                 enemies[i] = null;
+
                             player.bullets.Remove(bullet);
                         }
                     }
