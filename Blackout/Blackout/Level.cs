@@ -143,13 +143,13 @@ namespace Blackout
                 {
                     if (!hitATileWallX)
                     {
-                        double move = ((CatBoss) enemy).rectangle.X + -changeX;
+                        double move = ((CatBoss) enemy).rectangle.X + changeX;
                         ((CatBoss)enemy).rectangle.X = (int)move;
                     }
             
                     if (!hitATileWallY)
                     {
-                        double move = ((CatBoss) enemy).rectangle.Y + -changeY;
+                        double move = ((CatBoss) enemy).rectangle.Y + changeY;
                         ((CatBoss)enemy).rectangle.Y = (int)move;
                     }
                     
@@ -215,12 +215,37 @@ namespace Blackout
             {
                 mapX += changeX;
                 player.powerupManager.relationalUpdateX((float)changeX);
+                //enemies bullet fix (sg)
+                foreach (Enemy enemy in enemies)
+                {
+                    if (enemy.GetType() == typeof(Cat))
+                    {
+                        ((Cat)enemy).relationalUpdateX((float)-changeX/2);
+                    }
+                    //else if (enemy.GetType() == typeof(CatBoss))
+                    //{
+
+                    //}
+                }
             }
             if (!hitATileWallY) 
             {
                 mapY += changeY;
                 player.powerupManager.relationalUpdateY((float)changeY);
-            } 
+                //enemies bullet fix (sg)
+                foreach (Enemy enemy in enemies)
+                {
+                    if (enemy.GetType() == typeof(Cat))
+                    {
+                        ((Cat)enemy).relationalUpdateY((float)changeY/2);
+                    }
+                    //else if (enemy.GetType() == typeof(CatBoss))
+                    //{
+
+                    //}
+                }
+            }
+
 
             //bullet-enemy collision
             for (int i = 0; i < enemies.Count ;i++)
