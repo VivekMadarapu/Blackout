@@ -162,15 +162,15 @@ namespace Blackout
                     effectLength = 1800;
                     break;
                 case "green":
-                if (health + 30<= healthBar.maxValue)
+                    health += 30;
+                    if (health + 30 <= healthBar.maxValue)
                     {
-                        health += 30;
-                        healthBar.update(30);
+                        healthBar.curValue+=30;
                     }
                     else
                     {
-                        healthBar.maxValue = 100;
-                        healthBar.curValue = 100;
+                        healthBar.maxValue = health;
+                        healthBar.curValue = health;
                     }
                     //effect = tempEffect;
                     //effectLength = 1;
