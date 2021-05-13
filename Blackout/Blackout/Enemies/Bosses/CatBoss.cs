@@ -101,17 +101,12 @@ namespace Blackout.Enemies
                 switchDirectionTime--;
 
             fireTimer++;
-            if (fireTimer < Int32.MaxValue)
+            if (fireTimer % 10 == 0)
             {
                 double multiplier = fireTimer / 600.0 * 3;
                 bulletHeading = (float)(bulletHeading + rand.NextDouble() * multiplier) % 360;
-                bullets.Add(new Bullet(new Rectangle(rectangle.X, rectangle.Y, 16, 16), bulletTex, 3, bulletHeading));
+                bullets.Add(new Bullet(new Rectangle(rectangle.X+64, rectangle.Y+64, 16, 16), bulletTex, 3, bulletHeading));
 
-            }
-            else
-            {
-                fireTimer = 0;
-                bulletHeading = 0;
             }
 
             // if (rectangle.Right >= screenW)
@@ -126,8 +121,38 @@ namespace Blackout.Enemies
 
             rectangle.X += (int)speed.X;
             rectangle.Y += (int)speed.Y;
-            foreach (Bullet bullet in bullets)
-                bullet.Update();
+            for (var i = 0; i < bullets.Count; i++)
+            {
+                bullets[i].Update();
+                if (bullets[i].rectangle.Intersects(player.rect))
+                {
+                    bullets[i] = null;
+                }
+            }
+            while (bullets.Contains(null))
+                bullets.Remove(null);
+
+            for(int i=bullets.Count - 1; i>=0; i--)
+            {
+                bool collided = false;
+                for (int x = 0; x < tiles.GetLength(0) & !collided; x++)
+                {
+                    for (int y = 0; y < tiles.GetLength(1) && !collided; y++)
+                    {
+                        Rectangle tileRect = new Rectangle((int)(tiles[x, y].x), (int)(tiles[x, y].y), Tile.TILE_SIZE, Tile.TILE_SIZE);
+                        if (tiles[x, y].tileState == TileState.IMPASSABLE && tileRect.Intersects(bullets[i].rectangle)) collided = true;
+                    }
+                }
+
+                if (collided)
+                {
+                    bullets[i] = null;
+                }
+                else bullets[i].Update();
+            }
+            while (bullets.Contains(null))
+                bullets.Remove(null);
+                
         }
 
         public Boolean isOnScreen()
