@@ -104,26 +104,11 @@ namespace Blackout
             loc.X = rect.X;
             loc.Y = rect.Y;
             //direction update
-            if(newPad.ThumbSticks.Left.Y!=0 || newPad.ThumbSticks.Left.X!=0)
-            {
-
-                if (newPad.ThumbSticks.Left.X == 0)
-                    direction = (float)(Math.PI / 2) + (float)Math.Atan2(newPad.ThumbSticks.Left.Y, newPad.ThumbSticks.Left.X);
-                else if (newPad.ThumbSticks.Left.Y == 0)
-                    direction = (-1) * (float)(Math.PI / 2) + (float)Math.Atan2(newPad.ThumbSticks.Left.Y, newPad.ThumbSticks.Left.X);
-                else
-                {
-                    direction = (float)Math.Atan2(newPad.ThumbSticks.Left.Y, newPad.ThumbSticks.Left.X);
-                    if((newPad.ThumbSticks.Left.Y>0 && newPad.ThumbSticks.Left.X>0)|| (newPad.ThumbSticks.Left.Y < 0 && newPad.ThumbSticks.Left.X < 0))
-                    {
-                        direction +=(float) Math.PI;
-                    }
-                }
-            }
+            direction = (float)(Math.Atan2(newPad.ThumbSticks.Left.X, newPad.ThumbSticks.Left.Y) - Math.PI);
 
             //bullets
             bulletDirection = (float)Math.Atan2((double)newPad.ThumbSticks.Right.Y, (double)(newPad.ThumbSticks.Right.X));
-            if (newPad.Triggers.Right==1 && oldPad.Triggers.Right!=1)
+            if (newPad.Triggers.Right >= 0.8 && oldPad.Triggers.Right < 0.8)
             {
                
                 bullets.Add(new Projectiles.Bullet(new Rectangle((int)loc.X + rect.Width / 2, (int)loc.Y + rect.Height / 2, bulletSize, bulletSize), bulletTex, bulletSpeed, (float)bulletDirection));
@@ -148,7 +133,7 @@ namespace Blackout
                 {
                     bullets.Remove(bullets[i]);
                 }
-                 else bullets[i].Update();
+                else bullets[i].Update();
             }
 
             //cooldown for bullets
@@ -236,8 +221,9 @@ namespace Blackout
         {
             //Rectangle rect2 = new Rectangle(rect.X + rect.Width / 2, rect.Y + rect.Height / 2, rect.Width, rect.Height);
             powerupManager.Draw(spriteBatch);
-            spriteBatch.Draw(tex, rect, sourceRect, color, direction, new Vector2(sourceRect.Width/2, sourceRect.Height/2), SpriteEffects.None, 0);
-            //spriteBatch.Draw(tex, rect, sourceRect, color);
+            Rectangle rotationRectangle = new Rectangle(rect.X + rect.Width / 2, rect.Y + rect.Height / 2, rect.Width, rect.Height);
+            spriteBatch.Draw(tex, rotationRectangle, sourceRect, color, direction, new Vector2(sourceRect.Width/2, sourceRect.Height/2), SpriteEffects.None, 0);
+            // spriteBatch.Draw(tex, rect, sourceRect, color);
             //bullets
             for(int i=0; i<bullets.Count; i++)
             {
