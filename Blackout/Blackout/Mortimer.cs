@@ -73,7 +73,7 @@ namespace Blackout
             game = tempGame;
 
             //powerbar
-            healthBar = new Bar(game, new Vector2(0, 0), 100, 20, health, health, Color.Green);
+            healthBar = new Bar(game, new Vector2(0, 0), 250, 25, health, health, Color.Green);
 
 
 
@@ -179,7 +179,16 @@ namespace Blackout
                 }
                 else if(effect.Equals("green"))
                 {
-                    health += 20;
+                    health += 30;
+                    if (health < healthBar.maxValue)
+                    {
+                        healthBar.update(30);
+                    }
+                    else
+                    {
+                        healthBar.maxValue = health;
+                        healthBar.curValue = health;
+                    }
                 }
                 effectLength--;
 
@@ -189,9 +198,6 @@ namespace Blackout
                 speed = 4;
             }
             lights.checkIfLightsOff(rect.X + 31, rect.Y + 31, nightMode);
-
-            //healtbar;
-            healthBar.update(health);
 
             oldPad = newPad;
         }
@@ -236,7 +242,7 @@ namespace Blackout
 
 
             //powerups
-            healthBar.Draw(spriteBatch);
+            healthBar.Draw(spriteBatch, true);
         }
     }
 }
