@@ -134,7 +134,7 @@ namespace Blackout
                         ((Cat)enemy).rectangle.Y = (int)move;
                     }
                     
-                    ((Cat)enemies[i]).Update(this, gamePad, player);
+                    ((Cat)enemies[i]).Update(this, gamePad, player, changeX, changeY);
                     // Console.WriteLine("Cat " + num + " : " + ((Cat)enemy).speed.X);
                     num++;
                 }
@@ -206,7 +206,7 @@ namespace Blackout
             if (mortimerMovesInY || hitATileWallY) {
                 tempYChange = 0;
             }
-          //  player.mortimerMoved(changeY, changeX);
+
             player.mortimerMoved(tempYChange, tempXChange);
             if (!hitATileWallX && mortimerMovesInX) mortimerX += mortimerChangeX;
             if (!hitATileWallY && mortimerMovesInY) mortimerY += mortimerChangeY;
