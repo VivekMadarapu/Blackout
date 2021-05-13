@@ -162,8 +162,18 @@ namespace Blackout
                     effectLength = 1800;
                     break;
                 case "green":
-                    effect = tempEffect;
-                    effectLength = 1;
+                   // effect = tempEffect;
+                  //  effectLength = 0;
+                    health += 30;
+                    if (health < healthBar.maxValue)
+                    {
+                        healthBar.update(30);
+                    }
+                    else if (health > healthBar.maxValue)
+                    {
+                        healthBar.maxValue = health;
+                        healthBar.curValue = health;
+                    }
                     break;
             }
             Boolean nightMode = false;
@@ -177,19 +187,27 @@ namespace Blackout
                 {
                     speed = 8;
                 }
-                else if(effect.Equals("green"))
-                {
-                    health += 30;
-                    if (health < healthBar.maxValue)
-                    {
-                        healthBar.update(30);
-                    }
-                    else
-                    {
-                        healthBar.maxValue = health;
-                        healthBar.curValue = health;
-                    }
-                }
+                //else if (effect.Equals("green"))
+                //{
+                //    health+= 30;
+                //    if (health < healthBar.maxValue)
+                //    {
+                //        healthBar.update(30);
+                //    }
+                //    else if(health>healthBar.maxValue)
+                //    {
+                //        healthBar.maxValue = health;
+                //        healthBar.curValue = health;
+                //    }
+                    
+                //    //if(health>healthBar.maxValue)
+                //    //{
+                //    //    healthBar.maxValue = health;
+                //    //    //healthBar.curValue = health;
+                //    //}
+                //    effect = null;
+                //    tempEffect = null;
+                //}
                 effectLength--;
 
             }
