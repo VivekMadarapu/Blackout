@@ -331,7 +331,7 @@ namespace Blackout
                                 types.Add("blue");
                                 locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
                                 break;
-                            case 3://white cheese
+                            case 5://white cheese
                                 types.Add("white");
                                 locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
                                 break;
@@ -339,7 +339,7 @@ namespace Blackout
                                 types.Add("pink");
                                 locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
                                 break;
-                            case 5://green cheese
+                            case 3://green cheese
                                 types.Add("green");
                                 locs.Add(new Vector2(j * 64 - (int)offsets[0].X, i * 64 - (int)offsets[0].Y));
                                 break;

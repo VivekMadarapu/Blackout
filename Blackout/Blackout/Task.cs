@@ -78,7 +78,7 @@ namespace Blackout
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(tex, rectangle, Color.White);
-            progressBar.Draw(spriteBatch);
+            progressBar.Draw(spriteBatch, false);
         }
     }
 }

@@ -14,6 +14,8 @@ namespace Blackout
         public Texture2D barTex;
         //texture for the background (unfilled portion of the bar)
         public Texture2D backTex;
+        //font for displaying healthbar values
+        public SpriteFont font;
         
         //rectangle for the bar
         public Rectangle barRect;
@@ -52,6 +54,7 @@ namespace Blackout
             this.barTex.SetData(new Color[] { barColor });
             backTex = new Texture2D(game.GraphicsDevice, 1, 1);
             this.backTex.SetData(new Color[] { Color.LightGray });
+            this.font = game.Content.Load<SpriteFont>("SpriteFont1");
             this.barColor = barColor;
             this.maxValue = maxValue;
 
@@ -85,10 +88,17 @@ namespace Blackout
             return backRect.X >= 0 && backRect.Right <= screenW && backRect.Y >= 0 && backRect.Bottom <= screenH;
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="spriteBatch">spritebatch to render the healthbar with</param>
+        /// <param name="stats">Whether to display the bar values over the bar</param>
+        public void Draw(SpriteBatch spriteBatch, bool stats)
         {
             spriteBatch.Draw(backTex, backRect, Color.White);
             spriteBatch.Draw(barTex, barRect, Color.White);
+            if(stats)
+                spriteBatch.DrawString(font, curValue + " / " + maxValue, new Vector2(backRect.X, backRect.Y), Color.White);
         }
 
     }

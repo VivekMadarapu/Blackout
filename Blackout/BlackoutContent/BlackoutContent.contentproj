@@ -123,6 +123,11 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
     </Compile>
+    <Compile Include="SpriteFont1.spritefont">
+      <Name>SpriteFont1</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
     <None Include="TileMap1.txt">
       <Name>TileMap1</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
