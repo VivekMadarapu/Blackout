@@ -246,10 +246,10 @@ namespace Blackout
                                  enemies[i] = null;
 
                             player.bullets.Remove(bullet);
+                            j--;
                         }
                     }
 
-                    while (enemies.Contains(null)) enemies.Remove(null);
                     for (int r = 0; (Cat)enemies[i] != null && r < ((Cat)enemies[i]).bullets.Count; r++)
                     {
                         if (((Cat)enemies[i]).bullets[r].rectangle.Intersects(player.rect))
@@ -259,6 +259,7 @@ namespace Blackout
                             player.health -= ((Cat)enemies[i]).bulletDamage;
                             cHealth -= player.health;
                             player.healthBar.update(-cHealth);
+                            r--;
                         }
 
                     }
@@ -272,14 +273,19 @@ namespace Blackout
                         if (((CatBoss)enemies[i]).rectangle.Intersects(bullet.rectangle))
                         {
                             ((CatBoss)enemies[i]).health -= player.bulletDamage;
-                            if (((CatBoss)enemies[i]).health <= 0)
+                            if (((CatBoss) enemies[i]).health <= 0)
+                            {
                                 enemies[i] = null;
+                                game.gameState = GameState.END;
+                                game.setWin(true);
+                            }
 
 
                             player.bullets.Remove(bullet);
+                            j--;
                         }
                     }
-                    while (enemies.Contains(null)) enemies.Remove(null);
+
                     for (int r = 0; (CatBoss)enemies[i] != null && r < ((CatBoss)enemies[i]).bullets.Count; r++)
                     {
                         if (((CatBoss)enemies[i]).bullets[r].rectangle.Intersects(player.rect))
@@ -289,6 +295,7 @@ namespace Blackout
                             player.health -= ((CatBoss)enemies[i]).bulletDamage;
                             cHealth -= player.health;
                             player.healthBar.update(-cHealth);
+                            r--;
                         }
 
                     }
