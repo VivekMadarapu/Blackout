@@ -58,7 +58,8 @@ namespace Blackout
             // levelOne = new Level(spriteBatch,this);
             startingScreen = new StartingScreen(graphics);
             settingsScreen = new SettingsScreen(startingScreen.mousePointer);
-            endingScreen = new EndingScreen(GraphicsDevice);
+            endingScreen = new EndingScreen(GraphicsDevice, startingScreen.mousePointer);
+
             oldPadState = GamePad.GetState(PlayerIndex.One);
             base.Initialize();
         }
@@ -110,43 +111,45 @@ namespace Blackout
             // TODO: Add your update logic here
             if (gameState == GameState.START) startingScreen.Update(this, graphics, gamePadState, oldPadState);
             else if (gameState == GameState.SETTINGS) settingsScreen.Update(this, gamePadState, oldPadState);
-            else if (gameState == GameState.END) endingScreen.Update(this, gamePadState, spriteBatch);
+            else if (gameState == GameState.END) endingScreen.Update(this, gamePadState, graphics);
             if (gameState != GameState.START && gameState != GameState.SETTINGS && gameState != GameState.END)
             {
                 // powerupManager.updatePowerups(0, 0, 200, 0);
 
-                levels[(int)gameState - 2].Update(gameTime, gamePadState, gameState);
-
+             
                 bool canAdvance = true;
-                foreach (var task in levels[(int) gameState - 2].tasks)
-                {
-                    if (!task.hasCompleted)
+
+                    foreach (var task in levels[(int)gameState - 2].tasks)
                     {
-                        canAdvance = false;
-                    }
-                }
-                if (canAdvance)
-                {
-                    EndZone[] winAreaInstance = new EndZone[levels[(int)gameState-2].winArea.Count];
-                    levels[(int) gameState - 2].winArea.CopyTo(winAreaInstance);
-                    foreach (var endzone in winAreaInstance)
-                    {
-                        if (levels[(int) gameState - 2].player.rect.Intersects(endzone.rectangle))
+                        if (!task.hasCompleted)
                         {
-                            gameState++;
-                            break;
+                            canAdvance = false;
                         }
                     }
-                }
 
-                if (gamePadState.DPad.Up == ButtonState.Pressed && oldPadState.DPad.Up == ButtonState.Released)
-                {
-                    gameState++;
-                }
-                else if (gamePadState.DPad.Down == ButtonState.Pressed && oldPadState.DPad.Down == ButtonState.Released)
-                {
-                    gameState++;
-                }
+                    if (canAdvance)
+                    {
+                        EndZone[] winAreaInstance = new EndZone[levels[(int)gameState - 2].winArea.Count];
+                        levels[(int)gameState - 2].winArea.CopyTo(winAreaInstance);
+                        foreach (var endzone in winAreaInstance)
+                        {
+                            if (levels[(int)gameState - 2].player.rect.Intersects(endzone.rectangle))
+                            {
+                                gameState++;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (gamePadState.DPad.Up == ButtonState.Pressed && oldPadState.DPad.Up == ButtonState.Released)
+                    {
+                        gameState++;
+                    }
+                    else if (gamePadState.DPad.Down == ButtonState.Pressed && oldPadState.DPad.Down == ButtonState.Released)
+                    {
+                        gameState++;
+                    }
+                levels[(int)gameState - 2].Update(gameTime, gamePadState, this);
 
             }
 
@@ -167,10 +170,10 @@ namespace Blackout
             spriteBatch.Begin();
             if (gameState == GameState.START) startingScreen.Draw(spriteBatch);
             else if (gameState == GameState.SETTINGS) settingsScreen.Draw(spriteBatch);
-            else if (gameState != GameState.START && gameState != GameState.SETTINGS)
+            else if (gameState == GameState.END) endingScreen.Draw(spriteBatch);
+            else if (gameState != GameState.START && gameState != GameState.SETTINGS && gameState != GameState.END)
             {
                 levels[(int)gameState - 2].Draw(spriteBatch);
-                if (gameState == GameState.END) endingScreen.Draw(spriteBatch);
             }
             spriteBatch.End();
             /*This shuts off the light randomly for 11 seconds each time
@@ -185,9 +188,13 @@ namespace Blackout
             //String effect = powerupManager.updatePowerups(0, 0, 200, 0);
             base.Draw(gameTime);
         }
-
+        public void setWin(bool won)
+        {
+            endingScreen.setWinPrompt(won);
+        }
         public void resetLevels()
         {
+
             levels = new Level[3];
             for (int i = 0; i < levels.Length; i++)
             {

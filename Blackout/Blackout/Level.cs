@@ -54,7 +54,7 @@ namespace Blackout
 
         }
         public void mapMoved() { }
-        public void Update(GameTime gameTime, GamePadState gamePad, GameState gameState)
+        public void Update(GameTime gameTime, GamePadState gamePad, Game1 game)
         {
             double changeX = Math.Round(gamePad.ThumbSticks.Left.X * player.speed);
             double changeY = -Math.Round(gamePad.ThumbSticks.Left.Y * player.speed);
@@ -64,7 +64,10 @@ namespace Blackout
             bool mortimerMovesInY = false;
             //morty death
             if (player.health <= 0)
-                gameState = GameState.END;
+            {
+                game.gameState = GameState.END;
+                game.setWin(false);
+            }
             if (changeX + mapX < 0 || mortimerX < 450 ||
                 changeX + mapX + 800 > Tile.TILE_SIZE * WIDTH || mortimerX > 550)
             {
@@ -155,7 +158,7 @@ namespace Blackout
                         double move = ((CatBoss) enemy).rectangle.Y + changeY;
                         ((CatBoss)enemy).rectangle.Y = (int)move;
                     }
-                    
+                   
                     ((CatBoss)enemies[i]).Update(this, gamePad, player, (float)changeX, (float)changeY, hitATileWallX, hitATileWallY);
                 }
             }
@@ -273,6 +276,7 @@ namespace Blackout
                             ((CatBoss)enemies[i]).health -= player.bulletDamage;
                             if (((CatBoss)enemies[i]).health <= 0)
                                 enemies[i] = null;
+
 
                             player.bullets.Remove(bullet);
                         }
@@ -397,6 +401,7 @@ namespace Blackout
             }
             powerupManager = new PowerupManager(game, locs, types);
             player = new Mortimer(new Vector2(200, 200), game, powerupManager);
+     
 
             player.loadContent(game);
         }
@@ -420,6 +425,7 @@ namespace Blackout
                 else if (enemy.GetType() == typeof(CatBoss))
                 {
                     ((CatBoss)enemy).Draw(spriteBatch);
+                    Console.WriteLine(((CatBoss)enemy).rectangle.X + ":" + ((CatBoss)enemy).rectangle.Y);
                 }
             }
 
