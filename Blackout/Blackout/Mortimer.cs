@@ -73,7 +73,7 @@ namespace Blackout
             game = tempGame;
 
             //powerbar
-            healthBar = new Bar(game, new Vector2(0, 0), 100, 20, health, health, Color.Green);
+            healthBar = new Bar(game, new Vector2(0, 0), 250, 25, health, health, Color.Green);
 
 
 
@@ -242,7 +242,7 @@ namespace Blackout
 
 
             //powerups
-            healthBar.Draw(spriteBatch);
+            healthBar.Draw(spriteBatch, true);
         }
     }
 }
