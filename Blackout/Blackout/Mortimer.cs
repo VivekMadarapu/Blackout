@@ -179,7 +179,16 @@ namespace Blackout
                 }
                 else if(effect.Equals("green"))
                 {
-                    health += 20;
+                    health += 30;
+                    if (health < healthBar.maxValue)
+                    {
+                        healthBar.update(30);
+                    }
+                    else
+                    {
+                        healthBar.maxValue = health;
+                        healthBar.curValue = health;
+                    }
                 }
                 effectLength--;
 
@@ -189,9 +198,6 @@ namespace Blackout
                 speed = 4;
             }
             lights.checkIfLightsOff(rect.X + 31, rect.Y + 31, nightMode);
-
-            //healtbar;
-            healthBar.update(health);
 
             oldPad = newPad;
         }
