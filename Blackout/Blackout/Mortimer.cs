@@ -162,8 +162,19 @@ namespace Blackout
                     effectLength = 1800;
                     break;
                 case "green":
-                    effect = tempEffect;
-                    effectLength = 1;
+                   
+                    if (health + 30<= healthBar.maxValue)
+                    {
+                        health += 30;
+                        healthBar.update(30);
+                    }
+                    else
+                    {
+                        healthBar.maxValue = 100;
+                        healthBar.curValue = 100;
+                    }
+                    //effect = tempEffect;
+                    //effectLength = 1;
                     break;
             }
             Boolean nightMode = false;
@@ -179,7 +190,7 @@ namespace Blackout
                 }
                 else if(effect.Equals("green"))
                 {
-                    health += 30;
+                    /*health += 30;
                     if (health < healthBar.maxValue)
                     {
                         healthBar.update(30);
@@ -188,7 +199,7 @@ namespace Blackout
                     {
                         healthBar.maxValue = health;
                         healthBar.curValue = health;
-                    }
+                    }*/
                 }
                 effectLength--;
 
