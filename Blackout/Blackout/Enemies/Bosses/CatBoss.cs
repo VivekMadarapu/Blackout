@@ -40,6 +40,9 @@ namespace Blackout.Enemies
         private int fireTimer;
         private int catTimer;
 
+        //health system
+        public int health = 500;
+        public int bulletDamage = 10; 
         public CatBoss(Game game, Vector2 startingPosition)
         {
             //tex

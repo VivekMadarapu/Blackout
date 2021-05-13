@@ -39,6 +39,7 @@ namespace Blackout.Enemies.Mobs
 
         //health system - ask shreeya
         public int health = 50;
+        public int bulletDamage = 5;
 
 
         public Cat(Game game, Vector2 startingPosition)

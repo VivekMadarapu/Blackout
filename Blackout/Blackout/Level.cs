@@ -215,35 +215,13 @@ namespace Blackout
             {
                 mapX += changeX;
                 player.powerupManager.relationalUpdateX((float)changeX);
-                //enemies bullet fix (sg)
-                foreach (Enemy enemy in enemies)
-                {
-                    if (enemy.GetType() == typeof(Cat))
-                    {
-                        ((Cat)enemy).relationalUpdateX((float)-changeX/2);
-                    }
-                    //else if (enemy.GetType() == typeof(CatBoss))
-                    //{
-
-                    //}
-                }
+                
             }
             if (!hitATileWallY) 
             {
                 mapY += changeY;
                 player.powerupManager.relationalUpdateY((float)changeY);
-                //enemies bullet fix (sg)
-                foreach (Enemy enemy in enemies)
-                {
-                    if (enemy.GetType() == typeof(Cat))
-                    {
-                        ((Cat)enemy).relationalUpdateY((float)changeY/2);
-                    }
-                    //else if (enemy.GetType() == typeof(CatBoss))
-                    //{
-
-                    //}
-                }
+               
             }
 
 
@@ -261,6 +239,26 @@ namespace Blackout
                             ((Cat)enemies[i]).health -= player.bulletDamage;
                             if(((Cat)enemies[i]).health<=0)
                                  enemies[i] = null;
+
+                            player.bullets.Remove(bullet);
+                        }
+                    }
+                    //for(int r=0; r<((Cat)enemies[i]).bullets.Count; r++)
+                    //{
+                    //    if(((Cat)enemies[i]).bullets[r].)
+                    //}
+                }
+                else if (enemies[i].GetType() == typeof(CatBoss))
+                {
+                    for (int j = 0; j < player.bullets.Count; j++)
+                    {
+                        Bullet bullet = player.bullets[j];
+                        if ((CatBoss)enemies[i] == null) break;
+                        if (((CatBoss)enemies[i]).rectangle.Intersects(bullet.rectangle))
+                        {
+                            ((CatBoss)enemies[i]).health -= player.bulletDamage;
+                            if (((CatBoss)enemies[i]).health <= 0)
+                                enemies[i] = null;
 
                             player.bullets.Remove(bullet);
                         }
